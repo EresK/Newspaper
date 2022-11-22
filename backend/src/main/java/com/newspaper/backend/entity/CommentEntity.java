@@ -14,9 +14,10 @@ import javax.persistence.*;
 public class CommentEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    private long id;
     private String text;
     private Date publicationDate;
+    private String ownerName;
     private long ownerId;
     private long publicationId;
 }

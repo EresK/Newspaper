@@ -30,7 +30,7 @@ public class SecurityConfiguration {
         return new InMemoryUserDetailsManager(userAdmin, user);
     }
 
-    // @Bean
+    //@Bean
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
         httpSecurity
                 .authorizeHttpRequests()
@@ -38,8 +38,7 @@ public class SecurityConfiguration {
                 .authenticated()
                 .and()
                 .formLogin()
-                .loginPage("/login")
-                .permitAll();
+                .loginPage("/login");
 
         return httpSecurity.build();
     }
