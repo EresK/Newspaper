@@ -1,10 +1,13 @@
 package com.newspaper.backend.controller;
 
 import com.newspaper.backend.entity.UserEntity;
+import com.newspaper.backend.repository.CommentRepository;
 import com.newspaper.backend.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
@@ -14,15 +17,21 @@ import java.util.Optional;
 @RequestMapping("/users")
 public class UserController {
     private final UserRepository userRepository;
-
+    private final CommentRepository commentRepository;
+    public String getCurrentUsername() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        return auth.getName();
+    }
     @GetMapping
-    public Iterable<UserEntity> getUsers() {
-        return userRepository.findAll();
+    public String/*Iterable<UserEntity>*/ getUsers() {
+        return this.getCurrentUsername();
+        //return userRepository.findAll();
     }
 
     @GetMapping("/{id}")
     public Optional<UserEntity> getUserById(@PathVariable Long id) {
         return userRepository.findById(id);
+
     }
 
     @PostMapping()
