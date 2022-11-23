@@ -18,7 +18,14 @@ import java.util.Optional;
 public class UserController {
     private final UserRepository userRepository;
     private final CommentRepository commentRepository;
-
+    private String getCurrentUsername() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        return auth.getName();
+    }
+    @GetMapping("/me")
+    public String getMe(){
+        return this.getCurrentUsername();
+    }
     @GetMapping
     public Iterable<UserEntity> getUsers() {
         return userRepository.findAll();

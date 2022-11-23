@@ -4,6 +4,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
@@ -18,29 +19,33 @@ import org.springframework.security.web.SecurityFilterChain;
 public class SecurityConfiguration {
     @Bean
     public InMemoryUserDetailsManager userDetailsManager() {
-        UserDetails userAdmin = User.withUsername("admin")
+        UserDetails admin = User.withUsername("admin")
                 .password(passwordEncoder().encode("admin"))
-                .roles("ADMIN", "USER")
+                .roles("ADMIN")
                 .build();
         UserDetails user = User.withUsername("user")
                 .password(passwordEncoder().encode("user"))
                 .roles("USER")
                 .build();
 
-        return new InMemoryUserDetailsManager(userAdmin, user);
+        return new InMemoryUserDetailsManager(admin, user);
     }
 
-    //@Bean
-    public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
-        httpSecurity
-                .authorizeHttpRequests()
-                .anyRequest()
-                .authenticated()
+    @Bean
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        http
+                .cors().disable()
+                .csrf().disable()
+                .authorizeRequests()
+                .antMatchers("/publication").hasRole("ADMIN")
+                .antMatchers("/users").authenticated()
                 .and()
-                .formLogin()
-                .loginPage("/login");
-
-        return httpSecurity.build();
+                .formLogin().permitAll()
+                .and()
+                .logout().permitAll()
+                .and()
+                .httpBasic();
+        return http.build();
     }
 
     @Bean

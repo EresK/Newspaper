@@ -26,6 +26,6 @@ public class PublicationController {
     }
     @PostMapping
     public CommentEntity postComment(@RequestBody String text){
-        return commentRepository.save(new CommentEntity(1,text,new Date(),getCurrentUsername(),1,1));
+        return commentRepository.save(new CommentEntity(1,text,new Date(),this.getCurrentUsername(),1,1));
     }
 }
