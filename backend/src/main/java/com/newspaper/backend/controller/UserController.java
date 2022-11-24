@@ -5,6 +5,8 @@ import com.newspaper.backend.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
@@ -14,6 +16,16 @@ import java.util.Optional;
 @RequestMapping("/users")
 public class UserController {
     private final UserRepository userRepository;
+
+    private String getCurrentUsername() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        return auth.getName();
+    }
+
+    @GetMapping("/me")
+    public String getMe(){
+        return this.getCurrentUsername();
+    }
 
     @GetMapping
     public Iterable<UserEntity> getUsers() {
@@ -25,7 +37,7 @@ public class UserController {
         return userRepository.findById(id);
     }
 
-    @PostMapping()
+    @PostMapping
     public UserEntity postUser(@RequestBody UserEntity user) {
         return userRepository.save(user);
     }
