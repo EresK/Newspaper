@@ -1,6 +1,6 @@
 package com.newspaper.backend.controller;
 
-import com.newspaper.backend.Requests.RegistrationRequest;
+import com.newspaper.backend.requests.RegistrationRequest;
 import com.newspaper.backend.services.RegistrationService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;

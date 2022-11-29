@@ -1,6 +1,6 @@
 package com.newspaper.backend.services;
 
-import com.newspaper.backend.Requests.RegistrationRequest;
+import com.newspaper.backend.requests.RegistrationRequest;
 import com.newspaper.backend.entity.UserEntity;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;

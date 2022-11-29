@@ -1,4 +1,4 @@
-package com.newspaper.backend.Requests;
+package com.newspaper.backend.requests;
 
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
