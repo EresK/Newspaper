@@ -13,7 +13,6 @@ import java.util.Collections;
 
 @Data
 @NoArgsConstructor
-@AllArgsConstructor
 @Entity
 @Table(name = "users")
 public class UserEntity implements UserDetails {
@@ -24,6 +23,16 @@ public class UserEntity implements UserDetails {
     private String firstName;
     private String lastName;
     private String password;
+
+    public UserEntity(String email,
+                      String firstName,
+                      String lastName,
+                      String password) {
+        this.email = email;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.password = password;
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
