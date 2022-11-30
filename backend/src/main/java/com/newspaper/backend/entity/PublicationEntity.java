@@ -16,4 +16,6 @@ public class PublicationEntity {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private Long descriptionId;
+    private String editors;
+    private String advertisers;
 }
