@@ -2,7 +2,7 @@ services:
   postgres:
     image: postgres:15
     environment:
-      POSTGRES_DB: "database"
+      POSTGRES_DB: "newspaper"
       POSTGRES_USER: "user"
       POSTGRES_PASSWORD: "password"
       PGDATA: "/var/lib/postgresql/data/pgdata"
