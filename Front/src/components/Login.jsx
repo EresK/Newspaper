@@ -1,5 +1,4 @@
 import React from 'react';
-import "C:/Users/lehad/WebstormProjects/test/src/styles/Login.css"
 
 const Login = () => {
     return (

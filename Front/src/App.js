@@ -6,6 +6,7 @@ import {BrowserRouter, Route, Switch} from 'react-router-dom';
 import './styles/App.css'
 import PostsList from "./components/PostsList";
 import ListForm from "./components/ListForm";
+import TextEditor from "./components/TextEditor";
 
 // import "./components/*"
 
@@ -26,9 +27,11 @@ function App() {
             {/*<Login/>*/}
             {/*<Registration/>*/}
             {/*<ListForm add={addItem}/>*/}
-
             <PostsList posts={someItem} title={"Most popular publications"}/>
             {/*<Post post = {{id: 1, title: 'test title', body: 'Content'}} />*/}
+            <div className="textEditorBlock">
+                <TextEditor />
+            </div>
         </div>
     );
 }

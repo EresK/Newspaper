@@ -1,5 +1,5 @@
 import React from 'react';
-import "C:/Users/lehad/WebstormProjects/test/src/styles/ListItem.css"
+import "../components/ListForm"
 
 const Post = (props) => {
     return (
