@@ -32,21 +32,21 @@ public class BackendApplication implements CommandLineRunner {
 	@Override
 	@Transactional
 	public void run(String... args) throws Exception {
-		UserEntity user1 = new UserEntity("john@mail.com", "John", "Smith", "pwd");
+		UserEntity user1 = new UserEntity("john@gmail.com", "John", "Smith", "pwd");
 		UserEntity user2 = new UserEntity("maria@gmail.com", "Maria", "Rosa", "pwd");
 
 		PublicationEntity publication1 = new PublicationEntity(false);
 		PublicationEntity publication2 = new PublicationEntity(false);
 		PublicationEntity publication3 = new PublicationEntity(true);
 
-		DescriptionEntity description1 = new DescriptionEntity("The Math", 10L,
-				new Date(), "All about math.");
+		DescriptionEntity description1 = new DescriptionEntity("The Math", "All about math.",
+				10L, new Date(), "image.com/1");
 
-		DescriptionEntity description2 = new DescriptionEntity("AI research", 15L,
-				new Date(), "All about AI.");
+		DescriptionEntity description2 = new DescriptionEntity("AI research", "All about AI.",
+				15L, new Date(), "image.com/2");
 
-		DescriptionEntity description3 = new DescriptionEntity("Project X", 16L,
-				new Date(), "In process.");
+		DescriptionEntity description3 = new DescriptionEntity("Project X", "In process.",
+				16L, new Date(), "");
 
 		publication1.setDescription(description1);
 		publication2.setDescription(description2);
