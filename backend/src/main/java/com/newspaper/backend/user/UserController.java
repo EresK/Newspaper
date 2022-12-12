@@ -37,7 +37,7 @@ public class UserController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<UserRequest> putUser(@PathVariable Long id, @RequestBody UserRequest user) {
+    public ResponseEntity<UserDto> putUser(@PathVariable Long id, @RequestBody UserDto user) {
         Boolean updated = userService.updateUserInformation(id, user);
 
         HttpStatus status = updated ? HttpStatus.OK : HttpStatus.NOT_FOUND;
