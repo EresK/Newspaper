@@ -29,15 +29,18 @@ public class DescriptionEntity {
                     CascadeType.PERSIST, CascadeType.REFRESH})
     private PublicationEntity publication;
     private String title;
+    private String description;
     private Long issueNumber;
     private Date issueDate;
     private String coverImageLink;
 
     public DescriptionEntity(String title,
+                             String description,
                              Long issueNumber,
                              Date issueDate,
                              String coverImageLink) {
         this.title = title;
+        this.description = description;
         this.issueNumber = issueNumber;
         this.issueDate = issueDate;
         this.coverImageLink = coverImageLink;
