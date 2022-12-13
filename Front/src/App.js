@@ -24,9 +24,9 @@ function App() {
 
     return (
         <div className="App">
-            {/*<Login/>*/}
-            {/*<Registration/>*/}
-            {/*<ListForm add={addItem}/>*/}
+            <Login/>
+            <Registration/>
+            <ListForm add={addItem}/>
             <PostsList posts={someItem} title={"Most popular publications"}/>
             {/*<Post post = {{id: 1, title: 'test title', body: 'Content'}} />*/}
             <div className="textEditorBlock">

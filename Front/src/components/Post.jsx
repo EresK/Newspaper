@@ -1,5 +1,5 @@
 import React from 'react';
-import "../components/ListForm"
+import "../styles/ListItem.css"
 
 const Post = (props) => {
     return (
