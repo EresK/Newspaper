@@ -1,5 +1,24 @@
 .textEditorBlock {
-    display: table;
-    margin: 0 auto;
-    width: 1000px;
+    align-content: center;
+}
+
+.editorStyle {
+    border: 1px black solid;
+    background-color: white;
+}
+
+.toolbarStyle {
+    border: 1px black solid;
+    background-color: navajowhite;
+}
+
+.buttonStyle {
+    background-color: limegreen;
+    float: right;
+    margin-right: 10px;
+    margin-top: 10px;
+    height: 40px;
+    width: 120px;
+    font-size: 20px;
+    border-radius: 10px;
 }

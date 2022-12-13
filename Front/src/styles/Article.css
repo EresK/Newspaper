@@ -1,0 +1,17 @@
+.article {
+    padding-inline: 10px;
+}
+
+.article img {
+    width: 200px;
+    height: 300px;
+    transition: transform 500ms ease;
+}
+
+.article .desc {
+    background-color: lightgray;
+}
+
+.article img:hover {
+    transform: scale(1.05);
+}
