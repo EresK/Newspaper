@@ -23,20 +23,20 @@ public class AdvertEntity {
             generator = "advert_sequence"
     )
     private Long id;
-    private String title;
+//    private String title;
 //    @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE,
 //            CascadeType.PERSIST, CascadeType.REFRESH})
 //    @JoinColumn(name = "", nullable = false)
-    private UserEntity advertiser;
+//    private UserEntity advertiser;
 //    @OneToOne()
-    private PublicationEntity publication;
-
-    public AdvertEntity(Long id, String title, UserEntity advertiser, PublicationEntity publication) {
-        this.id = id;
-        this.title = title;
-        this.advertiser = advertiser;
-        this.publication = publication;
-    }
+//    private PublicationEntity publication;
+//
+//    public AdvertEntity(Long id, String title, UserEntity advertiser, PublicationEntity publication) {
+//        this.id = id;
+//        this.title = title;
+//        this.advertiser = advertiser;
+//        this.publication = publication;
+//    }
 // TODO: add adverts to all entites
 
 }
