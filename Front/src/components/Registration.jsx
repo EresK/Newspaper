@@ -1,26 +1,27 @@
 import React from 'react';
 import "../styles/Registration.css"
+import MyInput from "./UI/input/MyInput";
 
 const Registration = () => {
     return (
         <div className="signUp-wrapper">
             <h1>Please Sign Up</h1>
             <form>
+                <p>Login</p>
                 <label>
-                    <p>Login</p>
-                    <input type="text" placeholder="Login(email)"/>
+                    <MyInput type="text" placeholder="Login(email)"/>
                 </label>
+                <p>Password</p>
                 <label>
-                    <p>Password</p>
-                    <input type="password" placeholder="Password"/>
+                    <MyInput type="password" placeholder="Password"/>
                 </label>
+                <p>Status</p>
                 <label>
-                    <p>Status</p>
-                    <input type="text" placeholder="Status"/>
+                    <MyInput type="text" placeholder="Status"/>
                 </label>
+                <p>Nickname</p>
                 <label>
-                    <p>Nickname</p>
-                    <input type="text" placeholder="Nickname"/>
+                    <MyInput type="text" placeholder="Nickname"/>
                 </label>
                 <div>
                     <button type="submit" style={{marginTop: 15}}>Sign Up</button>

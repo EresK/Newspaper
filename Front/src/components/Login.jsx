@@ -1,21 +1,25 @@
 import React from 'react';
 import "../styles/Login.css"
+import MyInput from "./UI/input/MyInput";
+import MyButton from "./UI/button/MyButton";
 
 const Login = () => {
     return (
         <div className="login-wrapper">
             <h1>Please Log In</h1>
             <form>
+                <p>Login</p>
                 <label>
-                    <p>Login</p>
-                    <input type="text" placeholder="Login"/>
+
+                    <MyInput type="text" placeholder="Login"/>
                 </label>
+                <p>Password</p>
                 <label>
-                    <p>Password</p>
-                    <input type="password" placeholder="Password"/>
+
+                    <MyInput type="password" placeholder="Password"/>
                 </label>
                 <div className="login-button">
-                    <button type="submit" style={{marginTop: 15}}>Log in</button>
+                    <MyButton type="submit" style={{marginTop: 15}}>Log in</MyButton>
                 </div>
             </form>
         </div>

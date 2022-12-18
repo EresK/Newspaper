@@ -4,12 +4,15 @@
     align-items: center;
 }
 
-/*.login-button{*/
-/*    !*margin-top: 15px;*!*/
-/*    padding: 5px 15px;*/
-/*    color: teal;*/
-/*    font-size: 14px;*/
-/*    background: transparent;*/
-/*    border: 1px solid teal;*/
+/*button[type = "submit"] {*/
+/*    margin-top: 10px;*/
 /*    cursor: pointer;*/
+/*    font-size: 15px;*/
+/*    background: #01d28e;*/
+/*    border: 1px solid #01d28e;*/
+/*    color: #fff;*/
+/*    padding: 10px 20px;*/
+/*}*/
+/*.login-button{*/
+
 /*}*/

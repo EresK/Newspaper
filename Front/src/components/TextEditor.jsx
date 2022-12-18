@@ -1,9 +1,12 @@
 import React, {Component} from 'react';
-import { render } from 'react-dom';
 import {EditorState} from "draft-js";
 import {Editor} from "react-draft-wysiwyg";
+import { convertFromRaw } from 'draft-js';
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css"
+import "../styles/TextEditor.css"
 import '../App'
+
+const content = {"entityMap":{},"blocks":[{"key":"637gr","text":"Initialized from content state.","type":"unstyled","depth":0,"inlineStyleRanges":[],"entityRanges":[],"data":{}}]};
 
 // Функция для загрузки изображений с рабочего стола (пока не работает)
 function uploadImageCallBack(file) {
@@ -33,8 +36,10 @@ function uploadImageCallBack(file) {
 export default class TextEditor extends Component{
     constructor(props){
         super(props);
+        const contentState = convertFromRaw(content);
         this.state = {
             editorState: EditorState.createEmpty(),
+            contentState,
         };
     }
 
@@ -44,20 +49,30 @@ export default class TextEditor extends Component{
         });
     };
 
+    onContentStateChange = (contentState) => {
+        this.setState({
+            contentState,
+        });
+    };
+
     render(){
         const { editorState } = this.state;
-        return <div className='editor'>
+        const { contentState } = this.state;
+        editorState.backgroundColor = "white";
+        return <div>
             <Editor
-                editorState={editorState}
+                editorClassName="editorStyle"
+                toolbarClassName="toolbarStyle"
                 onEditorStateChange={this.onEditorStateChange}
+                onContentStateChange={this.onContentStateChange}
                 toolbar={{
-                    options: ['inline', 'blockType', 'fontSize', 'fontFamily', 'list', 'textAlign', 'colorPicker', 'link', 'embedded', 'emoji', 'image', 'remove', 'history'],
+                    options: ['inline', 'blockType', 'fontSize', 'fontFamily', 'list', 'textAlign', 'colorPicker', 'emoji', 'image', 'remove', 'history'],
                     inline: {
                         inDropdown: false,
                         className: undefined,
                         component: undefined,
                         dropdownClassName: undefined,
-                        options: ['bold', 'italic', 'underline', 'strikethrough', 'monospace', 'superscript', 'subscript'],
+                        options: ['bold', 'italic', 'underline', 'strikethrough'],
                     },
                     blockType: {
                         inDropdown: true,
@@ -84,6 +99,13 @@ export default class TextEditor extends Component{
                         component: undefined,
                         dropdownClassName: undefined,
                         options: ['left', 'center', 'right', 'justify'],
+                    },
+                    list: {
+                        inDropdown: false,
+                        className: undefined,
+                        component: undefined,
+                        dropdownClassName: undefined,
+                        options: ['unordered', 'ordered', 'indent', 'outdent'],
                     },
                     colorPicker: {
                         className: undefined,
@@ -122,6 +144,11 @@ export default class TextEditor extends Component{
                         options: ['undo', 'redo'],
                     },
                 }}
+            />
+            <button className="buttonStyle">Save</button>
+            <textarea
+                disabled
+                value={JSON.stringify(contentState, null, 4)}
             />
         </div>
     }
