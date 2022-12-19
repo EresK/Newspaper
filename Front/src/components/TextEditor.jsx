@@ -145,11 +145,6 @@ export default class TextEditor extends Component{
                     },
                 }}
             />
-            <button className="buttonStyle">Save</button>
-            <textarea
-                disabled
-                value={JSON.stringify(contentState, null, 4)}
-            />
         </div>
     }
 }

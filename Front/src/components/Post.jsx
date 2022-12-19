@@ -1,19 +1,18 @@
 import React from 'react';
 import "../styles/ListItem.css"
+import {Link} from "react-router-dom";
 
 const Post = (props) => {
     return (
         <div className="post">
             <div className="post__content">
-
-                <div className="content">
-                    {props.post.body}
-                </div>
-                <strong style={{fontSize: '18px'}}>{props.number}. {props.post.title}</strong>
+                <Link to={props.post.id + "/editor"} state={{data: props.post}}>
+                    <div className="content">
+                        {props.post.body}
+                    </div>
+                </Link>
+                <strong style={{fontSize: '18px'}}>{props.post.title}</strong>
             </div>
-            {/*<div>*/}
-            {/*    */}
-            {/*</div>*/}
             
         </div>
     );
