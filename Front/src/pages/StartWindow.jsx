@@ -1,17 +1,25 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import PostsList from "../components/PostsList";
 import Search from "../components/Search";
 import MySelect from "../components/UI/select/MySelect";
 import "../styles/StartWindow.css"
 import Navbar from "../components/Navbar";
 import ListForm from "../components/ListForm";
+import axios from "axios";
 
 const StartWindow = () => {
     const [someItem, setSomeItem] = useState([
-        {id: 0, title: 'Post 1', body: 'Content 1'},
-        {id: 1, title: 'Post 2', body: 'Content 2'},
-        {id: 2, title: 'Post 3', body: 'Content 3'}
     ])
+
+    useEffect(() =>{
+        fetchPosts()
+    }, [])
+
+    async function fetchPosts() {
+        const response = await axios.get('https://jsonplaceholder.typicode.com/posts?_limit=5')
+        console.log(response)
+        setSomeItem(response.data)
+    }
 
     const [filter, setFilter] = useState({sort: '', query: ''})
     const addItem = (newItem) => {
@@ -19,15 +27,19 @@ const StartWindow = () => {
     }
     return (
         <div>
-            <div className="search">
+            <div className="search" style={{marginLeft: 15}}>
                 <Search
                     filter={filter}
                     setFilter={setFilter}
                 />
             </div>
 
-            <div className="list">
-                <PostsList posts={someItem} title={"Most popular publications"}/>
+            <h1 style={{marginLeft: 15}}>The most popular posts</h1>
+            <PostsList posts={someItem}/>
+
+            <div className="authors" style={{marginLeft: 15}}>
+
+
             </div>
         </div>
     );

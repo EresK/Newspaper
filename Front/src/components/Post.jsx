@@ -5,17 +5,14 @@ const Post = (props) => {
     return (
         <div className="post">
             <div className="post__content">
-
-                <div className="content">
+                <strong>{props.post.id}. {props.post.title}</strong>
+                <div>
                     {props.post.body}
                 </div>
-                <strong style={{fontSize: '18px'}}>{props.number}. {props.post.title}</strong>
             </div>
-            {/*<div>*/}
-            {/*    */}
-            {/*</div>*/}
-            
+
         </div>
+
     );
 };
 

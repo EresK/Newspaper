@@ -55,11 +55,17 @@ export default class TextEditor extends Component{
         });
     };
 
+    saveJSON = (contentState) =>{
+       let tmp = JSON.stringify(contentState, null, 4)
+        return tmp
+    }
+
+
     render(){
         const { editorState } = this.state;
         const { contentState } = this.state;
         editorState.backgroundColor = "white";
-        return <div>
+        return <div className="fullEditor">
             <Editor
                 editorClassName="editorStyle"
                 toolbarClassName="toolbarStyle"
@@ -146,9 +152,11 @@ export default class TextEditor extends Component{
                 }}
             />
             <button className="buttonStyle">Save</button>
+
             <textarea
                 disabled
                 value={JSON.stringify(contentState, null, 4)}
+                // value2={JSON.parse(value)}
             />
         </div>
     }

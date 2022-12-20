@@ -6,14 +6,14 @@ import MyButton from "./UI/button/MyButton";
 const Login = () => {
     return (
         <div className="login-wrapper">
-            <h1>Please Log In</h1>
+            <h1 style={{color: "teal"}}>Please Log In</h1>
             <form>
-                <p>Login</p>
+                <p style={{color: "black", marginTop: 15}}>Login</p>
                 <label>
 
                     <MyInput type="text" placeholder="Login"/>
                 </label>
-                <p>Password</p>
+                <p style={{color: "black", marginTop: 10}}>Password</p>
                 <label>
 
                     <MyInput type="password" placeholder="Password"/>
