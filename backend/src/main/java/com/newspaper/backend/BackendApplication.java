@@ -39,14 +39,26 @@ public class BackendApplication implements CommandLineRunner {
 		PublicationEntity publication2 = new PublicationEntity(false);
 		PublicationEntity publication3 = new PublicationEntity(true);
 
-		DescriptionEntity description1 = new DescriptionEntity("The Math", "All about math.",
-				10L, new Date(), "image.com/1");
+		DescriptionEntity description1 = new DescriptionEntity("The Math",
+				"John Smith",
+				"All about math.",
+				10L,
+				new Date(),
+				"image.com/1");
 
-		DescriptionEntity description2 = new DescriptionEntity("AI research", "All about AI.",
-				15L, new Date(), "image.com/2");
+		DescriptionEntity description2 = new DescriptionEntity("AI research",
+				"Maria Rosa",
+				"All about AI.",
+				15L,
+				new Date(),
+				"image.com/2");
 
-		DescriptionEntity description3 = new DescriptionEntity("Project X", "In process.",
-				16L, new Date(), "");
+		DescriptionEntity description3 = new DescriptionEntity("Project X",
+				"Maria Rosa",
+				"In process.",
+				16L,
+				new Date(),
+				"");
 
 		publication1.setDescription(description1);
 		publication2.setDescription(description2);
