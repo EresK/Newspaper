@@ -1,6 +1,7 @@
 package com.newspaper.backend.publication;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.newspaper.backend.advert.AdvertEntity;
 import com.newspaper.backend.content.PublicationContent;
 import com.newspaper.backend.description.DescriptionEntity;
 import com.newspaper.backend.user.UserEntity;
@@ -31,7 +32,9 @@ public class PublicationEntity {
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "content_id")
     private PublicationContent content;
-
+    @OneToOne()
+    @JoinColumn(name = "advert_id")
+    private AdvertEntity advert;
     private Boolean isHide = true;
 
     public PublicationEntity(Boolean isHide) {
