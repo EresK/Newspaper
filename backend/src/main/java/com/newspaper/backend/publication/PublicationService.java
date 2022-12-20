@@ -27,11 +27,11 @@ public class PublicationService {
             Optional<AdvertEntity> advert= advertRepository.findById(advertId);
             Optional<PublicationEntity> publication = publicationRepository.findById(publicationId);
             if (isOwnerOfPublication(auth,publicationId)) {
-                advert.get().setPublication(publication.get());
-                advertRepository.save(advert.get());
+                publication.get().setAdvert(advert.get());
+                publicationRepository.save(publication.get());
+
             }
         }
-        return;
     }
 
     @Transactional

@@ -32,7 +32,8 @@ public class PublicationEntity {
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "content_id")
     private PublicationContent content;
-    @OneToOne()
+    @OneToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE,
+            CascadeType.PERSIST, CascadeType.REFRESH})
     @JoinColumn(name = "advert_id")
     private AdvertEntity advert;
     private Boolean isHide = true;
@@ -41,5 +42,8 @@ public class PublicationEntity {
         this.isHide = isHide;
     }
 
+    public void setAdvert(AdvertEntity advert) {
+        this.advert = advert;
+    }
     // TODO: fields for editors & adverts
 }

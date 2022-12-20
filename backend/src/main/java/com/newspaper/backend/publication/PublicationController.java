@@ -11,9 +11,9 @@ import java.util.Optional;
 @RequestMapping("/publications")
 public class PublicationController {
     private final PublicationService publicationService;
-    @PostMapping("/{id}")
-    public void setPublicationForAdvert(Authentication auth, @RequestBody Long advertId,@PathVariable Long publicationId) {
-        publicationService.setAdvert(auth,advertId,publicationId);
+    @PostMapping("/addAdvert/{id}")
+    public void setPublicationForAdvert(Authentication auth, @RequestBody Long advertId,@PathVariable Long id) {
+        publicationService.setAdvert(auth,advertId,id);
     }
 
     @PostMapping
