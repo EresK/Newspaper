@@ -1,5 +1,7 @@
 package com.newspaper.backend.publication;
 
+import com.newspaper.backend.advert.AdvertEntity;
+import com.newspaper.backend.advert.AdvertRepository;
 import com.newspaper.backend.user.UserEntity;
 import com.newspaper.backend.user.UserRepository;
 import lombok.AllArgsConstructor;
@@ -15,8 +17,22 @@ import java.util.Optional;
 public class PublicationService {
     private final PublicationRepository publicationRepository;
     private final UserRepository userRepository;
+    private final AdvertRepository advertRepository;
 
     // TODO: get & update content methods
+    @Transactional
+    public void setAdvert(Authentication auth, Long advertId, Long publicationId) {
+        if (auth.isAuthenticated()) {
+            Optional<UserEntity> user = userRepository.findByEmail(auth.getName());
+            Optional<AdvertEntity> advert= advertRepository.findById(advertId);
+            Optional<PublicationEntity> publication = publicationRepository.findById(publicationId);
+            if (isOwnerOfPublication(auth,publicationId)) {
+                advert.get().setPublication(publication.get());
+                advertRepository.save(advert.get());
+            }
+        }
+        return;
+    }
 
     @Transactional
     public void createPublication(Authentication auth, PublicationEntity publication) {

@@ -33,12 +33,6 @@ public class AdvertService {
     }
 
     @Transactional
-    public void setPublication(Authentication auth, Long publicationId, Long advertId) {
-        //TODO: How to connect it with permission from publication owner?
-        return;
-    }
-
-    @Transactional
     public void deleteAdvert(Authentication auth, Long id) {
         if (isOwnerOfAdvert(auth, id))
             publicationRepository.deleteById(id);
