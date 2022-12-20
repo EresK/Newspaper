@@ -19,16 +19,9 @@ import java.util.List;
 @Entity
 @Table(name = "users")
 public class UserEntity implements UserDetails {
-    @SequenceGenerator(
-            name = "user_sequence",
-            sequenceName = "user_sequence",
-            allocationSize = 1
-    )
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     @Id
-    @GeneratedValue(
-            strategy = GenerationType.SEQUENCE,
-            generator = "user_sequence"
-    )
+    @GeneratedValue
     private Long id;
     @Column(unique = true, nullable = false)
     private String email;
@@ -37,7 +30,7 @@ public class UserEntity implements UserDetails {
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
 
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    @JsonIgnore
     @OneToMany(mappedBy = "publicationOwner",
             cascade = CascadeType.ALL)
     private List<PublicationEntity> publicationList;
