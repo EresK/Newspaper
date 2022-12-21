@@ -16,10 +16,10 @@ export const TextEditorPage = () => {
             <div className='header-publication'>
                 <h3>Название статьи: </h3><span>{data.title}</span>
                 <h3>Авторы: </h3><span>{data.author}</span>
-                <h3>Дата публикации: </h3><span>{data.datePublic}</span>
-                <h3>Содержание: </h3><span>{data.body}</span>
+                <h3>Дата публикации: </h3><span>{data.issueDate}</span>
+                <h3>Содержание: </h3><span>{data.description}</span>
             </div>
-            <TextEditor public_desc={data}/>
+            <TextEditor content={data.content}/>
             <Link to={"/"}>
                 <button className="buttonStyle">Main page</button>
             </Link>

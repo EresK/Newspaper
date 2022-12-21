@@ -1,5 +1,7 @@
 package com.newspaper.backend;
 
+import com.newspaper.backend.advert.AdvertEntity;
+import com.newspaper.backend.advert.AdvertRepository;
 import com.newspaper.backend.description.DescriptionEntity;
 import com.newspaper.backend.publication.PublicationEntity;
 import com.newspaper.backend.publication.PublicationRepository;
@@ -21,7 +23,8 @@ public class BackendApplication implements CommandLineRunner {
 	public static void main(String[] args) {
 		SpringApplication.run(BackendApplication.class, args);
 	}
-
+	@Autowired
+	private AdvertRepository advertRepository;
 	@Autowired
 	private UserRepository userRepository;
 
@@ -34,19 +37,32 @@ public class BackendApplication implements CommandLineRunner {
 	public void run(String... args) throws Exception {
 		UserEntity user1 = new UserEntity("john@gmail.com", "John", "Smith", "pwd");
 		UserEntity user2 = new UserEntity("maria@gmail.com", "Maria", "Rosa", "pwd");
+		AdvertEntity advert=new AdvertEntity(1L,"haha");
 
 		PublicationEntity publication1 = new PublicationEntity(false);
 		PublicationEntity publication2 = new PublicationEntity(false);
 		PublicationEntity publication3 = new PublicationEntity(true);
 
-		DescriptionEntity description1 = new DescriptionEntity("The Math", "All about math.",
-				10L, new Date(), "image.com/1");
+		DescriptionEntity description1 = new DescriptionEntity("The Math",
+				"John Smith",
+				"All about math.",
+				10L,
+				new Date(),
+				"image.com/1");
 
-		DescriptionEntity description2 = new DescriptionEntity("AI research", "All about AI.",
-				15L, new Date(), "image.com/2");
+		DescriptionEntity description2 = new DescriptionEntity("AI research",
+				"Maria Rosa",
+				"All about AI.",
+				15L,
+				new Date(),
+				"image.com/2");
 
-		DescriptionEntity description3 = new DescriptionEntity("Project X", "In process.",
-				16L, new Date(), "");
+		DescriptionEntity description3 = new DescriptionEntity("Project X",
+				"Maria Rosa",
+				"In process.",
+				16L,
+				new Date(),
+				"");
 
 		publication1.setDescription(description1);
 		publication2.setDescription(description2);
@@ -62,6 +78,9 @@ public class BackendApplication implements CommandLineRunner {
 		user2.setPassword(encoder.encode(user2.getPassword()));
 
 		userRepository.saveAll(List.of(user1, user2));
+
+		advert.setAdvertiser(user1);
+		advertRepository.save(advert);
 
 		publicationRepository.saveAll(List.of(publication1, publication2, publication3));
 	}

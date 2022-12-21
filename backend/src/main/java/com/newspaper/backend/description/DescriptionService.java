@@ -1,32 +1,31 @@
 package com.newspaper.backend.description;
 
 import lombok.AllArgsConstructor;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
+import java.util.Optional;
 
 @AllArgsConstructor
 @Service
 public class DescriptionService {
     private final DescriptionRepository descriptionRepository;
 
-    public void setTitle(Long id, String title) {
-        descriptionRepository.findById(id)
-                .ifPresent(description -> description.setTitle(title));
+    public Optional<DescriptionEntity> getDescription(Authentication auth, Long publicationId) {
+        return auth.isAuthenticated() ? descriptionRepository.findDescription(publicationId) : Optional.empty();
     }
 
-    public void setIssueNumber(Long id, Long issueNumber) {
-        descriptionRepository.findById(id)
-                .ifPresent(description -> description.setIssueNumber(issueNumber));
-    }
+    public void updateDescription(Authentication auth, Long publicationId, DescriptionEntity description) {
+        if (auth.isAuthenticated()) {
+            Optional<DescriptionEntity> descriptionEntity = descriptionRepository.findDescription(publicationId);
 
-    public void setIssueDate(Long id, Date issueDate) {
-        descriptionRepository.findById(id)
-                .ifPresent(description -> description.setIssueDate(issueDate));
-    }
+            if (descriptionEntity.isPresent()) {
+                description.setId(descriptionEntity.get().getId());
+                description.setPublication(descriptionEntity.get().getPublication());
+                description.setIssueDate(descriptionEntity.get().getIssueDate());
 
-    public void setCoverImageLink(Long id, String link) {
-        descriptionRepository.findById(id)
-                .ifPresent(description -> description.setCoverImageLink(link));
+                descriptionRepository.save(description);
+            }
+        }
     }
 }
