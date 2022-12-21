@@ -2,6 +2,7 @@ package com.newspaper.backend.user;
 
 import com.newspaper.backend.publication.PublicationEntity;
 import lombok.AllArgsConstructor;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.parameters.P;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -9,6 +10,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -34,6 +36,14 @@ public class UserService implements UserDetailsService {
         userRepository.save(user);
     }
 
+    public Iterable<UserEntity> getAllUsers() {
+        return userRepository.findAll();
+    }
+
+    public Optional<UserEntity> getUser(Long id) {
+        return userRepository.findById(id);
+    }
+
     public Boolean updateUserInformation(Long id, UserEntity user) {
         Optional<UserEntity> userEntity = userRepository.findById(id);
 
@@ -49,5 +59,15 @@ public class UserService implements UserDetailsService {
         });
 
         return userEntity.isPresent();
+    }
+
+    public void deleteUser(Authentication auth, Long id) {
+        if (auth.isAuthenticated()) {
+            Optional<UserEntity> user = userRepository.findByEmail(auth.getName());
+
+            if (user.isPresent() && Objects.equals(user.get().getId(), id)) {
+                userRepository.deleteById(id);
+            }
+        }
     }
 }

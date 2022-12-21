@@ -1,6 +1,5 @@
 package com.newspaper.backend.user;
 
-import com.newspaper.backend.publication.PublicationEntity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,7 +12,6 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/users")
 public class UserController {
-    private final UserRepository userRepository;
     private final UserService userService;
 
     @GetMapping("/me")
@@ -23,12 +21,12 @@ public class UserController {
 
     @GetMapping
     public Iterable<UserEntity> getAllUsers() {
-        return userRepository.findAll();
+        return userService.getAllUsers();
     }
 
     @GetMapping("/{id}")
     public Optional<UserEntity> getUser(@PathVariable Long id) {
-        return userRepository.findById(id);
+        return userService.getUser(id);
     }
 
     @PutMapping("/{id}")
@@ -41,7 +39,7 @@ public class UserController {
     }
 
     @DeleteMapping("/{id}")
-    public void deleteUser(@PathVariable Long id) {
-        userRepository.deleteById(id);
+    public void deleteUser(Authentication auth, @PathVariable Long id) {
+        userService.deleteUser(auth, id);
     }
 }
