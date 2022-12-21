@@ -12,6 +12,11 @@ import java.util.Optional;
 public class DescriptionController {
     private final DescriptionService descriptionService;
 
+    @GetMapping("/all")
+    public Iterable<DescriptionEntity> getAllDescriptions() {
+        return descriptionService.getAllDescriptions();
+    }
+
     @GetMapping("/{publicationId}")
     public Optional<DescriptionEntity> getDescription(Authentication auth, @PathVariable Long publicationId) {
         return descriptionService.getDescription(auth, publicationId);
