@@ -32,8 +32,7 @@ function uploadImageCallBack(file) {
     );
 }
 
-
-export default class TextEditor extends Component{
+export default class TextEditor extends React.Component{
     constructor(props){
         super(props);
         const contentState = convertFromRaw(content);
@@ -54,6 +53,16 @@ export default class TextEditor extends Component{
             contentState,
         });
     };
+
+    handleSaveToPC(data) {
+        const fileData = JSON.stringify(data);
+        const blob = new Blob([fileData], {type: "text/plain"});
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.download = this.props.public_desc.title + '.json';
+        link.href = url;
+        link.click();
+    }
 
     render(){
         const { editorState } = this.state;
@@ -145,6 +154,7 @@ export default class TextEditor extends Component{
                     },
                 }}
             />
+            <button className="buttonStyle" onClick={() => this.handleSaveToPC(contentState)}>Save</button>
         </div>
     }
 }

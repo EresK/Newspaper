@@ -4,6 +4,8 @@ import React from "react";
 import { useLocation } from "react-router-dom";
 import "../styles/TextEditorPage.css"
 
+
+
 export const TextEditorPage = () => {
     const location = useLocation();
     const data = location.state?.data;
@@ -17,9 +19,9 @@ export const TextEditorPage = () => {
                 <h3>Дата публикации: </h3><span>{data.datePublic}</span>
                 <h3>Содержание: </h3><span>{data.body}</span>
             </div>
-            <TextEditor />
+            <TextEditor public_desc={data}/>
             <Link to={"/"}>
-                <button className="buttonStyle">Save</button>
+                <button className="buttonStyle">Main page</button>
             </Link>
         </div>
     );
