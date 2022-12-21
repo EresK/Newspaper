@@ -1,7 +1,11 @@
 import React from 'react';
 import "../styles/ListItem.css"
+import MyButton from "./UI/button/MyButton";
+import {useNavigate} from "react-router-dom"
 
 const Post = (props) => {
+
+    const router = useNavigate();
     return (
         <div className="post">
             <div className="post__content">
@@ -10,7 +14,7 @@ const Post = (props) => {
                     {props.post.body}
                 </div>
             </div>
-
+            <MyButton onClick={() => router(`/home/${props.post.id}`)}>Open</MyButton>
         </div>
 
     );

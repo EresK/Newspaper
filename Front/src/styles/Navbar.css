@@ -14,10 +14,13 @@
 
 .right{
     margin-left: auto;
+    /*justify-content: right;*/
+    /*right: 0;*/
 }
 
 .navbtn{
     /*margin-right: 10px;*/
+    /*display: inline;*/
     border: 5px solid #5783db;
     background: #5783db;
     border-radius: 5px;

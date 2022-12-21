@@ -5,6 +5,8 @@ import LoginPage from "../pages/LoginPage";
 import RegistrationPage from "../pages/RegistrationPage";
 import ListForm from "./ListForm";
 import TmpCreatePost from "../pages/TmpCreatePost";
+import Post from "./Post";
+import PostPage from "../pages/PostPage";
 
 const AppRouter = () => {
     return (
@@ -13,6 +15,7 @@ const AppRouter = () => {
             <Route path="/login" element={<LoginPage/>}/>
             <Route path="/register" element={<RegistrationPage/>}/>
             <Route path="/addPost" element={<TmpCreatePost/>}/>
+            <Route path="/home/:id" element={<PostPage/>}/>
             <Route path="*" element={<StartWindow/>}/>
         </Routes>
     );

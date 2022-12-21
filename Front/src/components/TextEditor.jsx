@@ -61,6 +61,7 @@ export default class TextEditor extends Component{
     }
 
 
+
     render(){
         const { editorState } = this.state;
         const { contentState } = this.state;

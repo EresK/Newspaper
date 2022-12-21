@@ -2,13 +2,20 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    /*background: #CDB599FF;*/
+    /*overflow-x:hidden;*/
 }
 
 #root{
     display: flex;
     justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    overflow-x:hidden;
+
 }
 
 .App{
     width: 800px;
+
 }

@@ -1,15 +1,19 @@
 .post{
-    /*display: flex;*/
+    display: flex;
     border: 2px solid teal;
     padding: 15px;
     /*margin-left: 15px;*/
     margin-top: 15px;
     margin-right: 15px;
-    /*align-items: center;*/
-    justify-content: center;
+    align-items: center;
+    justify-content: space-between;
     /*width: 160px;*/
     /*height: 160px;*/
     /*-webkit-line-clamp: 4;*/
+    /*overflow :hidden;*/
+    /*white-space: nowrap;*/
+
+    /*text-overflow: ellipsis;*/
 }
 
 .content{
@@ -21,5 +25,10 @@
 
 .postList{
     /*display: flex;*/
+    /*height: 200px;*/
     /*flex-direction: row;*/
+    /*overflow :hidden;*/
+    /*white-space: nowrap;*/
+
+    /*text-overflow: ellipsis;*/
 }
