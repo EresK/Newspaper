@@ -12,7 +12,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Entity
 @Table(name = "contents")
-public class PublicationContent {
+public class ContentEntity {
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     @Id
     @GeneratedValue
@@ -26,7 +26,7 @@ public class PublicationContent {
                     CascadeType.PERSIST, CascadeType.REFRESH})
     private PublicationEntity publication;
 
-    public PublicationContent(String contentJson) {
+    public ContentEntity(String contentJson) {
         this.contentJson = contentJson;
     }
 }
