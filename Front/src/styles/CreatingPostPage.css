@@ -1,0 +1,10 @@
+.outer {
+    margin: 10% auto auto;
+    top: 50%;
+    width: 40%;
+}
+
+.outer h1 {
+    text-align: center
+}
+

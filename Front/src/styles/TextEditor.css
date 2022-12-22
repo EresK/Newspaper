@@ -12,6 +12,10 @@
     background-color: navajowhite;
 }
 
+.toolbarStyle_v2 {
+    display: none;
+}
+
 .buttonStyle {
     background-color: limegreen;
     float: right;

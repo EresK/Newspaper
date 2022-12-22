@@ -35,7 +35,7 @@ const TextEditor = () => {
     const [editorState, setEditorState] = useState(
         () => {
             const content = window.localStorage.getItem('content');
-            console.log(content)
+
             if (content) {
                 return EditorState.createWithContent(convertFromRaw(JSON.parse(content)));
             } else {
@@ -44,7 +44,13 @@ const TextEditor = () => {
         }
     );
 
+    const [readOnly, setReadOnly] = useState(0)
+    const [toolBarStyle, setToolBarStyle] = useState("toolbarStyle")
+
+
     const saveContent = () => {
+        setToolBarStyle("toolbarStyle_v2")
+        setReadOnly(1)
         window.localStorage.setItem('content', JSON.stringify(convertToRaw(editorState.getCurrentContent())));
     }
 
@@ -52,10 +58,11 @@ const TextEditor = () => {
         <div>
             <Editor
                 editorClassName="editorStyle"
-                toolbarClassName="toolbarStyle"
+                toolbarClassName={toolBarStyle}
                 wrapperClassName="wrapper-class"
                 editorState={editorState}
                 onEditorStateChange={setEditorState}
+                readOnly={readOnly}
                 toolbar={{
                     options: ['inline', 'blockType', 'fontSize', 'fontFamily', 'list', 'textAlign', 'colorPicker', 'emoji', 'image', 'remove', 'history'],
                     inline: {
