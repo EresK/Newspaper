@@ -11,7 +11,7 @@ const Post = (props) => {
                         {props.post.body}
                     </div>
                 </Link>
-                <strong style={{fontSize: '18px'}}>{props.post.title}</strong>
+                <strong style={{fontSize: '18px'}}>{props.post.description.title}</strong>
             </div>
             
         </div>

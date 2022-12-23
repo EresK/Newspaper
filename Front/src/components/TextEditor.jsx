@@ -44,14 +44,19 @@ const TextEditor = () => {
         }
     );
 
-    const [readOnly, setReadOnly] = useState(0)
-    const [toolBarStyle, setToolBarStyle] = useState("toolbarStyle")
+    const [readOnly, setReadOnly] = useState(1)
+    const [toolBarStyle, setToolBarStyle] = useState("toolbarStyle_v2")
 
 
     const saveContent = () => {
         setToolBarStyle("toolbarStyle_v2")
         setReadOnly(1)
         window.localStorage.setItem('content', JSON.stringify(convertToRaw(editorState.getCurrentContent())));
+    }
+
+    const changeEditorSetting = () => {
+        setToolBarStyle("toolbarStyle")
+        setReadOnly(0)
     }
 
     return(
@@ -144,6 +149,7 @@ const TextEditor = () => {
                 }}
             />
             <button className="buttonStyle" onClick={() => saveContent()}>Save</button>
+            <button className="buttonStyle" onClick={() => changeEditorSetting()}>Edit</button>
         </div>
     );
 };

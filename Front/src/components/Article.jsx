@@ -7,7 +7,7 @@ class Article extends Component {
             <div className="article">
                 <img src={"./img/" + this.props.item.img}/>
                 <div className="desc">
-                    <h2> {this.props .item.title }</h2>
+                    <h2> {this.props.item.title }</h2>
                     <b>{this.props.item.authors }</b>
                     <p> {this.props.item.description }</p>
                 </div>

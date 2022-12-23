@@ -41,7 +41,12 @@ public class BackendApplication implements CommandLineRunner {
 
 		PublicationEntity publication1 = new PublicationEntity(false);
 		PublicationEntity publication2 = new PublicationEntity(false);
-		PublicationEntity publication3 = new PublicationEntity(true);
+		PublicationEntity publication3 = new PublicationEntity(false);
+		PublicationEntity publication4 = new PublicationEntity(false);
+		PublicationEntity publication5 = new PublicationEntity(false);
+		PublicationEntity publication6 = new PublicationEntity(false);
+		PublicationEntity publication7 = new PublicationEntity(false);
+		PublicationEntity publication8 = new PublicationEntity(true);
 
 		DescriptionEntity description1 = new DescriptionEntity("The Math",
 				"John Smith",
@@ -64,13 +69,58 @@ public class BackendApplication implements CommandLineRunner {
 				new Date(),
 				"");
 
+		DescriptionEntity description4 = new DescriptionEntity("Sport day",
+				"Peter Pen",
+				"All about sport.",
+				17L,
+				new Date(),
+				"");
+
+		DescriptionEntity description5 = new DescriptionEntity("IPhone news",
+				"Mark Pan",
+				"All about iphone.",
+				18L,
+				new Date(),
+				"");
+
+		DescriptionEntity description6 = new DescriptionEntity("Flowers",
+				"Oleg Smith",
+				"All about flowers.",
+				19L,
+				new Date(),
+				"");
+
+		DescriptionEntity description7 = new DescriptionEntity("Music magazine",
+				"Sasha Quenne",
+				"All about music.",
+				20L,
+				new Date(),
+				"");
+
+		DescriptionEntity description8 = new DescriptionEntity("History",
+				"Sophia Dormi",
+				"All about history.",
+				21L,
+				new Date(),
+				"");
+
 		publication1.setDescription(description1);
 		publication2.setDescription(description2);
 		publication3.setDescription(description3);
+		publication4.setDescription(description4);
+		publication5.setDescription(description5);
+		publication6.setDescription(description6);
+		publication7.setDescription(description7);
+		publication8.setDescription(description8);
 
 		publication1.setPublicationOwner(user1);
 		publication2.setPublicationOwner(user2);
 		publication3.setPublicationOwner(user2);
+		publication4.setPublicationOwner(user2);
+		publication5.setPublicationOwner(user2);
+		publication6.setPublicationOwner(user2);
+		publication7.setPublicationOwner(user2);
+		publication8.setPublicationOwner(user2);
 
 		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
@@ -82,6 +132,6 @@ public class BackendApplication implements CommandLineRunner {
 		advert.setAdvertiser(user1);
 		advertRepository.save(advert);
 
-		publicationRepository.saveAll(List.of(publication1, publication2, publication3));
+		publicationRepository.saveAll(List.of(publication1, publication2, publication3, publication4, publication5, publication6, publication7, publication8));
 	}
 }
