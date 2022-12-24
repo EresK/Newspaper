@@ -2,7 +2,7 @@ package com.newspaper.backend.user;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.newspaper.backend.advert.AdvertEntity;
+//import com.newspaper.backend.advert.AdvertEntity;
 import com.newspaper.backend.publication.PublicationEntity;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -35,10 +35,10 @@ public class UserEntity implements UserDetails {
     @OneToMany(mappedBy = "publicationOwner",
             cascade = CascadeType.ALL)
     private List<PublicationEntity> publicationList;
-    @JsonIgnore
-    @OneToMany(mappedBy = "advertiser",
-            cascade = CascadeType.ALL)
-    private List<AdvertEntity> advertList;
+//    @JsonIgnore
+//    @OneToMany(mappedBy = "advertiser",
+//            cascade = CascadeType.ALL)
+//    private List<AdvertEntity> advertList;
 
 
     public UserEntity(String email,

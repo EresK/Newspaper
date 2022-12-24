@@ -11,10 +11,10 @@ import java.util.Optional;
 @RequestMapping("/publications")
 public class PublicationController {
     private final PublicationService publicationService;
-    @PostMapping("/addAdvert/{id}")
-    public void setPublicationForAdvert(Authentication auth, @RequestBody Long advertId,@PathVariable Long id) {
-        publicationService.setAdvert(auth,advertId,id);
-    }
+//    @PostMapping("/addAdvert/{id}")
+//    public void setPublicationForAdvert(Authentication auth, @RequestBody Long advertId,@PathVariable Long id) {
+//        publicationService.setAdvert(auth,advertId,id);
+//    }
 
     @PostMapping
     public void postPublication(Authentication auth, @RequestBody PublicationEntity publication) {
