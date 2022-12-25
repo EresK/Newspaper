@@ -15,7 +15,7 @@ const StartWindow = () => {
     const [someItem, setSomeItem] = useState([])
     const [filter, setFilter] = useState({sort: '', query: ''})
     const [count, setCount] = useState(0)
-    const [limit, setLimit] = useState(6)
+    const [limit, setLimit] = useState(4)
     const [page, setPage] = useState(1)
     const sortedAndSearchedPosts = usePosts(someItem, filter.sort, filter.query);
     let pages = [];
@@ -28,8 +28,9 @@ const StartWindow = () => {
     async function fetchPosts() {
         const response = await Service.getFromServer(limit, page);
         setSomeItem(response.data)
-        const amount = response.headers['x-total-count']
+        const amount = 8//response.headers['x-total-count']
         setCount(countPages(amount, limit))
+        console.log(response)
     }
 
     for (let i = 0; i < count; i++) {
@@ -47,10 +48,12 @@ const StartWindow = () => {
 
             <h1 style={{marginLeft: 15}}>The most popular posts</h1>
             <PostsList posts={sortedAndSearchedPosts}/>
-
+            <div>
+                <button onClick={fetchPosts}>jgjg</button>
+            </div>
             <div className="paginate">
                 {pages.map(p =>
-                    <MyButton key = {p} onClick={() => setPage(p)}>{p}</MyButton>
+                    <MyButton key={p} onClick={() => setPage(p)}>{p}</MyButton>
                 )}
 
             </div>

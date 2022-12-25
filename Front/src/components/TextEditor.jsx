@@ -1,77 +1,73 @@
-import React, {Component} from 'react';
-import {EditorState} from "draft-js";
+import React, {useState} from 'react';
+import {EditorState, convertToRaw, convertFromRaw} from "draft-js";
 import {Editor} from "react-draft-wysiwyg";
-import { convertFromRaw } from 'draft-js';
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css"
 import "../styles/TextEditor.css"
 import '../App'
 
-const content = {"entityMap":{},"blocks":[{"key":"637gr","text":"Initialized from content state.","type":"unstyled","depth":0,"inlineStyleRanges":[],"entityRanges":[],"data":{}}]};
 
 // Функция для загрузки изображений с рабочего стола (пока не работает)
-function uploadImageCallBack(file) {
-    return new Promise(
-        (resolve, reject) => {
-            const xhr = new XMLHttpRequest();
-            xhr.open('POST', 'https://api.imgur.com/3/image');
-            xhr.setRequestHeader('Authorization', 'Client-ID ##clientid###');
-            const data = new FormData();
-            data.append('image', file);
-            xhr.send(data);
-            xhr.addEventListener('load', () => {
-                const response = JSON.parse(xhr.responseText);
-                console.log(response)
-                resolve(response);
-            });
-            xhr.addEventListener('error', () => {
-                const error = JSON.parse(xhr.responseText);
-                console.log(error)
-                reject(error);
-            });
+// function uploadImageCallBack(file) {
+//     return new Promise(
+//         (resolve, reject) => {
+//             const xhr = new XMLHttpRequest();
+//             xhr.open('POST', 'https://api.imgur.com/3/image');
+//             xhr.setRequestHeader('Authorization', 'Client-ID ##clientid###');
+//             const data = new FormData();
+//             data.append('image', file);
+//             xhr.send(data);
+//             xhr.addEventListener('load', () => {
+//                 const response = JSON.parse(xhr.responseText);
+//                 console.log(response)
+//                 resolve(response);
+//             });
+//             xhr.addEventListener('error', () => {
+//                 const error = JSON.parse(xhr.responseText);
+//                 console.log(error)
+//                 reject(error);
+//             });
+//         }
+//     );
+// }
+
+
+const TextEditor = () => {
+    const [editorState, setEditorState] = useState(
+        () => {
+            const content = window.localStorage.getItem('content');
+
+            if (content) {
+                return EditorState.createWithContent(convertFromRaw(JSON.parse(content)));
+            } else {
+                return EditorState.createEmpty();
+            }
         }
     );
-}
+
+    const [readOnly, setReadOnly] = useState(1)
+    const [toolBarStyle, setToolBarStyle] = useState("toolbarStyle_v2")
 
 
-export default class TextEditor extends Component{
-    constructor(props){
-        super(props);
-        const contentState = convertFromRaw(content);
-        this.state = {
-            editorState: EditorState.createEmpty(),
-            contentState,
-        };
+    const saveContent = () => {
+        setToolBarStyle("toolbarStyle_v2")
+        setReadOnly(1)
+        window.localStorage.setItem('content', JSON.stringify(convertToRaw(editorState.getCurrentContent())));
     }
 
-    onEditorStateChange = (editorState) => {
-        this.setState({
-            editorState,
-        });
-    };
-
-    onContentStateChange = (contentState) => {
-        this.setState({
-            contentState,
-        });
-    };
-
-    saveJSON = (contentState) =>{
-       let tmp = JSON.stringify(contentState, null, 4)
-        return tmp
+    const changeEditorSetting = () => {
+        setToolBarStyle("toolbarStyle")
+        setReadOnly(0)
     }
 
-
-
-    render(){
-        const { editorState } = this.state;
-        const { contentState } = this.state;
-        editorState.backgroundColor = "white";
-        return <div className="fullEditor">
+    return(
+        <div>
             <Editor
                 editorClassName="editorStyle"
-                toolbarClassName="toolbarStyle"
-                onEditorStateChange={this.onEditorStateChange}
-                onContentStateChange={this.onContentStateChange}
+                toolbarClassName={toolBarStyle}
+                wrapperClassName="wrapper-class"
+                editorState={editorState}
+                onEditorStateChange={setEditorState}
+                readOnly={readOnly}
                 toolbar={{
                     options: ['inline', 'blockType', 'fontSize', 'fontFamily', 'list', 'textAlign', 'colorPicker', 'emoji', 'image', 'remove', 'history'],
                     inline: {
@@ -152,13 +148,10 @@ export default class TextEditor extends Component{
                     },
                 }}
             />
-            <button className="buttonStyle">Save</button>
-
-            <textarea
-                disabled
-                value={JSON.stringify(contentState, null, 4)}
-                // value2={JSON.parse(value)}
-            />
+            <button className="buttonStyle" onClick={() => saveContent()}>Save</button>
+            <button className="buttonStyle" onClick={() => changeEditorSetting()}>Edit</button>
         </div>
-    }
-}
+    );
+};
+
+export default TextEditor;
