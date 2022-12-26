@@ -1,6 +1,10 @@
 package com.newspaper.backend.publication;
 
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,9 +30,9 @@ public class PublicationController {
         return publicationService.getUserPublications(auth);
     }
 
-    @GetMapping("all")
-    public Iterable<PublicationEntity> getAllPublications() {
-        return publicationService.getAllPublications();
+    @GetMapping("/all")
+    public Iterable<PublicationEntity> getAllPublications(@PageableDefault(sort={"id"},direction = Sort.Direction.DESC) Pageable pageable) {
+        return publicationService.getAllPublications(pageable);
     }
 
     @GetMapping("/{id}")
