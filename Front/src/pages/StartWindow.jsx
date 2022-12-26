@@ -11,6 +11,9 @@ import Service from "../serverComp/Service";
 import {countPages} from "../helpers/pageWork";
 import MyButton from "../components/UI/button/MyButton";
 
+import {useActionData} from "react-router";
+import {useNavigate} from "react-router-dom";
+
 const StartWindow = () => {
     const [someItem, setSomeItem] = useState([])
     const [filter, setFilter] = useState({sort: '', query: ''})
@@ -25,6 +28,11 @@ const StartWindow = () => {
         fetchPosts()
     }, [page])
 
+    const router = useNavigate();
+
+    useEffect(()=>{
+        // router('/home')
+    })
     async function fetchPosts() {
         const response = await Service.getFromServer(limit, page);
         setSomeItem(response.data)

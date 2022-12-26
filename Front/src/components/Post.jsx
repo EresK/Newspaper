@@ -9,7 +9,7 @@ const Post = (props) => {
     return (
         <div className="post">
             <div className="post__content">
-                <Link to={"home" + props.post.id} state={{data: props.post}}>
+                <Link to={"post" + props.post.id} state={{data: props.post}}>
                     <div className="content">
                         {props.post.body}
                     </div>
