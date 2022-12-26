@@ -1,0 +1,32 @@
+.search {
+    width: 800px;
+}
+
+
+.list{
+    margin-top: 50px;
+}
+
+*{
+    /*padding: 10px;*/
+}
+
+.paginate{
+    /*justify-content: center;*/
+    display: flex;
+    bottom: 0;
+    /*position: fixed;*/
+    padding: 15px;
+}
+
+.container {
+    max-width: 1000px;
+    overflow: scroll;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.items {
+    display: flex;
+    flex-direction: row;
+}
