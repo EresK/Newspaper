@@ -20,10 +20,11 @@ public class ContentService {
 
     @Transactional
     public void createAndUpdateContent(Authentication auth, Long publicationId, String contentJson) {
-        if (!auth.isAuthenticated())
-            return;
+//        if (!auth.isAuthenticated())
+//            return;
 
-        Optional<PublicationEntity> publication = publicationRepository.findPublication(publicationId);
+//         Optional<PublicationEntity> publication = publicationRepository.findPublication(publicationId);
+        Optional<PublicationEntity> publication = publicationRepository.findById(publicationId);
 
         if (publication.isPresent()) {
             if (publication.get().getContent() == null)
@@ -39,12 +40,17 @@ public class ContentService {
 
     @Transactional
     public void deleteContent(Authentication auth, Long publicationId) {
-        if (auth.isAuthenticated()) {
-            Optional<PublicationEntity> publication = publicationRepository.findPublication(publicationId);
+//        if (auth.isAuthenticated()) {
+//            Optional<PublicationEntity> publication = publicationRepository.findPublication(publicationId);
+//
+//            if (publication.isPresent() && (publication.get().getContent() != null)) {
+//                publication.get().getContent().setContentJson("");
+//            }
+//        }
+        Optional<PublicationEntity> publication = publicationRepository.findById(publicationId);
 
-            if (publication.isPresent() && (publication.get().getContent() != null)) {
-                publication.get().getContent().setContentJson("");
-            }
+        if (publication.isPresent() && (publication.get().getContent() != null)) {
+            publication.get().getContent().setContentJson("");
         }
     }
 }

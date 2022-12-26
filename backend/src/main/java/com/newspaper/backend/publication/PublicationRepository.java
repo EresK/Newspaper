@@ -15,6 +15,7 @@ public interface PublicationRepository extends JpaRepository<PublicationEntity, 
             "(p.id = ?1) AND" +
             "((p.publicationOwner.id = ?#{principal?.id}) OR (p.isHide = false))")
     Optional<PublicationEntity> findPublication(Long id);
+
     @Query("SELECT p FROM PublicationEntity p WHERE (p.isHide = false)")
     Page<PublicationEntity> findAll(Pageable pageable);
 }

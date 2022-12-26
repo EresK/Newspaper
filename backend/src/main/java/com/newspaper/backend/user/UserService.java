@@ -62,12 +62,18 @@ public class UserService implements UserDetailsService {
     }
 
     public void deleteUser(Authentication auth, Long id) {
-        if (auth.isAuthenticated()) {
-            Optional<UserEntity> user = userRepository.findByEmail(auth.getName());
+//        if (auth.isAuthenticated()) {
+//            Optional<UserEntity> user = userRepository.findByEmail(auth.getName());
+//
+//            if (user.isPresent() && Objects.equals(user.get().getId(), id)) {
+//                userRepository.deleteById(id);
+//            }
+//        }
 
-            if (user.isPresent() && Objects.equals(user.get().getId(), id)) {
-                userRepository.deleteById(id);
-            }
+        Optional<UserEntity> user = userRepository.findByEmail(auth.getName());
+
+        if (user.isPresent() && Objects.equals(user.get().getId(), id)) {
+            userRepository.deleteById(id);
         }
     }
 }

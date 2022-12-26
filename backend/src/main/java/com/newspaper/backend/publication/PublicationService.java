@@ -39,22 +39,34 @@ public class PublicationService {
 
     @Transactional
     public void createPublication(Authentication auth, PublicationEntity publication) {
-        if (auth.isAuthenticated()) {
-            Optional<UserEntity> user = userRepository.findByEmail(auth.getName());
+//        if (auth.isAuthenticated()) {
+//            Optional<UserEntity> user = userRepository.findByEmail(auth.getName());
+//
+//            if (user.isPresent()) {
+//                PublicationEntity newPublication = new PublicationEntity();
+//
+//                newPublication.setPublicationOwner(user.get());
+//                newPublication.setDescription(publication.getDescription());
+//
+//                publicationRepository.save(newPublication);
+//            }
+//        }
 
-            if (user.isPresent()) {
-                PublicationEntity newPublication = new PublicationEntity();
+        Optional<UserEntity> user = userRepository.findByEmail(auth.getName());
 
-                newPublication.setPublicationOwner(user.get());
-                newPublication.setDescription(publication.getDescription());
+        if (user.isPresent()) {
+            PublicationEntity newPublication = new PublicationEntity();
 
-                publicationRepository.save(newPublication);
-            }
+            newPublication.setPublicationOwner(user.get());
+            newPublication.setDescription(publication.getDescription());
+
+            publicationRepository.save(newPublication);
         }
     }
 
     public Iterable<PublicationEntity> getUserPublications(Authentication auth) {
-        return auth.isAuthenticated() ? publicationRepository.findUserPublications() : null;
+//        return auth.isAuthenticated() ? publicationRepository.findUserPublications() : null;
+        return publicationRepository.findUserPublications();
     }
 
     public Iterable<PublicationEntity> getAllPublications(Pageable pageable) {
@@ -62,41 +74,62 @@ public class PublicationService {
     }
 
     public Optional<PublicationEntity> getPublication(Authentication auth, Long id) {
-        return auth.isAuthenticated() ? publicationRepository.findPublication(id) : Optional.empty();
+//        return auth.isAuthenticated() ? publicationRepository.findPublication(id) : Optional.empty();
+        return publicationRepository.findPublication(id);
     }
 
     @Transactional
     public void updatePublication(Authentication auth, Long id, PublicationEntity publication) {
-        if (auth.isAuthenticated()) {
-            Optional<UserEntity> user = userRepository.findByEmail(auth.getName());
-            Optional<PublicationEntity> newPublication = publicationRepository.findById(id);
+//        if (auth.isAuthenticated()) {
+//            Optional<UserEntity> user = userRepository.findByEmail(auth.getName());
+//            Optional<PublicationEntity> newPublication = publicationRepository.findById(id);
+//
+//            if (user.isPresent() &&
+//                    newPublication.isPresent() &&
+//                    Objects.equals(newPublication.get().getPublicationOwner().getId(), user.get().getId())) {
+//
+//                newPublication.get().setDescription(publication.getDescription());
+//                publicationRepository.save(newPublication.get());
+//            }
+//        }
 
-            if (user.isPresent() &&
-                    newPublication.isPresent() &&
-                    Objects.equals(newPublication.get().getPublicationOwner().getId(), user.get().getId())) {
+        Optional<UserEntity> user = userRepository.findByEmail(auth.getName());
+        Optional<PublicationEntity> newPublication = publicationRepository.findById(id);
 
-                newPublication.get().setDescription(publication.getDescription());
-                publicationRepository.save(newPublication.get());
-            }
+        if (user.isPresent() &&
+                newPublication.isPresent() &&
+                Objects.equals(newPublication.get().getPublicationOwner().getId(), user.get().getId())) {
+
+            newPublication.get().setDescription(publication.getDescription());
+            publicationRepository.save(newPublication.get());
         }
     }
 
     @Transactional
     public void deletePublication(Authentication auth, Long id) {
-        if (isOwnerOfPublication(auth, id))
-            publicationRepository.deleteById(id);
+//        if (isOwnerOfPublication(auth, id))
+//            publicationRepository.deleteById(id);
+
+        publicationRepository.deleteById(id);
     }
 
     @Transactional
     private boolean isOwnerOfPublication(Authentication auth, Long id) {
-        if (auth.isAuthenticated()) {
-            Optional<UserEntity> user = userRepository.findByEmail(auth.getName());
-            Optional<PublicationEntity> publication = publicationRepository.findById(id);
+//        if (auth.isAuthenticated()) {
+//            Optional<UserEntity> user = userRepository.findByEmail(auth.getName());
+//            Optional<PublicationEntity> publication = publicationRepository.findById(id);
+//
+//            return user.isPresent() &&
+//                    publication.isPresent() &&
+//                    Objects.equals(user.get().getId(), publication.get().getPublicationOwner().getId());
+//        }
+//        return false;
 
-            return user.isPresent() &&
-                    publication.isPresent() &&
-                    Objects.equals(user.get().getId(), publication.get().getPublicationOwner().getId());
-        }
-        return false;
+        Optional<UserEntity> user = userRepository.findByEmail(auth.getName());
+        Optional<PublicationEntity> publication = publicationRepository.findById(id);
+
+        return user.isPresent() &&
+                publication.isPresent() &&
+                Objects.equals(user.get().getId(), publication.get().getPublicationOwner().getId());
     }
 }
