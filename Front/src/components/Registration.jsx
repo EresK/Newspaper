@@ -49,14 +49,15 @@ const Registration = () => {
         e.preventDefault();
         const response = await axios.post("http://localhost:8080/registration",
             JSON.stringify({email: user, firstName: userFName, lastName: userSName, password: pwd}),
-            {
-                headers: {'Content-Type': 'application/json'},
-                withCredentials: true
-            }
+             {
+                 headers: {'Content-Type': 'application/json'},
+                 // withCredentials: true
+             }
         );
-        console.log(response.data);
-        console.log(response);
-        console.log(JSON.stringify(response));
+        // console.log(response.data);
+        // console.log(response);
+        // console.log(JSON.stringify({email: user, firstName: userFName, lastName: userSName, password: pwd}))
+        // console.log(JSON.stringify(response));
     }
 
     return (
@@ -72,7 +73,7 @@ const Registration = () => {
                         id="username"
                         ref={userRef}
                         autoComplete="off"
-                        // onChange={(e) => setUser(e.target.value)}
+                        onChange={(e) => setUser(e.target.value)}
                         // value={user}
                         required
                         onFocus={() => setUserFocus(true)}
@@ -88,7 +89,7 @@ const Registration = () => {
                         placeholder="First name"
                         id="name_1"
                         autoComplete="off"
-                        // onChange={(e) => setUser(e.target.value)}
+                        onChange={(e) => setUserFName(e.target.value)}
                         // value={user}
                         required
                         onFocus={() => setUserFocus(true)}
@@ -103,7 +104,7 @@ const Registration = () => {
                         placeholder="Second name"
                         id="name_2"
                         autoComplete="off"
-                        // onChange={(e) => setUser(e.target.value)}
+                        onChange={(e) => setUserSName(e.target.value)}
                         // value={user}
                         required
                         onFocus={() => setUserFocus(true)}

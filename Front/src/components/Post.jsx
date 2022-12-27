@@ -13,6 +13,7 @@ const Post = (props) => {
                 <strong style={{fontSize: '18px'}}>{props.post.description.title}</strong>
                 <Link to={"post/" + props.post.id} state={{data: props.post}}>
                     <div className="content">
+                        <img src={props.post.description.coverImageLink} style={{width: 160, height: 200}}/>
                         {props.post.body}
                     </div>
                 </Link>

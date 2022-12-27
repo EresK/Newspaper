@@ -31,10 +31,10 @@ import '../App'
 // }
 
 
-const TextEditor = () => {
+const TextEditor = (props) => {
     const [editorState, setEditorState] = useState(
         () => {
-            const content = window.localStorage.getItem('content');
+            const content = window.localStorage.getItem(`content${props.id_publication}`);
 
             if (content) {
                 return EditorState.createWithContent(convertFromRaw(JSON.parse(content)));
@@ -51,7 +51,7 @@ const TextEditor = () => {
     const saveContent = () => {
         setToolBarStyle("toolbarStyle_v2")
         setReadOnly(1)
-        window.localStorage.setItem('content', JSON.stringify(convertToRaw(editorState.getCurrentContent())));
+        window.localStorage.setItem(`content${props.id_publication}`, JSON.stringify(convertToRaw(editorState.getCurrentContent())));
     }
 
     const changeEditorSetting = () => {

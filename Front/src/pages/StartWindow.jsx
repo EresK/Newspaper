@@ -57,9 +57,9 @@ const StartWindow = () => {
 
             <h1 style={{marginLeft: 15}}>The most popular posts</h1>
             <PostsList posts={sortedAndSearchedPosts}/>
-            <div>
-                <button onClick={fetchPosts}>jgjg</button>
-            </div>
+            {/*<div>*/}
+            {/*    <button onClick={fetchPosts}>jgjg</button>*/}
+            {/*</div>*/}
             <div className="paginate">
                 {pages.map(p =>
                     <MyButton key={p} onClick={() => setPage(p-1)}>{p}</MyButton>

@@ -23,8 +23,12 @@ const CreatingPostPage = () => {
                         <MyInput type="text" placeholder="Description"/>
                     </label>
                     <p>Add image</p>
-                    <img src="../resources/placeholder.jpeg" width={300} height={300}/>
-                    <MyButton type = "submit" style = {{marginTop: 30}}>Save</MyButton>
+                    <label>
+                        <MyInput type="text" placeholder="URL"/>
+                    </label>
+                    {/*<p>Add image</p>*/}
+                    {/*<img src="../resources/placeholder.jpeg" width={300} height={300}/>*/}
+                    <MyButton style = {{marginTop: 30}}>Save</MyButton>
                 </form>
             </div>
         </div>

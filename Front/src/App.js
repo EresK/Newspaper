@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import Post from "./components/Post";
 import Login from "./components/Login";
 import Registration from "./components/Registration";
@@ -23,6 +23,13 @@ import {AuthContext} from "./context";
 
 function App() {
     const [isAuth, setIsAuth] = useState(false);
+
+    useEffect(() => {
+        if (localStorage.getItem('auth')) {
+            setIsAuth(true)
+        }
+    }, [])
+
 
     return (
         <AuthContext.Provider value={{isAuth, setIsAuth}}>
