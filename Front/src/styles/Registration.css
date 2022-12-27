@@ -3,18 +3,3 @@
     flex-direction: column;
     align-items: center;
 }
-
-.signUp-wrapper select {
-    width: 200px;
-    font: inherit;
-}
-
-.buttonStyle2 {
-    margin-top: 15px;
-    width: 100px;
-    height: 30px;
-    margin-left: 45px;
-    border: 2px solid teal;
-    color: teal;
-    background-color: white;
-}

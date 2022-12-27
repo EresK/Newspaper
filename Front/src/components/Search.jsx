@@ -16,6 +16,7 @@ const Search = ({filter, setFilter}) => {
                 defaultValue="Sort"
                 options={[
                     {value: 'title', name: 'By name'},
+                    {value: 'body', name: 'By description'},
                 ]}
             />
         </div>

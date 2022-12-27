@@ -53,49 +53,49 @@ public class BackendApplication implements CommandLineRunner {
 				"All about math.",
 				10L,
 				new Date(),
-				"image.com/1");
+				"https://avatars.mds.yandex.net/i?id=775afec050cb50978da0e62e390c0c04-5246290-images-thumbs&n=13");
 
 		DescriptionEntity description2 = new DescriptionEntity("AI research",
 				"Maria Rosa",
 				"All about AI.",
 				15L,
 				new Date(),
-				"image.com/2");
+				"https://avatars.mds.yandex.net/i?id=e57c9c7b4669828f98254d5d2dd5de1f-5105949-images-thumbs&n=13");
 
 		DescriptionEntity description3 = new DescriptionEntity("Project X",
 				"Maria Rosa",
 				"In process.",
 				16L,
 				new Date(),
-				"");
+				"https://forex-brokers.pro/Foto/Forex/Otzyvi/836000/836521_dannyh_pro_rukovoditeley_aferistov_kristal_kazino_net.jpg");
 
 		DescriptionEntity description4 = new DescriptionEntity("Sport day",
 				"Peter Pen",
 				"All about sport.",
 				17L,
 				new Date(),
-				"");
+				"https://avatars.mds.yandex.net/i?id=9c501ac4e0161635df8234de2f2113d0-5234070-images-thumbs&n=13");
 
 		DescriptionEntity description5 = new DescriptionEntity("IPhone news",
 				"Mark Pan",
 				"All about iphone.",
 				18L,
 				new Date(),
-				"");
+				"https://i.pinimg.com/736x/39/01/af/3901afb10b2f4cf2c71e21a286b5b39d--october-.jpg");
 
 		DescriptionEntity description6 = new DescriptionEntity("Flowers",
 				"Oleg Smith",
 				"All about flowers.",
 				19L,
 				new Date(),
-				"");
+				"https://image.isu.pub/180720170813-6f44a322f274de1db46ef2c0060186d5/jpg/page_1.jpg");
 
 		DescriptionEntity description7 = new DescriptionEntity("Music magazine",
 				"Sasha Quenne",
 				"All about music.",
 				20L,
 				new Date(),
-				"");
+				"https://files.magzter.com/resize/magazine/1423654150/1547041087/view/3.jpg");
 
 		DescriptionEntity description8 = new DescriptionEntity("History",
 				"Sophia Dormi",

@@ -2,8 +2,21 @@
     width: 800px;
 }
 
-h1 {
-    margin-left: 30px;
+
+.list{
+    margin-top: 50px;
+}
+
+*{
+    /*padding: 10px;*/
+}
+
+.paginate{
+    /*justify-content: center;*/
+    display: flex;
+    bottom: 0;
+    /*position: fixed;*/
+    padding: 15px;
 }
 
 .container {

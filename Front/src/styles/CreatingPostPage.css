@@ -8,3 +8,11 @@
     text-align: center
 }
 
+.drop-area {
+    width: 20vw;
+    height: 20vh;
+    border: 5px dashed black;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}

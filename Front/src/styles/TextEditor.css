@@ -25,4 +25,9 @@
     width: 120px;
     font-size: 20px;
     border-radius: 10px;
+    cursor: pointer;
+}
+
+.fullEditor{
+    padding: 10px 10px;
 }

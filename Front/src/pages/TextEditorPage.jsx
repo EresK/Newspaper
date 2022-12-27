@@ -19,10 +19,10 @@ export const TextEditorPage = () => {
                 <h3>Дата публикации: </h3><span>{data.description.issueDate}</span>
                 <h3>Содержание: </h3><span>{data.description.description}</span>
             </div>
-            <TextEditor content={data.content}/>
-            <Link to={"/"}>
-                <button className="buttonStyle">Main page</button>
-            </Link>
+            <TextEditor id_publication={data.id} content={data.content}/>
+            {/*<Link to={"/"}>*/}
+            {/*    <button className="buttonStyle">Main page</button>*/}
+            {/*</Link>*/}
         </div>
     );
 }

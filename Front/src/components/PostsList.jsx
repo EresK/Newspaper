@@ -1,10 +1,11 @@
-import React from 'react';
+import React, {useState} from 'react';
 import Post from "./Post";
+// import "../styles/ListItem.css"
 
 const PostsList = ({posts, title}) => {
 
     return (
-        <div>
+        <div style={{marginLeft: 15}}>
             <h1 style={{textAlign: 'left'}}>{title}</h1>
             <div className="postList">
                 {posts.map((post, index) =>

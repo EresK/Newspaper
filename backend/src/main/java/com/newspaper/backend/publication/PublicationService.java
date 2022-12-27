@@ -5,6 +5,7 @@ import com.newspaper.backend.advert.AdvertRepository;
 import com.newspaper.backend.user.UserEntity;
 import com.newspaper.backend.user.UserRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
@@ -54,11 +55,8 @@ public class PublicationService {
         return auth.isAuthenticated() ? publicationRepository.findUserPublications() : null;
     }
 
-    public Iterable<PublicationEntity> getAllPublications() {
-        return publicationRepository.findAll()
-                .parallelStream()
-                .filter(p -> !p.getIsHide())
-                .toList();
+    public Iterable<PublicationEntity> getAllPublications(Pageable pageable) {
+        return publicationRepository.findAll(pageable).getContent();
     }
 
     public Optional<PublicationEntity> getPublication(Authentication auth, Long id) {
@@ -88,7 +86,7 @@ public class PublicationService {
     }
 
     @Transactional
-    private boolean isOwnerOfPublication(Authentication auth, Long id) {
+    boolean isOwnerOfPublication(Authentication auth, Long id) {
         if (auth.isAuthenticated()) {
             Optional<UserEntity> user = userRepository.findByEmail(auth.getName());
             Optional<PublicationEntity> publication = publicationRepository.findById(id);

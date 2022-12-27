@@ -1,28 +1,45 @@
-import React from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import "../styles/Login.css"
 import MyInput from "./UI/input/MyInput";
 import MyButton from "./UI/button/MyButton";
-import {Link} from "react-router-dom";
 
 const Login = () => {
+    const userRef = useRef();
+    const errRef = useRef();
+
+    const [user, setUser] = useState('');
+    const [pwd, setPwd] = useState('');
+    const [errMsg, setErrMsg] = useState('');
+    const [success, setSuccess] = useState(false);
+
+     useEffect(() => {
+        userRef.current.focus();
+    }, [])
+
+    useEffect(() => {
+        setErrMsg('');
+    }, [user, pwd])
+
+    const handleSubmit = async (e) => {
+         e.preventDefault();
+    }
+
     return (
         <div className="login-wrapper">
-            <h1>Please Log In</h1>
-            <form>
-                <p>Login</p>
-                <label>
-
-                    <MyInput type="text" placeholder="Login"/>
+            <h1 style={{color: "teal"}}>Please Log In</h1>
+            <form onSubmit={handleSubmit}>
+                <p style={{color: "black", marginTop: 15}}>Login</p>
+                <label htmlFor="username">
+                    <MyInput type="text" placeholder="Login" id="username" ref={userRef} onChange={(e)=>setUser(e.target.value)} required value={user}/>
                 </label>
-                <p>Password</p>
-                <label>
 
-                    <MyInput type="password" placeholder="Password"/>
+                <p style={{color: "black", marginTop: 10}}>Password</p>
+                <label htmlFor="password">
+                    <MyInput type="password" placeholder="Password" id="password" onChange={(e)=>setPwd(e.target.value)} required value={pwd}/>
                 </label>
+
                 <div className="login-button">
-                    <Link to="/">
-                        <MyButton type="submit" style={{marginTop: 15, marginLeft: 50}}>Log in</MyButton>
-                    </Link>
+                    <MyButton style={{marginTop: 15}}>Log in</MyButton>
                 </div>
             </form>
         </div>
