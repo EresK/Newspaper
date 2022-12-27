@@ -1,0 +1,29 @@
+.navbar{
+    height: 50px;
+    width: 100vw;
+    display: flex;
+    align-items: center;
+    padding: 10px 10px;
+    position: sticky;
+    top: 0;
+    background: lightblue;
+}
+.links{
+    /*margin-left: auto;*/
+}
+
+.right{
+    margin-left: auto;
+    /*justify-content: right;*/
+    /*right: 0;*/
+}
+
+.navbtn{
+    /*margin-right: 10px;*/
+    /*display: inline;*/
+    border: 5px solid #5783db;
+    background: #5783db;
+    border-radius: 5px;
+    font-size: 20px;
+    color: black;
+}

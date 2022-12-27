@@ -1,0 +1,33 @@
+.textEditorBlock {
+    align-content: center;
+}
+
+.editorStyle {
+    border: 1px black solid;
+    background-color: white;
+}
+
+.toolbarStyle {
+    border: 1px black solid;
+    background-color: navajowhite;
+}
+
+.toolbarStyle_v2 {
+    display: none;
+}
+
+.buttonStyle {
+    background-color: limegreen;
+    float: right;
+    margin-right: 10px;
+    margin-top: 10px;
+    height: 40px;
+    width: 120px;
+    font-size: 20px;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.fullEditor{
+    padding: 10px 10px;
+}
