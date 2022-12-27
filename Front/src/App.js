@@ -16,16 +16,19 @@ import LoginPage from "./pages/LoginPage";
 import RegistrationPage from "./pages/RegistrationPage";
 import Navbar from "./components/Navbar";
 import AppRouter from "./components/AppRouter";
+import {AuthContext} from "./context";
 
 // import "./components/*"
 
 
 function App() {
+    const [isAuth, setIsAuth] = useState(false);
+
     return (
-        <div>
+        <AuthContext.Provider value={{isAuth, setIsAuth}}>
             <Navbar/>
             <AppRouter/>
-        </div>
+        </AuthContext.Provider>
     );
 
     //

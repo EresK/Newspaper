@@ -12,6 +12,7 @@ const Navbar = () => {
                 <Link className="navbtn" to="/addPost" style={{marginLeft: 10}}>Add new post</Link>
             </div>
             <div className="right">
+                <Link className="navbtn" to="/profile" style={{marginRight: 10}}>Profile</Link>
                 <Link className="navbtn" to="/login" style={{marginRight: 10}}>Sign in</Link>
                 <Link className="navbtn" to="/register">Sign up</Link>
             </div>

@@ -1,6 +1,7 @@
 import React from 'react';
 import MyInput from "../components/UI/input/MyInput";
 import "../styles/CreatingPostPage.css"
+import MyButton from "../components/UI/button/MyButton";
 
 const CreatingPostPage = () => {
 
@@ -22,7 +23,8 @@ const CreatingPostPage = () => {
                         <MyInput type="text" placeholder="Description"/>
                     </label>
                     <p>Add image</p>
-                    <img src="../resources/placeholder.jpeg" width={400} height={400}/>
+                    <img src="../resources/placeholder.jpeg" width={300} height={300}/>
+                    <MyButton type = "submit" style = {{marginTop: 30}}>Save</MyButton>
                 </form>
             </div>
         </div>

@@ -1,10 +1,10 @@
 import axios from "axios";
 
 export default class Service {
-    static async getFromServer(limit = 4, page = 1) {
+    static async getFromServer(page = 1, size = 4) {
         const response = await axios.get('http://localhost:8080/publications/all', {
             params: {
-                _limit: limit, _page: page
+                page: page, size: size
             }
         })
         return response;
