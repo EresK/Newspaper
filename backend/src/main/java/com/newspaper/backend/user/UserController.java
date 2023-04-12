@@ -1,6 +1,5 @@
 package com.newspaper.backend.user;
 
-import com.newspaper.backend.publication.PublicationEntity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -29,6 +28,10 @@ public class UserController {
     @GetMapping("/{id}")
     public Optional<UserEntity> getUser(@PathVariable Long id) {
         return userRepository.findById(id);
+    }
+    @GetMapping("/login")
+    public Boolean login(@RequestBody UserLogRequest user){
+        return userService.loginCheck(user.getEmail(),user.getPassword());
     }
 
     @PutMapping("/{id}")
