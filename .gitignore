@@ -1,2 +1,4 @@
-/database/postgres/data
-/.DS_Store
+.idea
+
+database/postgres/data
+.DS_Store
