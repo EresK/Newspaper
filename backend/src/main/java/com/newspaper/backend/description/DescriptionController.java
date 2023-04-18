@@ -1,6 +1,7 @@
 package com.newspaper.backend.description;
 
 import lombok.AllArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,8 +20,8 @@ public class DescriptionController {
 
     @PutMapping("/{publicationId}")
     public void putDescription(Authentication auth,
-                               @PathVariable Long publicationId,
-                               @RequestBody DescriptionEntity description) {
+                                                  @PathVariable Long publicationId,
+                                                  @RequestBody DescriptionEntity description) {
         descriptionService.updateDescription(auth, publicationId, description);
     }
 }

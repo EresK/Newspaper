@@ -1,5 +1,6 @@
 package com.newspaper.backend.user;
 
+import com.newspaper.backend.Status;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -15,6 +16,10 @@ public class UserService implements UserDetailsService {
     private  final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final static String USER_NOT_FOUND= "user with email %s not found";
 
+    public Status deleteUser(Long id){
+        userRepository.deleteById(id);
+        return Status.SUCCESS;
+    }
     @Override
     public UserEntity loadUserByUsername(String email) throws UsernameNotFoundException {
         return userRepository.findByEmail(email)
@@ -28,14 +33,15 @@ public class UserService implements UserDetailsService {
         }
         return false;
     }
-    public void signUpUser(UserEntity user){
+    public Status signUpUser(UserEntity user){
         if (userRepository.findByEmail(user.getEmail()).isPresent()) {
-            throw new IllegalStateException("email already taken");
+            return Status.ERROR;
         }
 
         String encodedPassword = bCryptPasswordEncoder.encode(user.getPassword());
         user.setPassword(encodedPassword);
         userRepository.save(user);
+        return Status.SUCCESS;
     }
 
     public Boolean updateUserInformation(Long id, UserEntity user) {

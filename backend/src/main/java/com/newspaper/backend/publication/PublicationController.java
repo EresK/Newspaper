@@ -1,9 +1,11 @@
 package com.newspaper.backend.publication;
 
+import com.newspaper.backend.Status;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
@@ -40,14 +42,17 @@ public class PublicationController {
     }
 
     @PutMapping("{id}")
-    public void putPublication(Authentication auth,
-                               @PathVariable Long id,
-                               @RequestBody PublicationEntity publication) {
-        publicationService.updatePublication(auth, id, publication);
+    public ResponseEntity<Status> putPublication(Authentication auth,
+                                                 @PathVariable Long id,
+                                                 @RequestBody PublicationEntity publication) {
+
+        return ResponseEntity.ok()
+                .body(publicationService.updatePublication(auth, id, publication));
     }
 
     @DeleteMapping("/{id}")
-    public void deletePublication(Authentication auth, @PathVariable Long id) {
-        publicationService.deletePublication(auth, id);
+    public ResponseEntity<Status> deletePublication(Authentication auth, @PathVariable Long id) {
+        return ResponseEntity.ok()
+                .body(publicationService.deletePublication(auth, id));
     }
 }

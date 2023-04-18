@@ -1,5 +1,6 @@
 package com.newspaper.backend.description;
 
+import com.newspaper.backend.Status;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
@@ -23,7 +24,6 @@ public class DescriptionService {
                 description.setId(descriptionEntity.get().getId());
                 description.setPublication(descriptionEntity.get().getPublication());
                 description.setIssueDate(descriptionEntity.get().getIssueDate());
-
                 descriptionRepository.save(description);
             }
         }

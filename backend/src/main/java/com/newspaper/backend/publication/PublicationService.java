@@ -1,5 +1,6 @@
 package com.newspaper.backend.publication;
 
+import com.newspaper.backend.Status;
 import com.newspaper.backend.advert.AdvertEntity;
 import com.newspaper.backend.advert.AdvertRepository;
 import com.newspaper.backend.user.UserEntity;
@@ -36,7 +37,7 @@ public class PublicationService {
     }
 
     @Transactional
-    public void createPublication(Authentication auth, PublicationEntity publication) {
+    public Status createPublication(Authentication auth, PublicationEntity publication) {
         if (auth.isAuthenticated()) {
             Optional<UserEntity> user = userRepository.findByEmail(auth.getName());
 
@@ -47,8 +48,11 @@ public class PublicationService {
                 newPublication.setDescription(publication.getDescription());
 
                 publicationRepository.save(newPublication);
+                return Status.SUCCESS;
             }
+            return Status.NO_AUTH;
         }
+        return Status.NO_AUTH;
     }
 
     public Iterable<PublicationEntity> getUserPublications(Authentication auth) {
@@ -64,7 +68,7 @@ public class PublicationService {
     }
 
     @Transactional
-    public void updatePublication(Authentication auth, Long id, PublicationEntity publication) {
+    public Status updatePublication(Authentication auth, Long id, PublicationEntity publication) {
         if (auth.isAuthenticated()) {
             Optional<UserEntity> user = userRepository.findByEmail(auth.getName());
             Optional<PublicationEntity> newPublication = publicationRepository.findById(id);
@@ -75,14 +79,20 @@ public class PublicationService {
 
                 newPublication.get().setDescription(publication.getDescription());
                 publicationRepository.save(newPublication.get());
+                return Status.SUCCESS;
             }
+            return Status.DENIED;
         }
+        return Status.NO_AUTH;
     }
 
     @Transactional
-    public void deletePublication(Authentication auth, Long id) {
-        if (isOwnerOfPublication(auth, id))
+    public Status deletePublication(Authentication auth, Long id) {
+        if (isOwnerOfPublication(auth, id)) {
             publicationRepository.deleteById(id);
+            return Status.SUCCESS;
+        }
+        return Status.DENIED;
     }
 
     @Transactional

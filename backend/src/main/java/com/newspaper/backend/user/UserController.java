@@ -1,5 +1,6 @@
 package com.newspaper.backend.user;
 
+import com.newspaper.backend.Status;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -44,7 +45,8 @@ public class UserController {
     }
 
     @DeleteMapping("/{id}")
-    public void deleteUser(@PathVariable Long id) {
-        userRepository.deleteById(id);
+    public ResponseEntity<Status> deleteUser(@PathVariable Long id) {
+        return ResponseEntity.ok()
+                .body(userService.deleteUser(id));
     }
 }
