@@ -3,7 +3,6 @@ package com.newspaper.backend.permissions;
 import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.newspaper.backend.permissions.role.DefaultRole;
 import com.newspaper.backend.permissions.role.UserRole;
 import com.newspaper.backend.publication.PublicationEntity;
 import com.newspaper.backend.user.UserEntity;

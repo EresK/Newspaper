@@ -42,7 +42,7 @@ public class BackendApplication implements CommandLineRunner {
     // Наполнение базы данных
     @Override
     @Transactional
-    public void run(String... args) throws Exception {
+    public void run(String... args) {
         UserEntity user1 = new UserEntity("john@gmail.com", "John", "Smith", "pwd");
         UserEntity user2 = new UserEntity("maria@gmail.com", "Maria", "Rosa", "pwd");
         AdvertEntity advert = new AdvertEntity(1L, "haha");

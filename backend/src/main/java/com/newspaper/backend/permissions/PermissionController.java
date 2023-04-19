@@ -30,5 +30,6 @@ public class PermissionController {
     public void revokePermission(@RequestParam Long userId,
                                  @RequestParam Long publicationId,
                                  @RequestParam String role) {
+        // TODO: deletion
     }
 }
