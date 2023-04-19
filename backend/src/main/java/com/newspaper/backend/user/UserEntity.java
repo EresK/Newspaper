@@ -24,10 +24,13 @@ public class UserEntity implements UserDetails {
     @Id
     @GeneratedValue
     private Long id;
+
     @Column(unique = true, nullable = false)
     private String email;
+
     private String firstName;
     private String lastName;
+
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
 
@@ -35,6 +38,7 @@ public class UserEntity implements UserDetails {
     @OneToMany(mappedBy = "publicationOwner",
             cascade = CascadeType.ALL)
     private List<PublicationEntity> publicationList;
+
     @JsonIgnore
     @OneToMany(mappedBy = "advertiser",
             cascade = CascadeType.ALL)
