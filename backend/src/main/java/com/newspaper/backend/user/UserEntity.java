@@ -3,6 +3,7 @@ package com.newspaper.backend.user;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.newspaper.backend.advert.AdvertEntity;
+import com.newspaper.backend.permissions.UserPublicationPermission;
 import com.newspaper.backend.publication.PublicationEntity;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -14,6 +15,7 @@ import javax.persistence.*;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 
 @Data
 @NoArgsConstructor
@@ -43,6 +45,10 @@ public class UserEntity implements UserDetails {
     @OneToMany(mappedBy = "advertiser",
             cascade = CascadeType.ALL)
     private List<AdvertEntity> advertList;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "user")
+    Set<UserPublicationPermission> permissions;
 
 
     public UserEntity(String email,

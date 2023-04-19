@@ -1,14 +1,17 @@
 package com.newspaper.backend.publication;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.newspaper.backend.advert.AdvertEntity;
 import com.newspaper.backend.content.PublicationContent;
 import com.newspaper.backend.description.DescriptionEntity;
+import com.newspaper.backend.permissions.UserPublicationPermission;
 import com.newspaper.backend.user.UserEntity;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Data
 @NoArgsConstructor
@@ -32,10 +35,16 @@ public class PublicationEntity {
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "content_id")
     private PublicationContent content;
+
     @OneToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE,
             CascadeType.PERSIST, CascadeType.REFRESH})
     @JoinColumn(name = "advert_id")
     private AdvertEntity advert;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "publication")
+    Set<UserPublicationPermission> permissions;
+
     private Boolean isHide = true;
 
     public PublicationEntity(Boolean isHide) {
