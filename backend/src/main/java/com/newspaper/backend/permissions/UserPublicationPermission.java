@@ -2,7 +2,6 @@ package com.newspaper.backend.permissions;
 
 import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.newspaper.backend.permissions.role.UserRole;
 import com.newspaper.backend.publication.PublicationEntity;
 import com.newspaper.backend.user.UserEntity;
@@ -16,7 +15,7 @@ import javax.persistence.*;
 @Entity
 @Table(name = "permissions")
 public class UserPublicationPermission {
-    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+    @JsonIgnore
     @EmbeddedId
     private PermissionKey id;
 
@@ -50,18 +49,18 @@ public class UserPublicationPermission {
         this.role = role;
     }
 
-    @JsonGetter("userId")
+    @JsonGetter("user")
     public Long getUserId() {
         return user.getId();
     }
 
-    @JsonGetter("publicationId")
+    @JsonGetter("publication")
     public Long getPublicationId() {
         return publication.getId();
     }
 
     @JsonGetter("role")
-    public String roleToString() {
+    public String getRoleAsString() {
         return role.getName();
     }
 }

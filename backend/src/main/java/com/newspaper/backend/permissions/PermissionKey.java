@@ -5,18 +5,22 @@ import lombok.NoArgsConstructor;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import java.io.Serializable;
+import java.util.UUID;
 
 @NoArgsConstructor
 @Embeddable
 public class PermissionKey implements Serializable {
+    @Column(name = "id", nullable = false)
+    String id = UUID.randomUUID().toString();
+
     @Column(name = "user_id")
-    Long userId;
+    Long user;
 
     @Column(name = "publication_id")
-    Long publicationId;
+    Long publication;
 
     public PermissionKey(Long userId, Long publicationId) {
-        this.userId = userId;
-        this.publicationId = publicationId;
+        this.user = userId;
+        this.publication = publicationId;
     }
 }

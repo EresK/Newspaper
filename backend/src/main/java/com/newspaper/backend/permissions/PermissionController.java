@@ -13,7 +13,7 @@ import java.util.Optional;
 public class PermissionController {
     private final PermissionService permissionService;
 
-    @PostMapping("/create")
+    @PostMapping
     public void createPermission(@RequestParam Long userId,
                                  @RequestParam Long publicationId,
                                  @RequestParam String role) {
@@ -30,6 +30,7 @@ public class PermissionController {
     public void revokePermission(@RequestParam Long userId,
                                  @RequestParam Long publicationId,
                                  @RequestParam String role) {
-        // TODO: deletion
+        Optional<DefaultRole> optionalRole = DefaultRole.toRole(role);
+        optionalRole.ifPresent(defaultRole -> permissionService.revokePermission(userId, publicationId, defaultRole));
     }
 }
