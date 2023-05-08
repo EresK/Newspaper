@@ -11,7 +11,7 @@ import java.util.UUID;
 @Embeddable
 public class PermissionKey implements Serializable {
     @Column(name = "id", nullable = false)
-    String id = UUID.randomUUID().toString();
+    private final UUID id = UUID.randomUUID();
 
     @Column(name = "user_id")
     Long user;
