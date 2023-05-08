@@ -2,38 +2,48 @@ package com.newspaper.backend.user;
 
 import com.newspaper.backend.Status;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.Optional;
 
-@Service
 @AllArgsConstructor
+@Service
 public class UserService implements UserDetailsService {
     private final UserRepository userRepository;
-    private  final BCryptPasswordEncoder bCryptPasswordEncoder;
-    private final static String USER_NOT_FOUND= "user with email %s not found";
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
+    private final static String USER_NOT_FOUND = "user with email %s not found";
 
-    public Status deleteUser(Long id){
-        userRepository.deleteById(id);
+    @Transactional
+    public Status deleteUser(Long id, String email) {
+        if (id != null)
+            userRepository.deleteById(id);
+        else if (email != null)
+            userRepository.deleteByEmail(email);
+
         return Status.SUCCESS;
     }
+
     @Override
     public UserEntity loadUserByUsername(String email) throws UsernameNotFoundException {
         return userRepository.findByEmail(email)
-                .orElseThrow(()-> new UsernameNotFoundException(String.format(USER_NOT_FOUND, email)));
+                .orElseThrow(() -> new UsernameNotFoundException(String.format(USER_NOT_FOUND, email)));
     }
-    public Boolean loginCheck(String email,String password){
-        Optional<UserEntity> user=userRepository.findByEmail(email);
-        if(user.isPresent()){
-            String encodedPassword=user.get().getPassword();
+
+    public Boolean loginCheck(String email, String password) {
+        Optional<UserEntity> user = userRepository.findByEmail(email);
+        if (user.isPresent()) {
+            String encodedPassword = user.get().getPassword();
             return encodedPassword.equals(bCryptPasswordEncoder.encode(password));
         }
         return false;
     }
-    public Status signUpUser(UserEntity user){
+
+    public Status signUpUser(UserEntity user) {
         if (userRepository.findByEmail(user.getEmail()).isPresent()) {
             return Status.ERROR;
         }

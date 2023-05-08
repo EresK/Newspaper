@@ -16,9 +16,10 @@ import java.util.Optional;
 @RequestMapping("/publications")
 public class PublicationController {
     private final PublicationService publicationService;
+
     @PostMapping("/addAdvert/{id}")
-    public void setPublicationForAdvert(Authentication auth, @RequestBody Long advertId,@PathVariable Long id) {
-        publicationService.setAdvert(auth,advertId,id);
+    public void setPublicationForAdvert(Authentication auth, @RequestBody Long advertId, @PathVariable Long id) {
+        publicationService.setAdvert(auth, advertId, id);
     }
 
     @PostMapping
@@ -32,7 +33,7 @@ public class PublicationController {
     }
 
     @GetMapping("/all")
-    public Iterable<PublicationEntity> getAllPublications(@PageableDefault(sort={"id"},direction = Sort.Direction.DESC) Pageable pageable) {
+    public Iterable<PublicationEntity> getAllPublications(@PageableDefault(sort = {"id"}, direction = Sort.Direction.DESC) Pageable pageable) {
         return publicationService.getAllPublications(pageable);
     }
 
