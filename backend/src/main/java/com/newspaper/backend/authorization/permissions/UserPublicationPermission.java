@@ -1,8 +1,8 @@
-package com.newspaper.backend.permissions;
+package com.newspaper.backend.authorization.permissions;
 
 import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.newspaper.backend.permissions.role.UserRole;
+import com.newspaper.backend.authorization.role.UserRole;
 import com.newspaper.backend.publication.PublicationEntity;
 import com.newspaper.backend.user.UserEntity;
 import lombok.Getter;

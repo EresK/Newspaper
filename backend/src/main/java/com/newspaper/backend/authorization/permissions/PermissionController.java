@@ -1,6 +1,6 @@
-package com.newspaper.backend.permissions;
+package com.newspaper.backend.authorization.permissions;
 
-import com.newspaper.backend.permissions.role.DefaultRole;
+import com.newspaper.backend.authorization.role.DefaultRole;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 

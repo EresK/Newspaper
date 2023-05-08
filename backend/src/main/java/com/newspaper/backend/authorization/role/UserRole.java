@@ -1,7 +1,7 @@
-package com.newspaper.backend.permissions.role;
+package com.newspaper.backend.authorization.role;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.newspaper.backend.permissions.UserPublicationPermission;
+import com.newspaper.backend.authorization.permissions.UserPublicationPermission;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 

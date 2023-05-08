@@ -1,4 +1,4 @@
-package com.newspaper.backend.user.privilege;
+package com.newspaper.backend.authorization.privilege;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.newspaper.backend.user.UserEntity;

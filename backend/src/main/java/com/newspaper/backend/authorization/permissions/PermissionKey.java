@@ -1,4 +1,4 @@
-package com.newspaper.backend.permissions;
+package com.newspaper.backend.authorization.permissions;
 
 import lombok.NoArgsConstructor;
 

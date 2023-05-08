@@ -1,7 +1,7 @@
-package com.newspaper.backend.permissions;
+package com.newspaper.backend.authorization.permissions;
 
-import com.newspaper.backend.permissions.role.DefaultRole;
-import com.newspaper.backend.permissions.role.UserRoleRepository;
+import com.newspaper.backend.authorization.role.DefaultRole;
+import com.newspaper.backend.authorization.role.UserRoleRepository;
 import com.newspaper.backend.publication.PublicationRepository;
 import com.newspaper.backend.user.UserRepository;
 import lombok.AllArgsConstructor;

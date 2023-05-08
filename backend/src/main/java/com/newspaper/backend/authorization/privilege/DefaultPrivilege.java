@@ -1,4 +1,4 @@
-package com.newspaper.backend.user.privilege;
+package com.newspaper.backend.authorization.privilege;
 
 public enum DefaultPrivilege {
     ADMIN("ADMIN"),

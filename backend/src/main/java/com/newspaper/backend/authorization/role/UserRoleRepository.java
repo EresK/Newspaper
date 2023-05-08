@@ -1,4 +1,4 @@
-package com.newspaper.backend.permissions.role;
+package com.newspaper.backend.authorization.role;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
