@@ -10,6 +10,9 @@ import com.newspaper.backend.publication.PublicationEntity;
 import com.newspaper.backend.publication.PublicationRepository;
 import com.newspaper.backend.user.UserEntity;
 import com.newspaper.backend.user.UserRepository;
+import com.newspaper.backend.user.privilege.DefaultPrivilege;
+import com.newspaper.backend.user.privilege.Privilege;
+import com.newspaper.backend.user.privilege.PrivilegeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -18,7 +21,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import javax.transaction.Transactional;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @SpringBootApplication
 public class BackendApplication implements CommandLineRunner {
@@ -38,6 +43,9 @@ public class BackendApplication implements CommandLineRunner {
 
     @Autowired
     private UserRoleRepository userRoleRepository;
+
+    @Autowired
+    private PrivilegeRepository privilegeRepository;
 
     // Наполнение базы данных
     @Override
@@ -121,19 +129,29 @@ public class BackendApplication implements CommandLineRunner {
         publication7.setDescription(description7);
         publication8.setDescription(description8);
 
-        publication1.setPublicationOwner(user1);
-        publication2.setPublicationOwner(user2);
-        publication3.setPublicationOwner(user2);
-        publication4.setPublicationOwner(user2);
-        publication5.setPublicationOwner(user2);
-        publication6.setPublicationOwner(user2);
-        publication7.setPublicationOwner(user2);
-        publication8.setPublicationOwner(user2);
+        publication1.setOwner(user1);
+        publication2.setOwner(user2);
+        publication3.setOwner(user2);
+        publication4.setOwner(user2);
+        publication5.setOwner(user2);
+        publication6.setOwner(user2);
+        publication7.setOwner(user2);
+        publication8.setOwner(user2);
+
+        Privilege adminPrivilege = new Privilege(DefaultPrivilege.ADMIN.toString());
+        Privilege userPrivilege = new Privilege(DefaultPrivilege.USER.toString());
+
+        privilegeRepository.saveAll(Set.of(adminPrivilege, userPrivilege));
 
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
         user1.setPassword(encoder.encode(user1.getPassword()));
         user2.setPassword(encoder.encode(user2.getPassword()));
+
+        Set<Privilege> privilegeSet = new HashSet<>();
+        privilegeSet.add(adminPrivilege);
+
+        user1.setPrivileges(privilegeSet);
 
         userRepository.saveAll(List.of(user1, user2));
 

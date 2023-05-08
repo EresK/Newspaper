@@ -26,9 +26,9 @@ public class PublicationService {
     public void setAdvert(Authentication auth, Long advertId, Long publicationId) {
         if (auth.isAuthenticated()) {
             Optional<UserEntity> user = userRepository.findByEmail(auth.getName());
-            Optional<AdvertEntity> advert= advertRepository.findById(advertId);
+            Optional<AdvertEntity> advert = advertRepository.findById(advertId);
             Optional<PublicationEntity> publication = publicationRepository.findById(publicationId);
-            if (isOwnerOfPublication(auth,publicationId)) {
+            if (isOwnerOfPublication(auth, publicationId)) {
                 publication.get().setAdvert(advert.get());
                 publicationRepository.save(publication.get());
 
@@ -44,7 +44,7 @@ public class PublicationService {
             if (user.isPresent()) {
                 PublicationEntity newPublication = new PublicationEntity();
 
-                newPublication.setPublicationOwner(user.get());
+                newPublication.setOwner(user.get());
                 newPublication.setDescription(publication.getDescription());
 
                 publicationRepository.save(newPublication);
@@ -75,7 +75,7 @@ public class PublicationService {
 
             if (user.isPresent() &&
                     newPublication.isPresent() &&
-                    Objects.equals(newPublication.get().getPublicationOwner().getId(), user.get().getId())) {
+                    Objects.equals(newPublication.get().getOwner().getId(), user.get().getId())) {
 
                 newPublication.get().setDescription(publication.getDescription());
                 publicationRepository.save(newPublication.get());
@@ -103,7 +103,7 @@ public class PublicationService {
 
             return user.isPresent() &&
                     publication.isPresent() &&
-                    Objects.equals(user.get().getId(), publication.get().getPublicationOwner().getId());
+                    Objects.equals(user.get().getId(), publication.get().getOwner().getId());
         }
         return false;
     }

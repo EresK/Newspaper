@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.newspaper.backend.advert.AdvertEntity;
 import com.newspaper.backend.permissions.UserPublicationPermission;
 import com.newspaper.backend.publication.PublicationEntity;
+import com.newspaper.backend.user.privilege.Privilege;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
@@ -37,19 +38,25 @@ public class UserEntity implements UserDetails {
     private String password;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "publicationOwner",
+    @ManyToMany
+    @JoinTable(name = "user_privilege",
+            joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "privilege_id", referencedColumnName = "id"))
+    private Set<Privilege> privileges;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "user")
+    private Set<UserPublicationPermission> permissions;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "owner",
             cascade = CascadeType.ALL)
-    private List<PublicationEntity> publicationList;
+    private List<PublicationEntity> publications;
 
     @JsonIgnore
     @OneToMany(mappedBy = "advertiser",
             cascade = CascadeType.ALL)
-    private List<AdvertEntity> advertList;
-
-    @JsonIgnore
-    @OneToMany(mappedBy = "user")
-    Set<UserPublicationPermission> permissions;
-
+    private List<AdvertEntity> adverts;
 
     public UserEntity(String email,
                       String firstName,

@@ -25,8 +25,8 @@ public class PublicationEntity {
 
     @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE,
             CascadeType.PERSIST, CascadeType.REFRESH})
-    @JoinColumn(name = "publication_owner_id", nullable = false)
-    private UserEntity publicationOwner;
+    @JoinColumn(name = "owner_id", nullable = false)
+    private UserEntity owner;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "description_id")

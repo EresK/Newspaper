@@ -30,7 +30,7 @@ public class DescriptionService {
 
             DescriptionEntity description = publication.get().getDescription();
 
-            if (Objects.equals(user.get().getId(), publication.get().getPublicationOwner().getId()) ||
+            if (Objects.equals(user.get().getId(), publication.get().getOwner().getId()) ||
                     !publication.get().getIsHide()) {
                 return Optional.of(description);
             }
@@ -49,7 +49,7 @@ public class DescriptionService {
 
             DescriptionEntity descriptionEntity = publication.get().getDescription();
 
-            if (Objects.equals(user.get().getId(), publication.get().getPublicationOwner().getId())) {
+            if (Objects.equals(user.get().getId(), publication.get().getOwner().getId())) {
                 descriptionEntity.setTitle(description.getTitle());
                 descriptionEntity.setDescription(description.getDescription());
                 descriptionEntity.setAuthor(description.getAuthor());
