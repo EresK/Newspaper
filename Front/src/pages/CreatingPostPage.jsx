@@ -2,14 +2,17 @@ import React from 'react';
 import MyInput from "../components/UI/input/MyInput";
 import "../styles/CreatingPostPage.css"
 import MyButton from "../components/UI/button/MyButton";
+import {useNavigate} from "react-router-dom";
 
 const CreatingPostPage = () => {
+
+    const router = useNavigate()
 
     return (
         <div className='outer'>
             <div className='inner'>
                 <h1>Create new post</h1>
-                <form>
+                <div>
                     <p>Title</p>
                     <label>
                         <MyInput type="text" placeholder="Publication title"/>
@@ -28,8 +31,8 @@ const CreatingPostPage = () => {
                     </label>
                     {/*<p>Add image</p>*/}
                     {/*<img src="../resources/placeholder.jpeg" width={300} height={300}/>*/}
-                    <MyButton style = {{marginTop: 30}}>Save</MyButton>
-                </form>
+                    <MyButton onClick={() => router("/")} style = {{marginTop: 30}}>Save</MyButton>
+                </div>
             </div>
         </div>
     );

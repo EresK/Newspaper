@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import Post from "./Post";
+import CardForPost from "./CardForPost";
 // import "../styles/ListItem.css"
 
 const PostsList = ({posts, title}) => {
@@ -9,7 +9,7 @@ const PostsList = ({posts, title}) => {
             <h1 style={{textAlign: 'left'}}>{title}</h1>
             <div className="postList">
                 {posts.map((post, index) =>
-                    <Post number={index + 1} post={post} key={post.id}/>)}
+                    <CardForPost number={index + 1} post={post} key={post.id}/>)}
             </div>
         </div>
     );

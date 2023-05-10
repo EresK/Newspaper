@@ -43,26 +43,21 @@ const StartWindow = () => {
     }
 
     for (let i = 0; i < count; i++) {
-        pages.push(i+1)
+        pages.push(i)
     }
 
     return (
         <div>
-            <div className="search" style={{marginLeft: 15}}>
-                <Search
-                    filter={filter}
-                    setFilter={setFilter}
-                />
-            </div>
 
-            <h1 style={{marginLeft: 15}}>The most popular posts</h1>
+
+            <h1 className="header">The most popular posts</h1>
             <PostsList posts={sortedAndSearchedPosts}/>
             {/*<div>*/}
             {/*    <button onClick={fetchPosts}>jgjg</button>*/}
             {/*</div>*/}
             <div className="paginate">
                 {pages.map(p =>
-                    <MyButton key={p} onClick={() => setPage(p-1)}>{p}</MyButton>
+                    <span className={page === p ? 'pagBtn currentBtn' : 'pagBtn'} key={p} onClick={() => setPage(p)}>{p+1}</span>
                 )}
 
             </div>

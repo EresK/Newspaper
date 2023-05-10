@@ -24,16 +24,16 @@ const Login = () => {
 
     const handleSubmit = async (e) => {
          e.preventDefault();
-        // const response = await axios.post("http://localhost:8080/login",
-        //     "username=" + user + "&password=" + pwd,
-        //     //{
-        //         // headers: {'Content-Type': 'application/json'}
-        //         // withCredentials: true
-        //    // }
-        //
-        // );
+        const response = await axios.post("http://localhost:8080/login",
+            "username=" + user + "&password=" + pwd,
+            {
+                headers: {'Content-Type': 'application/json'},
+                withCredentials: true
+           }
+
+        );
         console.log("username=" + user + "&password=" + pwd)
-        setIsAuth(true)
+        // setIsAuth(true)
         console.log(isAuth)
 
         // setIsAuth(true);

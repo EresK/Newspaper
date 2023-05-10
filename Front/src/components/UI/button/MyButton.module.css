@@ -1,8 +1,15 @@
 .mBtn{
     padding: 5px 15px;
+    margin-left: 0.5rem;
     color: teal;
     font-size: 14px;
     background: transparent;
     border: 1px solid teal;
     cursor: pointer;
+    border-radius: 8px;
+
+}
+.mBtn:hover{
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.1);
+    background-color: #555;
 }
