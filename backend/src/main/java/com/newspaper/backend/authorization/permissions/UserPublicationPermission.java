@@ -50,8 +50,8 @@ public class UserPublicationPermission {
     }
 
     @JsonGetter("user")
-    public Long getUserId() {
-        return user.getId();
+    public UserEntity getUser() {
+        return user;
     }
 
     @JsonGetter("publication")
