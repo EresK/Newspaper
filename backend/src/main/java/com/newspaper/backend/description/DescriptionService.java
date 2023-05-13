@@ -1,15 +1,15 @@
 package com.newspaper.backend.description;
 
-import com.newspaper.backend.publication.PublicationEntity;
+import com.newspaper.backend.authorization.AuthorizationComponent;
 import com.newspaper.backend.publication.PublicationRepository;
 import com.newspaper.backend.user.UserEntity;
 import com.newspaper.backend.user.UserRepository;
 import lombok.AllArgsConstructor;
-import org.springframework.security.core.Authentication;
+import lombok.NonNull;
+import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.Objects;
 import java.util.Optional;
 
 @AllArgsConstructor
@@ -20,42 +20,33 @@ public class DescriptionService {
     private final PublicationRepository publicationRepository;
 
     @Transactional
-    public Optional<DescriptionEntity> getDescription(Authentication auth, Long publicationId) {
-        if (auth.isAuthenticated()) {
-            Optional<UserEntity> user = userRepository.findByEmail(auth.getName());
-            Optional<PublicationEntity> publication = publicationRepository.findById(publicationId);
+    public Optional<DescriptionEntity> getDescription(@Nullable UserEntity principal, Long publicationId) {
+        var publication = publicationRepository.findById(publicationId);
 
-            if (user.isEmpty() || publication.isEmpty() || publication.get().getDescription() == null)
-                return Optional.empty();
+        if (publication.isPresent() && principal == null && !publication.get().getIsHide())
+            return Optional.of(publication.get().getDescription());
 
-            DescriptionEntity description = publication.get().getDescription();
-
-            if (Objects.equals(user.get().getId(), publication.get().getOwner().getId()) ||
-                    !publication.get().getIsHide()) {
-                return Optional.of(description);
-            }
+        if (publication.isPresent() &&
+                principal != null &&
+                AuthorizationComponent.isOwnerOf(principal, publication.get())) {
+            return Optional.of(publication.get().getDescription());
         }
 
         return Optional.empty();
     }
 
-    public void updateDescription(Authentication auth, Long publicationId, DescriptionEntity description) {
-        if (auth.isAuthenticated()) {
-            Optional<UserEntity> user = userRepository.findByEmail(auth.getName());
-            Optional<PublicationEntity> publication = publicationRepository.findById(publicationId);
+    @Transactional
+    public void updateDescription(@NonNull UserEntity principal, Long publicationId, DescriptionEntity descriptionNew) {
+        var user = userRepository.findById(principal.getId());
+        var publication = publicationRepository.findById(publicationId);
 
-            if (user.isEmpty() || publication.isEmpty() || publication.get().getDescription() == null)
-                return;
+        if (user.isPresent() &&
+                publication.isPresent() &&
+                AuthorizationComponent.isOwnerOf(user.get(), publication.get())) {
+            descriptionRepository.delete(publication.get().getDescription());
 
-            DescriptionEntity descriptionEntity = publication.get().getDescription();
-
-            if (Objects.equals(user.get().getId(), publication.get().getOwner().getId())) {
-                descriptionEntity.setTitle(description.getTitle());
-                descriptionEntity.setDescription(description.getDescription());
-                descriptionEntity.setAuthor(description.getAuthor());
-                descriptionEntity.setCoverImageLink(description.getCoverImageLink());
-                descriptionRepository.save(descriptionEntity);
-            }
+            descriptionNew.setPublication(publication.get());
+            descriptionRepository.save(descriptionNew);
         }
     }
 }

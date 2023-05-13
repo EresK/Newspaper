@@ -1,10 +1,10 @@
 package com.newspaper.backend.advert;
 
-import com.newspaper.backend.publication.PublicationEntity;
-import com.newspaper.backend.publication.PublicationRepository;
+import com.newspaper.backend.authorization.AuthorizationComponent;
 import com.newspaper.backend.user.UserEntity;
 import com.newspaper.backend.user.UserRepository;
 import lombok.AllArgsConstructor;
+import lombok.NonNull;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
@@ -17,38 +17,22 @@ import java.util.Optional;
 public class AdvertService {
     private final AdvertRepository advertRepository;
     private final UserRepository userRepository;
-    private final PublicationRepository publicationRepository;
 
     @Transactional
-    public void createAdvert(Authentication auth, AdvertEntity advert) {
-        if (auth.isAuthenticated()) {
-            Optional<UserEntity> user = userRepository.findByEmail(auth.getName());
+    public void createAdvert(@NonNull UserEntity principal, AdvertEntity advert) {
+        var user = userRepository.findById(principal.getId());
 
-            if (user.isPresent()) {
-                AdvertEntity newAdvert = new AdvertEntity();
-                newAdvert.setAdvertiser(user.get());
-                advertRepository.save(newAdvert);
-            }
+        if (user.isPresent()) {
+            advert.setAdvertiser(user.get());
+            advertRepository.save(advert);
         }
     }
 
     @Transactional
-    public void deleteAdvert(Authentication auth, Long id) {
-        if (isOwnerOfAdvert(auth, id))
-            publicationRepository.deleteById(id);
+    public void deleteAdvert(@NonNull UserEntity principal, Long id) {
+        var advert = advertRepository.findById(id);
+
+        if (advert.isPresent() && AuthorizationComponent.isOwnerOf(principal, advert.get()))
+            advertRepository.deleteById(id);
     }
-
-    @Transactional
-    private boolean isOwnerOfAdvert(Authentication auth, Long id) {
-        if (auth.isAuthenticated()) {
-            Optional<UserEntity> user = userRepository.findByEmail(auth.getName());
-            Optional<AdvertEntity> advert = advertRepository.findById(id);
-
-            return user.isPresent() &&
-                    advert.isPresent() &&
-                    Objects.equals(user.get().getId(), advert.get().getAdvertiser().getId());
-        }
-        return false;
-    }
-
 }

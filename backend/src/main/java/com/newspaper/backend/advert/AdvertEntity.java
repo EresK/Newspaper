@@ -18,6 +18,7 @@ public class AdvertEntity {
             sequenceName = "advert_sequence",
             allocationSize = 1
     )
+
     @Id
     @GeneratedValue(
             strategy = GenerationType.SEQUENCE,
@@ -25,11 +26,13 @@ public class AdvertEntity {
     )
     private Long id;
     private String title;
+
     @JsonIgnore
     @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE,
             CascadeType.PERSIST, CascadeType.REFRESH})
     @JoinColumn(name = "advertiser", nullable = false)
     private UserEntity advertiser;
+
     @JsonIgnore
     @OneToOne(mappedBy = "advert")
     private PublicationEntity publication;
@@ -37,16 +40,5 @@ public class AdvertEntity {
     public AdvertEntity(Long id, String title) {
         this.id = id;
         this.title = title;
-    }
-
-    public void setAdvertiser(UserEntity advertiser) {
-        this.advertiser = advertiser;
-    }
-
-    public void setPublication(PublicationEntity publication){
-        this.publication=publication;
-    }
-    public UserEntity getAdvertiser(){
-        return this.advertiser;
     }
 }

@@ -1,7 +1,8 @@
 package com.newspaper.backend.description;
 
+import com.newspaper.backend.user.UserEntity;
 import lombok.AllArgsConstructor;
-import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,15 +14,22 @@ import java.util.Optional;
 public class DescriptionController {
     private final DescriptionService descriptionService;
 
-    @GetMapping("/{publicationId}")
-    public Optional<DescriptionEntity> getDescription(Authentication auth, @PathVariable Long publicationId) {
-        return descriptionService.getDescription(auth, publicationId);
+    @GetMapping
+    public Optional<DescriptionEntity> getDescription(Authentication auth,
+                                                      @RequestParam(name = "id") Long publicationId) {
+        var principal = (UserEntity) auth.getPrincipal();
+
+        return descriptionService.getDescription(principal, publicationId);
     }
 
-    @PutMapping("/{publicationId}")
+    @PutMapping
+    @PreAuthorize("isAuthenticated()")
     public void putDescription(Authentication auth,
-                                                  @PathVariable Long publicationId,
-                                                  @RequestBody DescriptionEntity description) {
-        descriptionService.updateDescription(auth, publicationId, description);
+                               @RequestParam(name = "id") Long publicationId,
+                               @RequestBody DescriptionEntity description) {
+        var principal = (UserEntity) auth.getPrincipal();
+
+        if (principal != null)
+            descriptionService.updateDescription(principal, publicationId, description);
     }
 }
