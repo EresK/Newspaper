@@ -1,17 +1,16 @@
 package com.newspaper.backend.publication;
 
-import com.newspaper.backend.Status;
-import com.newspaper.backend.advert.AdvertEntity;
 import com.newspaper.backend.advert.AdvertRepository;
+import com.newspaper.backend.authorization.AuthorizationComponent;
 import com.newspaper.backend.user.UserEntity;
 import com.newspaper.backend.user.UserRepository;
 import lombok.AllArgsConstructor;
+import lombok.NonNull;
 import org.springframework.data.domain.Pageable;
-import org.springframework.security.core.Authentication;
+import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.Objects;
 import java.util.Optional;
 
 @AllArgsConstructor
@@ -21,90 +20,83 @@ public class PublicationService {
     private final UserRepository userRepository;
     private final AdvertRepository advertRepository;
 
-    // TODO: get & update content methods
     @Transactional
-    public void setAdvert(Authentication auth, Long advertId, Long publicationId) {
-        if (auth.isAuthenticated()) {
-            Optional<UserEntity> user = userRepository.findByEmail(auth.getName());
-            Optional<AdvertEntity> advert = advertRepository.findById(advertId);
-            Optional<PublicationEntity> publication = publicationRepository.findById(publicationId);
-            if (isOwnerOfPublication(auth, publicationId)) {
-                publication.get().setAdvert(advert.get());
-                publicationRepository.save(publication.get());
+    public void createPublication(@NonNull UserEntity principal, PublicationEntity publication) {
+        var user = userRepository.findById(principal.getId());
 
-            }
+        if (user.isPresent()) {
+            publication.setOwner(user.get());
+            publicationRepository.save(publication);
         }
-    }
-
-    @Transactional
-    public Status createPublication(Authentication auth, PublicationEntity publication) {
-        if (auth.isAuthenticated()) {
-            Optional<UserEntity> user = userRepository.findByEmail(auth.getName());
-
-            if (user.isPresent()) {
-                PublicationEntity newPublication = new PublicationEntity();
-
-                newPublication.setOwner(user.get());
-                newPublication.setDescription(publication.getDescription());
-
-                publicationRepository.save(newPublication);
-                return Status.SUCCESS;
-            }
-            return Status.NO_AUTH;
-        }
-        return Status.NO_AUTH;
-    }
-
-    public Iterable<PublicationEntity> getUserPublications(Authentication auth) {
-        return auth.isAuthenticated() ? publicationRepository.findUserPublications() : null;
     }
 
     public Iterable<PublicationEntity> getAllPublications(Pageable pageable) {
         return publicationRepository.findAll(pageable).getContent();
     }
 
-    public Optional<PublicationEntity> getPublication(Authentication auth, Long id) {
-        return auth.isAuthenticated() ? publicationRepository.findPublication(id) : Optional.empty();
+    @Transactional
+    public Optional<PublicationEntity> getSpecifiedPublication(@Nullable UserEntity principal, Long id) {
+        var publication = publicationRepository.findById(id);
+
+        if (publication.isPresent() && !publication.get().getIsHide())
+            return publication;
+
+        if (publication.isPresent() &&
+                principal != null &&
+                AuthorizationComponent.isOwnerOf(principal, publication.get()))
+            return publication;
+
+        return Optional.empty();
     }
 
+    public Iterable<PublicationEntity> getAllUserPublications(@Nullable UserEntity principal, Long id) {
+        var user = userRepository.findById(id);
+
+        if (user.isPresent() &&
+                principal != null &&
+                AuthorizationComponent.isSameUser(principal, id))
+            return user.get().getPublications();
+
+        if (user.isPresent())
+            return user.get().getPublications().stream().filter(p -> !p.getIsHide()).toList();
+
+        return null;
+    }
+
+    // TODO: get & update content methods
     @Transactional
-    public Status updatePublication(Authentication auth, Long id, PublicationEntity publication) {
-        if (auth.isAuthenticated()) {
-            Optional<UserEntity> user = userRepository.findByEmail(auth.getName());
-            Optional<PublicationEntity> newPublication = publicationRepository.findById(id);
+    public void setAdvert(@NonNull UserEntity principal, Long advertId, Long publicationId) {
+        var advert = advertRepository.findById(advertId);
+        var publication = publicationRepository.findById(publicationId);
 
-            if (user.isPresent() &&
-                    newPublication.isPresent() &&
-                    Objects.equals(newPublication.get().getOwner().getId(), user.get().getId())) {
-
-                newPublication.get().setDescription(publication.getDescription());
-                publicationRepository.save(newPublication.get());
-                return Status.SUCCESS;
-            }
-            return Status.DENIED;
+        if (advert.isPresent() &&
+                publication.isPresent() &&
+                AuthorizationComponent.isOwnerOf(principal, publication.get())) {
+            advert.get().setPublication(publication.get());
+            advertRepository.save(advert.get());
         }
-        return Status.NO_AUTH;
     }
 
     @Transactional
-    public Status deletePublication(Authentication auth, Long id) {
-        if (isOwnerOfPublication(auth, id)) {
+    public void updatePublication(@NonNull UserEntity principal, Long id, PublicationEntity publicationNew) {
+        var user = userRepository.findById(principal.getId());
+        var publication = publicationRepository.findById(id);
+
+        if (user.isPresent() &&
+                publication.isPresent() &&
+                AuthorizationComponent.isOwnerOf(user.get(), publication.get())) {
+            publication.get().setDescription(publicationNew.getDescription());
+            publicationRepository.save(publication.get());
+        }
+    }
+
+    @Transactional
+    public void deletePublication(@NonNull UserEntity principal, Long id) {
+        var publication = publicationRepository.findById(id);
+
+        if (publication.isPresent() &&
+                AuthorizationComponent.isOwnerOf(principal, publication.get())) {
             publicationRepository.deleteById(id);
-            return Status.SUCCESS;
         }
-        return Status.DENIED;
-    }
-
-    @Transactional
-    boolean isOwnerOfPublication(Authentication auth, Long id) {
-        if (auth.isAuthenticated()) {
-            Optional<UserEntity> user = userRepository.findByEmail(auth.getName());
-            Optional<PublicationEntity> publication = publicationRepository.findById(id);
-
-            return user.isPresent() &&
-                    publication.isPresent() &&
-                    Objects.equals(user.get().getId(), publication.get().getOwner().getId());
-        }
-        return false;
     }
 }
