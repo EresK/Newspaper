@@ -63,8 +63,8 @@ public class UserController {
     @DeleteMapping
     @PreAuthorize("isAuthenticated() and @Auth.isSameUser(principal, #email)")
     public ResponseEntity<Status> deleteUser(@RequestParam(name = "email", required = false)
-                                                 @Param("email")
-                                                 String email) {
+                                             @Param("email")
+                                             String email) {
         ResponseEntity<Status> response = ResponseEntity.notFound().build();
 
         if (email != null) {
