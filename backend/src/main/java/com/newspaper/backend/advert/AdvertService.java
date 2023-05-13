@@ -5,12 +5,9 @@ import com.newspaper.backend.user.UserEntity;
 import com.newspaper.backend.user.UserRepository;
 import lombok.AllArgsConstructor;
 import lombok.NonNull;
-import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.Objects;
-import java.util.Optional;
 
 @AllArgsConstructor
 @Service
