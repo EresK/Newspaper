@@ -2,17 +2,17 @@ package com.newspaper.backend;
 
 import com.newspaper.backend.advert.AdvertEntity;
 import com.newspaper.backend.advert.AdvertRepository;
-import com.newspaper.backend.description.DescriptionEntity;
+import com.newspaper.backend.authorization.privilege.DefaultPrivilege;
+import com.newspaper.backend.authorization.privilege.Privilege;
+import com.newspaper.backend.authorization.privilege.PrivilegeRepository;
 import com.newspaper.backend.authorization.role.DefaultRole;
 import com.newspaper.backend.authorization.role.UserRole;
 import com.newspaper.backend.authorization.role.UserRoleRepository;
+import com.newspaper.backend.description.DescriptionEntity;
 import com.newspaper.backend.publication.PublicationEntity;
 import com.newspaper.backend.publication.PublicationRepository;
 import com.newspaper.backend.user.UserEntity;
 import com.newspaper.backend.user.UserRepository;
-import com.newspaper.backend.authorization.privilege.DefaultPrivilege;
-import com.newspaper.backend.authorization.privilege.Privilege;
-import com.newspaper.backend.authorization.privilege.PrivilegeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -160,8 +160,8 @@ public class BackendApplication implements CommandLineRunner {
 
         publicationRepository.saveAll(List.of(publication1, publication2, publication3, publication4, publication5, publication6, publication7, publication8));
 
-        var roles = List.of(new UserRole(DefaultRole.ROLE_ADMIN), new UserRole(DefaultRole.ROLE_OWNER),
-                new UserRole(DefaultRole.ROLE_EDITOR), new UserRole(DefaultRole.ROLE_DESIGNER),
+        var roles = List.of(new UserRole(DefaultRole.ROLE_EDITOR),
+                new UserRole(DefaultRole.ROLE_DESIGNER),
                 new UserRole(DefaultRole.ROLE_ADVERTISER));
 
         userRoleRepository.saveAll(roles);
