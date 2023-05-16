@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import Post from "./components/Post";
+import CardForPost from "./components/CardForPost";
 import Login from "./components/Login";
 import Registration from "./components/Registration";
 import {BrowserRouter, Link, Route, Router, Routes} from 'react-router-dom';
@@ -45,21 +45,21 @@ function App() {
     //         items: [
     //             {
     //                 id: 1,
-    //                 title: "Post 1",
+    //                 title: "CardForPost 1",
     //                 img: "1_a.jpg",
     //                 authors: "Tom",
     //                 description: "New description",
     //             },
     //             {
     //                 id: 2,
-    //                 title: "Post 2",
+    //                 title: "CardForPost 2",
     //                 img: "2_a.jpg",
     //                 authors: "Peter",
     //                 description: "New description",
     //             },
     //             {
     //                 id: 3,
-    //                 title: "Post 3",
+    //                 title: "CardForPost 3",
     //                 img: "3_a.jpg",
     //                 authors: "Anna",
     //                 description: "New description",
@@ -76,7 +76,7 @@ function App() {
     //             {/*<Registration/>*/}
     //             {/*<ListForm add={addItem}/>*/}
     //             {/*<PostsList posts={someItem} title={"Most popular publications"}/>*/}
-    //             {/*<Post post = {{id: 1, title: 'test title', body: 'Content'}} />*/}
+    //             {/*<CardForPost post = {{id: 1, title: 'test title', body: 'Content'}} />*/}
     //             <div>
     //                 <div>
     //                     <h1>Описание статьи</h1>
