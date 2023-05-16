@@ -1,9 +1,9 @@
 package com.newspaper.backend.publication;
 
-import com.newspaper.backend.description.DescriptionEntity;
 import lombok.AllArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,36 +14,36 @@ import java.util.Optional;
 @RequestMapping("/publications")
 public class PublicationController {
     private final PublicationService publicationService;
-
-    @PostMapping
-    public ResponseEntity<PublicationDto>
-    postPublication(Authentication auth, @RequestBody PublicationDto publicationDto) {
-        HttpStatus status = publicationService.createPublication(auth, publicationDto) ?
-                HttpStatus.CREATED : HttpStatus.NOT_MODIFIED;
-
-        return new ResponseEntity<>(publicationDto, status);
+    @PostMapping("/addAdvert/{id}")
+    public void setPublicationForAdvert(Authentication auth, @RequestBody Long advertId,@PathVariable Long id) {
+        publicationService.setAdvert(auth,advertId,id);
     }
 
-    @GetMapping
-    public Iterable<PublicationEntity> getPublications(Authentication auth) {
-        return publicationService.getPublications(auth);
+    @PostMapping
+    public void postPublication(Authentication auth, @RequestBody PublicationEntity publication) {
+        publicationService.createPublication(auth, publication);
+    }
+
+    @GetMapping()
+    public Iterable<PublicationEntity> getUserPublications(Authentication auth) {
+        return publicationService.getUserPublications(auth);
+    }
+
+    @GetMapping("/all")
+    public Iterable<PublicationEntity> getAllPublications(@PageableDefault(sort={"id"},direction = Sort.Direction.DESC) Pageable pageable) {
+        return publicationService.getAllPublications(pageable);
     }
 
     @GetMapping("/{id}")
-    public Optional<PublicationEntity> getPublicationById(Authentication auth, @PathVariable Long id) {
-        return publicationService.getPublicationById(auth, id);
-    }
-
-    @GetMapping("/{id}/description")
-    public Optional<DescriptionEntity> getDescription(Authentication auth, @PathVariable Long id) {
-        return publicationService.getDescription(auth, id);
+    public Optional<PublicationEntity> getPublication(Authentication auth, @PathVariable Long id) {
+        return publicationService.getPublication(auth, id);
     }
 
     @PutMapping("{id}")
-    public void putPublicationById(Authentication auth,
-                                   @PathVariable Long id,
-                                   @RequestBody PublicationDto publicationDto) {
-        publicationService.updatePublication(auth, id, publicationDto);
+    public void putPublication(Authentication auth,
+                               @PathVariable Long id,
+                               @RequestBody PublicationEntity publication) {
+        publicationService.updatePublication(auth, id, publication);
     }
 
     @DeleteMapping("/{id}")

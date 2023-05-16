@@ -20,7 +20,14 @@ public class UserService implements UserDetailsService {
         return userRepository.findByEmail(email)
                 .orElseThrow(()-> new UsernameNotFoundException(String.format(USER_NOT_FOUND, email)));
     }
-
+    public Boolean loginCheck(String email,String password){
+        Optional<UserEntity> user=userRepository.findByEmail(email);
+        if(user.isPresent()){
+            String encodedPassword=user.get().getPassword();
+            return encodedPassword.equals(bCryptPasswordEncoder.encode(password));
+        }
+        return false;
+    }
     public void signUpUser(UserEntity user){
         if (userRepository.findByEmail(user.getEmail()).isPresent()) {
             throw new IllegalStateException("email already taken");
@@ -31,7 +38,7 @@ public class UserService implements UserDetailsService {
         userRepository.save(user);
     }
 
-    public Boolean updateUserInformation(Long id, UserDto user) {
+    public Boolean updateUserInformation(Long id, UserEntity user) {
         Optional<UserEntity> userEntity = userRepository.findById(id);
 
         userEntity.ifPresent(entity -> {
