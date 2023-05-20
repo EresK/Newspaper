@@ -22,13 +22,19 @@ public class SecurityConfiguration implements WebMvcConfigurer {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http.csrf().disable()
+        http.cors().and().csrf().disable();
+
+        http
                 .authorizeRequests()
-                .antMatchers("/registration").permitAll()
-                .antMatchers("/publications").permitAll()
-                .antMatchers("/users").permitAll()
+                .antMatchers("/registration/**").permitAll()
+                .antMatchers("/publications/**").permitAll()
+                .antMatchers("/users/**").permitAll()
+                .anyRequest().authenticated()
                 .and()
-                .httpBasic().and().authenticationProvider(daoAuthenticationProvider());
+                .formLogin().permitAll()
+                .and()
+                .httpBasic();
+
         return http.build();
     }
 
