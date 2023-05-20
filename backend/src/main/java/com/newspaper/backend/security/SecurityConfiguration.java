@@ -26,9 +26,9 @@ public class SecurityConfiguration implements WebMvcConfigurer {
 
         http
                 .authorizeRequests()
-                .antMatchers("/registration").permitAll()
-                .antMatchers("/publications").permitAll()
-                .antMatchers("/users").permitAll()
+                .antMatchers("/registration/**").permitAll()
+                .antMatchers("/publications/**").permitAll()
+                .antMatchers("/users/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .formLogin().permitAll()
