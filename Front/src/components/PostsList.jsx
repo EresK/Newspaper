@@ -6,7 +6,7 @@ const PostsList = ({posts, title}) => {
 
     return (
         <div style={{marginLeft: 15}}>
-            <h1 style={{textAlign: 'left'}}>{title}</h1>
+            <h1>{title}</h1>
             <div className="postList">
                 {posts.map((post, index) =>
                     <CardForPost number={index + 1} post={post} key={post.id}/>)}

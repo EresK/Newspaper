@@ -53,81 +53,92 @@ const Registration = () => {
                  headers: {'Content-Type': 'application/json'},
                  // withCredentials: true
              }
-        );
-        // console.log(response.data);
-        // console.log(response);
-        // console.log(JSON.stringify({email: user, firstName: userFName, lastName: userSName, password: pwd}))
+        ).then(console.log("Success"));
+
+
+        console.log(response.data);
+        console.log(response);
+        console.log(JSON.stringify({email: user, firstName: userFName, lastName: userSName, password: pwd}))
         // console.log(JSON.stringify(response));
     }
 
     return (
         <div className="signUp-wrapper">
-            <h1 style={{color: "teal"}}>Please Sign Up</h1>
+            <h1>Please Sign Up</h1>
             <form onSubmit={handleSubmit}>
 
-                <p style={{marginTop: 15}}>Login</p>
-                <label htmlFor="username">
-                    <MyInput
-                        type="text"
-                        placeholder="Login(email)"
-                        id="username"
-                        ref={userRef}
-                        autoComplete="off"
-                        onChange={(e) => setUser(e.target.value)}
-                        // value={user}
-                        required
-                        onFocus={() => setUserFocus(true)}
-                        onBlur={() => setUserFocus(false)}
+                <div className="my-input">
+                    <p>Login</p>
+                    <label htmlFor="username">
+                        <input
+                            type="text"
+                            placeholder="Login(email)"
+                            id="username"
+                            ref={userRef}
+                            autoComplete="off"
+                            onChange={(e) => setUser(e.target.value)}
+                            // value={user}
+                            required
+                            onFocus={() => setUserFocus(true)}
+                            onBlur={() => setUserFocus(false)}
 
-                    />
-                </label>
+                        />
+                    </label>
+                </div>
 
-                <p style={{marginTop: 10}}>First name</p>
-                <label htmlFor="name_1">
-                    <MyInput
-                        type="text"
-                        placeholder="First name"
-                        id="name_1"
-                        autoComplete="off"
-                        onChange={(e) => setUserFName(e.target.value)}
-                        // value={user}
-                        required
-                        onFocus={() => setUserFocus(true)}
-                        onBlur={() => setUserFocus(false)}
-                    />
-                </label>
+                <div className="my-input">
+                    <p>First name</p>
+                    <label htmlFor="name_1">
+                        <input
+                            type="text"
+                            placeholder="First name"
+                            id="name_1"
+                            autoComplete="off"
+                            onChange={(e) => setUserFName(e.target.value)}
+                            // value={user}
+                            required
+                            onFocus={() => setUserFocus(true)}
+                            onBlur={() => setUserFocus(false)}
+                        />
+                    </label>
+                </div>
 
-                <p style={{marginTop: 10}}>Second name</p>
-                <label htmlFor="name_2">
-                    <MyInput
-                        type="text"
-                        placeholder="Second name"
-                        id="name_2"
-                        autoComplete="off"
-                        onChange={(e) => setUserSName(e.target.value)}
-                        // value={user}
-                        required
-                        onFocus={() => setUserFocus(true)}
-                        onBlur={() => setUserFocus(false)}
-                    />
-                </label>
 
-                <p style={{marginTop: 10}}>Password</p>
-                <label htmlFor="password">
-                    <MyInput
-                        type="password"
-                        placeholder="Password"
-                        id="password"
-                        onChange={(e) => setPwd(e.target.value)}
-                        value={pwd}
-                        required
-                        onFocus={() => setPwdFocus(true)}
-                        onBlur={() => setPwdFocus(false)}
-                    />
-                </label>
+                <div className="my-input">
+                    <p>Second name</p>
+                    <label htmlFor="name_2">
+                        <input
+                            type="text"
+                            placeholder="Second name"
+                            id="name_2"
+                            autoComplete="off"
+                            onChange={(e) => setUserSName(e.target.value)}
+                            // value={user}
+                            required
+                            onFocus={() => setUserFocus(true)}
+                            onBlur={() => setUserFocus(false)}
+                        />
+                    </label>
+                </div>
 
-                <div>
-                    <MyButton style={{marginTop: 15}}>Sign Up</MyButton>
+                <div className="my-input">
+                    <p>Password</p>
+                    <label htmlFor="password">
+                        <input
+                            type="password"
+                            placeholder="Password"
+                            id="password"
+                            onChange={(e) => setPwd(e.target.value)}
+                            value={pwd}
+                            required
+                            onFocus={() => setPwdFocus(true)}
+                            onBlur={() => setPwdFocus(false)}
+                        />
+                    </label>
+                </div>
+
+                <div className = "reg-button">
+                    <button>Sign Up</button>
                 </div>
             </form>
         </div>

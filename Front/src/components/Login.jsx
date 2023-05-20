@@ -14,7 +14,7 @@ const Login = () => {
     const [errMsg, setErrMsg] = useState('');
     const [success, setSuccess] = useState(false);
 
-     useEffect(() => {
+    useEffect(() => {
         userRef.current.focus();
     }, [])
 
@@ -23,41 +23,44 @@ const Login = () => {
     }, [user, pwd])
 
     const handleSubmit = async (e) => {
-         e.preventDefault();
-        const response = await axios.post("http://localhost:8080/login",
-            "username=" + user + "&password=" + pwd,
-            {
-                headers: {'Content-Type': 'application/json'},
-                withCredentials: true
-           }
-
-        );
-        console.log("username=" + user + "&password=" + pwd)
-        // setIsAuth(true)
+        e.preventDefault();
+        // const response = await axios.post("http://localhost:8080/login",
+        //     JSON.stringify({user, pwd}),
+        //     {
+        //         headers: {'Content-Type': 'application/json'},
+        //         // withCredentials: true
+        //     }
+        // );
+        console.log(user, pwd)
+        console.log(JSON.stringify({userName:user, pwd}))
+        setIsAuth(true)
         console.log(isAuth)
 
-        // setIsAuth(true);
-        // localStorage.setItem('auth', 'true')
-        // console.log(isAuth)
 
     }
 
     return (
         <div className="login-wrapper">
-            <h1 style={{color: "teal"}}>Please Log In</h1>
+            <h1>Please Log In</h1>
             <form onSubmit={handleSubmit}>
-                <p style={{color: "black", marginTop: 15}}>Login</p>
-                <label htmlFor="username">
-                    <MyInput type="text" placeholder="Login" id="username" ref={userRef} onChange={(e)=>setUser(e.target.value)} required/>
-                </label>
+                <div className="my-input">
+                    <p>Login</p>
+                    <label htmlFor="username">
+                        <input type="text" placeholder="Login" id="username" ref={userRef}
+                               onChange={(e) => setUser(e.target.value)} value={user} required/>
+                    </label>
+                </div>
 
-                <p style={{color: "black", marginTop: 10}}>Password</p>
-                <label htmlFor="password">
-                    <MyInput type="password" placeholder="Password" id="password" onChange={(e)=>setPwd(e.target.value)} required/>
-                </label>
+                <div className="my-input">
+                    <p>Password</p>
+                    <label htmlFor="password">
+                        <input type="password" placeholder="Password" id="password"
+                               onChange={(e) => setPwd(e.target.value)} value={pwd} required/>
+                    </label>
+                </div>
 
                 <div className="login-button">
-                    <MyButton style={{marginTop: 15}}>Log in</MyButton>
+                    <button className="login-button">Log in</button>
                 </div>
             </form>
         </div>

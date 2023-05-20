@@ -15,8 +15,8 @@ import CreatingPostPage from "../pages/CreatingPostPage";
 import Posts from "../pages/Posts";
 
 const AppRouter = () => {
-    const isAuth = false;
-    // const {isAuth, setIsAuth} = useContext(AuthContext);
+    // const {isAuth, isLoading} = useContext(AuthContext);
+    const {isAuth, setIsAuth} = useContext(AuthContext);
     console.log(isAuth)
     return (
         <Routes>

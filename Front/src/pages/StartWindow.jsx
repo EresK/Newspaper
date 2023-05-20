@@ -39,7 +39,7 @@ const StartWindow = () => {
         setSomeItem(response.data)
         const amount = 7
         setCount(countPages(amount, size))
-        console.log(response.data.length)
+        // console.log(response.data.length)
     }
 
     for (let i = 0; i < count; i++) {
