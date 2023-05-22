@@ -24,17 +24,25 @@ const Login = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        // const response = await axios.post("http://localhost:8080/login",
-        //     JSON.stringify({user, pwd}),
-        //     {
-        //         headers: {'Content-Type': 'application/json'},
-        //         // withCredentials: true
-        //     }
-        // );
-        console.log(user, pwd)
-        console.log(JSON.stringify({userName:user, pwd}))
-        setIsAuth(true)
-        console.log(isAuth)
+        const formData = new FormData();
+        formData.append('username', user);
+        formData.append('password', pwd);
+        console.log(user, pwd);
+       // console.log(formData.entries());
+        for (const pair of formData.entries()) {
+            console.log(pair[0], pair[1]);
+        }
+        const response = await axios.post("http://localhost:8080/login",
+        formData,
+            // {
+            //     headers: {'Content-Type': 'multipart/form-data'},
+            //     // withCredentials: true
+            // }
+        );
+        console.log(response);
+        // console.log(JSON.stringify({userName:user, pwd}))
+        // setIsAuth(true)
+        // console.log(isAuth)
 
 
     }
