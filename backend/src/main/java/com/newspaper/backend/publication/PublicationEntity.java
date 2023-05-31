@@ -6,6 +6,7 @@ import com.newspaper.backend.advert.AdvertEntity;
 import com.newspaper.backend.authorization.permissions.UserPublicationPermission;
 import com.newspaper.backend.content.PublicationContent;
 import com.newspaper.backend.description.DescriptionEntity;
+import com.newspaper.backend.fullPublication.FullPublicationEntity;
 import com.newspaper.backend.user.UserEntity;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -22,6 +23,11 @@ public class PublicationEntity {
     @Id
     @GeneratedValue
     private Long id;
+
+    @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE,
+            CascadeType.PERSIST, CascadeType.REFRESH})
+    @JoinColumn(name="fullPublication_id")
+    private FullPublicationEntity fullPublication;
 
     @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE,
             CascadeType.PERSIST, CascadeType.REFRESH})
