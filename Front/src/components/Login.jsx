@@ -4,6 +4,7 @@ import MyInput from "./UI/input/MyInput";
 import MyButton from "./UI/button/MyButton";
 import axios from "axios";
 import {AuthContext} from "../context";
+import {Buffer} from 'buffer';
 
 const Login = () => {
     const userRef = useRef();
@@ -27,24 +28,22 @@ const Login = () => {
         const formData = new FormData();
         formData.append('username', user);
         formData.append('password', pwd);
-        console.log(user, pwd);
-       // console.log(formData.entries());
-        for (const pair of formData.entries()) {
-            console.log(pair[0], pair[1]);
-        }
-        const response = await axios.post("http://localhost:8080/login",
-        formData,
-            // {
-            //     headers: {'Content-Type': 'multipart/form-data'},
-            //     // withCredentials: true
-            // }
+    //     console.log(user, pwd);
+    //    // console.log(formData.entries());
+    //     for (const pair of formData.entries()) {
+    //         console.log(pair[0], pair[1]);
+    //     }
+
+        const encodedBase64Token = Buffer.from(`${user}:${pwd}`).toString('base64');
+        const authorization = `Basic ${encodedBase64Token}`;
+
+        const response = await axios.post("http://localhost:8080/login", JSON.stringify({email: user, password: pwd}),
+            {
+                headers: {"Content-Type": "application/json"}
+            }
         );
         console.log(response);
-        // console.log(JSON.stringify({userName:user, pwd}))
-        // setIsAuth(true)
-        // console.log(isAuth)
-
-
+        localStorage.setItem("auth", authorization)
     }
 
     return (

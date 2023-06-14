@@ -5,6 +5,9 @@ export default class Service {
         const response = await axios.get('http://localhost:8080/publications/all', {
             params: {
                 page: page, size: size
+            },
+            headers: {
+                Authorization: localStorage.getItem("auth")
             }
         })
         return response;
