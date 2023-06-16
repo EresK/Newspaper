@@ -16,14 +16,14 @@ function submitForm() {
   const nameField = document.getElementById('name');
   const nameFieldValue = nameField.value;
   axios
-    .post('/pages/', { name: nameFieldValue })
-    .then((response) => {
-      alert(`Page ${nameFieldValue} created successfully`);
-      window.location.href = '/';
-    })
-    .catch((err) => {
-      alert('Failed: Page not created');
-    });
+      .post('/pages/', { name: nameFieldValue })
+      .then((response) => {
+        alert(`Page ${nameFieldValue} created successfully`);
+        window.location.href = '/';
+      })
+      .catch((err) => {
+        alert('Failed: Page not created');
+      });
   clearForm();
   return true;
 }

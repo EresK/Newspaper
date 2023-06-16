@@ -1,23 +1,13 @@
 const editor = grapesjs.init({
   container: '#editor',
-  storageManager: false,
   blockManager: {
     appendTo: '#blocks',
   },
   storageManager: {
-    type: 'remote',
-    stepsBeforeSave: 3,
-    contentTypeJson: true,
-    storeComponents: true,
-    storeStyles: true,
-    storeHtml: true,
-    storeCss: true,
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    id: 'mycustom-',
-    urlStore: `/pages/${location.pathname.split('/')[2]}/content`,
-    urlLoad: `/pages/${location.pathname.split('/')[2]}/content`,
+    type: 'local', // Storage type. Available: local | remote
+    autosave: true, // Store data automatically
+    autoload: true, // Autoload stored data on init
+    stepsBeforeSave: 1,
   },
   styleManager: {
     appendTo: '#styles-container',
@@ -89,3 +79,18 @@ const editor = grapesjs.init({
     'gjs-blocks-basic': {},
   },
 });
+
+let components = null
+let styles = null
+
+function getResult() {
+  components = JSON.stringify(editor.getComponents());
+  styles = JSON.stringify(editor.getStyle());
+  console.log(components);
+  console.log(styles);
+}
+
+function setEditor() {
+  editor.setComponents(JSON.parse(components));
+  editor.setStyle(JSON.parse(styles));
+}
