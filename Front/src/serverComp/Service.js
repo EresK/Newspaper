@@ -14,7 +14,11 @@ export default class Service {
     }
 
     static async getById(id) {
-        const response = await axios.get('http://localhost:8080/publications/all/' + id)
+        const response = await axios.get('http://localhost:8080/publications/', {
+            params: {
+                id: id
+            }
+        })
         return response;
     }
 
