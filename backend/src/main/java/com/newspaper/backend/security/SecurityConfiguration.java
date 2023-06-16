@@ -26,6 +26,8 @@ public class SecurityConfiguration implements WebMvcConfigurer {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.csrf().disable()
                 .authorizeRequests()
+                .antMatchers("/adverts").permitAll()
+                .antMatchers("/permissions").permitAll()
                 .antMatchers("/registration").permitAll()
                 .antMatchers("/publications").permitAll()
                 .antMatchers("/users").permitAll()

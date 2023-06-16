@@ -45,10 +45,15 @@ public class UserController {
         return new ResponseEntity<>(user, status);
     }
 
-    @GetMapping("/login")
-    public Boolean login(@RequestBody UserLogRequest user) {
+    @PostMapping("/login")
+    public ResponseEntity<Object> login(@RequestBody UserLoginRequest user) {
+        var response = ResponseEntity.notFound().build();
+
         // TODO: check for equality, probably there is a bug
-        return userService.loginCheck(user.getEmail(), user.getPassword());
+        if (user.getEmail() != null && user.getPassword() != null && userService.isCorrectLogin(user))
+            response = ResponseEntity.ok(true);
+
+        return response;
     }
 
     @PutMapping

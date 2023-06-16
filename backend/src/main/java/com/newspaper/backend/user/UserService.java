@@ -33,13 +33,11 @@ public class UserService implements UserDetailsService {
                 .orElseThrow(() -> new UsernameNotFoundException(String.format(USER_NOT_FOUND, email)));
     }
 
-    public Boolean loginCheck(String email, String password) {
-        Optional<UserEntity> user = userRepository.findByEmail(email);
-        if (user.isPresent()) {
-            String encodedPassword = user.get().getPassword();
-            return encodedPassword.equals(bCryptPasswordEncoder.encode(password));
-        }
-        return false;
+    @Transactional
+    public boolean isCorrectLogin(UserLoginRequest userLogin) {
+        var user = userRepository.findByEmail(userLogin.getEmail());
+
+        return user.isPresent() && bCryptPasswordEncoder.matches(userLogin.getPassword(), user.get().getPassword());
     }
 
     public Status signUpUser(UserEntity user) {
