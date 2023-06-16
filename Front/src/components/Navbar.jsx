@@ -1,22 +1,40 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import "../styles/Navbar.css"
 import {Link} from "react-router-dom";
+import {AuthContext} from "../context";
 
 const Navbar = () => {
+    const {isAuth, setIsAuth} = useContext(AuthContext);
     return (
         <div className="navbar">
             {/*<div className="links">*/}
 
             <div className="left" >
-                <Link className="navbtn" to="/">Home</Link>
-                <Link className="navbtn" to="/addPost" style={{marginLeft: 10}}>Add new post</Link>
+                <Link id="home" className="navbtn" to="/">Home</Link>
+                <div className="separator"></div>
+                <Link className="navbtn" to="/posts">Posts</Link>
             </div>
             <div className="right">
-                <Link className="navbtn" to="/profile" style={{marginRight: 10}}>Profile</Link>
-                <Link className="navbtn" to="/login" style={{marginRight: 10}}>Sign in</Link>
-                <Link className="navbtn" to="/register">Sign up</Link>
+                {isAuth ? (
+                    <Link className="navbtn" to="/profile">Profile</Link>
+                ) : (
+                        <>
+                            <Link className="navbtn" to="/login">Sign in</Link>
+                            <div className="separator"></div>
+                            <Link className="navbtn" to="/register">Sign up</Link>
+                        </>
+
+
+                    )}
+
+
+
+                 {/*<Link className="navbtn" to="/profile">Profile</Link>*/}
+                 {/*<Link className="navbtn" to="/login">Sign in</Link>*/}
+                 {/*<div className="separator"></div>*/}
+                 {/*<Link className="navbtn" to="/register">Sign up</Link>*/}
+             {/*</div>*/}
             </div>
-            {/*</div>*/}
 
         </div>
     );
