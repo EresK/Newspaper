@@ -7,7 +7,7 @@ import lombok.Value;
 @Value
 @EqualsAndHashCode
 @ToString
-public class UserLoginRequest {
+public class LoginRequest {
     String email;
     String password;
 }

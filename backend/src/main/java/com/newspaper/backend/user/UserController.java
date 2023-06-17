@@ -45,7 +45,7 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<Object> login(@RequestBody UserLoginRequest user) {
+    public ResponseEntity<Object> login(@RequestBody LoginRequest user) {
         var response = ResponseEntity.notFound().build();
 
         // TODO: check for equality, probably there is a bug
