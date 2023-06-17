@@ -6,8 +6,9 @@ import com.newspaper.backend.advert.AdvertEntity;
 import com.newspaper.backend.authorization.permissions.PermissionEntity;
 import com.newspaper.backend.authorization.privilege.Privilege;
 import com.newspaper.backend.publication.PublicationEntity;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -18,8 +19,9 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
-@Data
 @NoArgsConstructor
+@Getter
+@Setter
 @Entity
 @Table(name = "users")
 public class UserEntity implements UserDetails {

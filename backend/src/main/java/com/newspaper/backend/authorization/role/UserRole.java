@@ -2,14 +2,16 @@ package com.newspaper.backend.authorization.role;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.newspaper.backend.authorization.permissions.PermissionEntity;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.Set;
 
-@Data
 @NoArgsConstructor
+@Getter
+@Setter
 @Entity
 @Table(name = "roles")
 public class UserRole {
