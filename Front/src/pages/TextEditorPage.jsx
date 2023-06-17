@@ -4,6 +4,7 @@ import React from "react";
 import { useLocation } from "react-router-dom";
 import "../styles/TextEditorPage.css"
 import "../styles/TextEditor.css"
+import InviteMember from "../components/InviteMember";
 
 
 export const TextEditorPage = () => {
@@ -18,6 +19,9 @@ export const TextEditorPage = () => {
                 <h3>Авторы: </h3><span>{data.description.author}</span>
                 <h3>Дата публикации: </h3><span>{data.description.issueDate}</span>
                 <h3>Содержание: </h3><span>{data.description.description}</span>
+            </div>
+            <div>
+                <InviteMember id_publication={data.id}/>
             </div>
             <TextEditor id_publication={data.id} />
             {/*<Link to={"/"}>*/}
