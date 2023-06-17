@@ -1,6 +1,6 @@
 package com.newspaper.backend.registration;
 
-import com.newspaper.backend.Status;
+import com.newspaper.backend.user.Status;
 import com.newspaper.backend.user.UserEntity;
 import com.newspaper.backend.user.UserService;
 import lombok.AllArgsConstructor;

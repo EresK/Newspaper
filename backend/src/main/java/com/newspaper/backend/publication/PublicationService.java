@@ -21,13 +21,17 @@ public class PublicationService {
     private final AdvertRepository advertRepository;
 
     @Transactional
-    public void createPublication(@NonNull UserEntity principal, PublicationEntity publication) {
+    public boolean createPublication(@NonNull UserEntity principal, PublicationEntity publication) {
         var user = userRepository.findById(principal.getId());
 
-        if (user.isPresent()) {
+        // TODO: add correct check for password
+        if (user.isPresent() && user.get().getPassword().equalsIgnoreCase(principal.getPassword())) {
             publication.setOwner(user.get());
             publicationRepository.save(publication);
+            return true;
         }
+
+        return false;
     }
 
     public Iterable<PublicationEntity> getAllPublications(Pageable pageable) {

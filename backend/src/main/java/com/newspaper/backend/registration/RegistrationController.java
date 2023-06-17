@@ -1,6 +1,6 @@
 package com.newspaper.backend.registration;
 
-import com.newspaper.backend.Status;
+import com.newspaper.backend.user.Status;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

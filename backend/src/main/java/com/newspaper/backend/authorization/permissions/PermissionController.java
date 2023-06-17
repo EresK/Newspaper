@@ -33,13 +33,13 @@ public class PermissionController {
 
     // For debug
     @GetMapping("/all")
-    public List<UserPublicationPermission> getPermissions() {
+    public List<PermissionEntity> getPermissions() {
         return permissionService.getPermissions();
     }
 
     @GetMapping(params = {"!id"})
     @PreAuthorize("isAuthenticated()")
-    public List<UserPublicationPermission> getUserPermissions(Authentication auth) {
+    public List<PermissionEntity> getUserPermissions(Authentication auth) {
         var principal = (UserEntity) auth.getPrincipal();
 
         if (principal != null)
@@ -50,8 +50,8 @@ public class PermissionController {
 
     @GetMapping
     @PreAuthorize("isAuthenticated()")
-    public List<UserPublicationPermission> getPublicationPermissions(Authentication auth,
-                                                                     @RequestParam(name = "id") Long publicationId) {
+    public List<PermissionEntity> getPublicationPermissions(Authentication auth,
+                                                            @RequestParam(name = "id") Long publicationId) {
         var principal = (UserEntity) auth.getPrincipal();
 
         if (principal != null)

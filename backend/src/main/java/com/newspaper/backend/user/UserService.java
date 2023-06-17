@@ -1,6 +1,5 @@
 package com.newspaper.backend.user;
 
-import com.newspaper.backend.Status;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -34,7 +33,7 @@ public class UserService implements UserDetailsService {
     }
 
     @Transactional
-    public boolean isCorrectLogin(UserLoginRequest userLogin) {
+    public boolean isCorrectLogin(LoginRequest userLogin) {
         var user = userRepository.findByEmail(userLogin.getEmail());
 
         return user.isPresent() && bCryptPasswordEncoder.matches(userLogin.getPassword(), user.get().getPassword());

@@ -1,4 +1,4 @@
-package com.newspaper.backend;
+package com.newspaper.backend.user;
 
 public enum Status {
     DENIED,

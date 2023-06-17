@@ -3,19 +3,21 @@ package com.newspaper.backend.publication;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.newspaper.backend.advert.AdvertEntity;
-import com.newspaper.backend.authorization.permissions.UserPublicationPermission;
+import com.newspaper.backend.authorization.permissions.PermissionEntity;
 import com.newspaper.backend.content.PublicationContent;
 import com.newspaper.backend.description.DescriptionEntity;
 import com.newspaper.backend.fullPublication.FullPublicationEntity;
 import com.newspaper.backend.user.UserEntity;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.Set;
 
-@Data
 @NoArgsConstructor
+@Getter
+@Setter
 @Entity
 @Table(name = "publications")
 public class PublicationEntity {
@@ -26,7 +28,7 @@ public class PublicationEntity {
 
     @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE,
             CascadeType.PERSIST, CascadeType.REFRESH})
-    @JoinColumn(name="fullPublication_id")
+    @JoinColumn(name = "fullPublication_id")
     private FullPublicationEntity fullPublication;
 
     @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE,
@@ -49,7 +51,7 @@ public class PublicationEntity {
 
     @JsonIgnore
     @OneToMany(mappedBy = "publication")
-    Set<UserPublicationPermission> permissions;
+    Set<PermissionEntity> permissions;
 
     private Boolean isHide = true;
 
