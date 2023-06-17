@@ -1,7 +1,7 @@
 package com.newspaper.backend.authorization.role;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.newspaper.backend.authorization.permissions.UserPublicationPermission;
+import com.newspaper.backend.authorization.permissions.PermissionEntity;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -22,7 +22,7 @@ public class UserRole {
 
     @JsonIgnore
     @OneToMany(mappedBy = "role", cascade = CascadeType.ALL)
-    private Set<UserPublicationPermission> permissions;
+    private Set<PermissionEntity> permissions;
 
     public UserRole(DefaultRole role) {
         name = role.toString();

@@ -14,7 +14,7 @@ import javax.persistence.*;
 @Getter
 @Entity
 @Table(name = "permissions")
-public class UserPublicationPermission {
+public class PermissionEntity {
     @JsonIgnore
     @EmbeddedId
     private PermissionKey id;
@@ -39,10 +39,10 @@ public class UserPublicationPermission {
     @JoinColumn(name = "role")
     private UserRole role;
 
-    public UserPublicationPermission(PermissionKey key,
-                                     UserEntity user,
-                                     PublicationEntity publication,
-                                     UserRole role) {
+    public PermissionEntity(PermissionKey key,
+                            UserEntity user,
+                            PublicationEntity publication,
+                            UserRole role) {
         this.id = key;
         this.user = user;
         this.publication = publication;

@@ -31,7 +31,7 @@ public class PermissionService {
                 AuthorizationComponent.isOwnerOf(principal, publication.get())) {
             PermissionKey key = new PermissionKey(anotherUserId, publicationId, userRole.get().getId());
 
-            UserPublicationPermission permission = new UserPublicationPermission(key,
+            PermissionEntity permission = new PermissionEntity(key,
                     anotherUser.get(),
                     publication.get(),
                     userRole.get());
@@ -43,17 +43,17 @@ public class PermissionService {
         }
     }
 
-    public List<UserPublicationPermission> getPermissions() {
+    public List<PermissionEntity> getPermissions() {
         return permissionRepository.findAll();
     }
 
-    public List<UserPublicationPermission> getUserPermissions(@NonNull UserEntity principal) {
+    public List<PermissionEntity> getUserPermissions(@NonNull UserEntity principal) {
         return permissionRepository.findAllByIdUser(principal.getId());
     }
 
     @Transactional
-    public List<UserPublicationPermission> getPublicationPermissions(@NonNull UserEntity principal,
-                                                                     Long publicationId) {
+    public List<PermissionEntity> getPublicationPermissions(@NonNull UserEntity principal,
+                                                            Long publicationId) {
         var publication = publicationRepository.findById(publicationId);
 
         if (publication.isPresent() && AuthorizationComponent.isOwnerOf(principal, publication.get()))

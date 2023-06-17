@@ -3,7 +3,7 @@ package com.newspaper.backend.publication;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.newspaper.backend.advert.AdvertEntity;
-import com.newspaper.backend.authorization.permissions.UserPublicationPermission;
+import com.newspaper.backend.authorization.permissions.PermissionEntity;
 import com.newspaper.backend.content.PublicationContent;
 import com.newspaper.backend.description.DescriptionEntity;
 import com.newspaper.backend.fullPublication.FullPublicationEntity;
@@ -49,7 +49,7 @@ public class PublicationEntity {
 
     @JsonIgnore
     @OneToMany(mappedBy = "publication")
-    Set<UserPublicationPermission> permissions;
+    Set<PermissionEntity> permissions;
 
     private Boolean isHide = true;
 

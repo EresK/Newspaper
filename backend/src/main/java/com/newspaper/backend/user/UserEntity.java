@@ -3,7 +3,7 @@ package com.newspaper.backend.user;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.newspaper.backend.advert.AdvertEntity;
-import com.newspaper.backend.authorization.permissions.UserPublicationPermission;
+import com.newspaper.backend.authorization.permissions.PermissionEntity;
 import com.newspaper.backend.authorization.privilege.Privilege;
 import com.newspaper.backend.publication.PublicationEntity;
 import lombok.Data;
@@ -46,7 +46,7 @@ public class UserEntity implements UserDetails {
 
     @JsonIgnore
     @OneToMany(mappedBy = "user")
-    private Set<UserPublicationPermission> permissions;
+    private Set<PermissionEntity> permissions;
 
     @JsonIgnore
     @OneToMany(mappedBy = "owner",

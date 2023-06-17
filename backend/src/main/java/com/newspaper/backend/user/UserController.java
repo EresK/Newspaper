@@ -1,6 +1,5 @@
 package com.newspaper.backend.user;
 
-import com.newspaper.backend.Status;
 import lombok.AllArgsConstructor;
 import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
