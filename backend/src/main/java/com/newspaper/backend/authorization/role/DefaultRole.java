@@ -3,9 +3,9 @@ package com.newspaper.backend.authorization.role;
 import java.util.Optional;
 
 public enum DefaultRole {
-    ROLE_EDITOR("ROLE_EDITOR"),
-    ROLE_DESIGNER("ROLE_DESIGNER"),
-    ROLE_ADVERTISER("ROLE_ADVERTISER");
+    EDITOR("EDITOR"),
+    DESIGNER("DESIGNER"),
+    ADVERTISER("ADVERTISER");
 
     private final String name;
 
@@ -15,9 +15,9 @@ public enum DefaultRole {
 
     public static Optional<DefaultRole> toRole(String roleName) {
         return switch (roleName.toUpperCase()) {
-            case "ROLE_EDITOR" -> Optional.of(ROLE_EDITOR);
-            case "ROLE_DESIGNER" -> Optional.of(ROLE_DESIGNER);
-            case "ROLE_ADVERTISER" -> Optional.of(ROLE_ADVERTISER);
+            case "EDITOR" -> Optional.of(EDITOR);
+            case "DESIGNER" -> Optional.of(DESIGNER);
+            case "ADVERTISER" -> Optional.of(ADVERTISER);
             default -> Optional.empty();
         };
     }

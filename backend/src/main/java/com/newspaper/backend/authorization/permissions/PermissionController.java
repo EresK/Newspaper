@@ -19,7 +19,7 @@ public class PermissionController {
     @PostMapping
     @PreAuthorize("isAuthenticated()")
     public void createPermission(Authentication auth,
-                                 @RequestParam(name = "user_id") Long anotherUserId,
+                                 @RequestParam(name = "user_email", required = false) String anotherUserEmail,
                                  @RequestParam(name = "publication_id") Long publicationId,
                                  @RequestParam(name = "role") String role) {
         var principal = (UserEntity) auth.getPrincipal();
@@ -27,7 +27,7 @@ public class PermissionController {
         if (principal != null) {
             Optional<DefaultRole> optionalRole = DefaultRole.toRole(role);
             optionalRole.ifPresent(defaultRole ->
-                    permissionService.createPermission(principal, anotherUserId, publicationId, defaultRole));
+                    permissionService.createPermission(principal, anotherUserEmail, publicationId, defaultRole));
         }
     }
 

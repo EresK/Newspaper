@@ -22,21 +22,21 @@ public class PermissionService {
     private final UserRoleRepository userRoleRepository;
 
     @Transactional
-    public void createPermission(@NonNull UserEntity principal, Long anotherUserId, Long publicationId, DefaultRole role) {
-        var anotherUser = userRepository.findById(anotherUserId);
+    public void createPermission(@NonNull UserEntity principal, String anotherUserEmail, Long publicationId, DefaultRole role) {
+        var anotherUser = userRepository.findByEmail(anotherUserEmail);
         var publication = publicationRepository.findById(publicationId);
         var userRole = userRoleRepository.findRoleByName(role.toString());
 
         if (anotherUser.isPresent() && publication.isPresent() && userRole.isPresent() &&
                 AuthorizationComponent.isOwnerOf(principal, publication.get())) {
-            PermissionKey key = new PermissionKey(anotherUserId, publicationId, userRole.get().getId());
+            PermissionKey key = new PermissionKey(anotherUser.get().getId(), publicationId, userRole.get().getId());
 
             PermissionEntity permission = new PermissionEntity(key,
                     anotherUser.get(),
                     publication.get(),
                     userRole.get());
 
-            var permissionList = permissionRepository.findAllByIdUserAndIdPublication(anotherUserId, publicationId);
+            var permissionList = permissionRepository.findAllByIdUserAndIdPublication(anotherUser.get().getId(), publicationId);
 
             if (permissionList.stream().noneMatch(p -> p.getRole().getName().equalsIgnoreCase(role.toString())))
                 permissionRepository.save(permission);

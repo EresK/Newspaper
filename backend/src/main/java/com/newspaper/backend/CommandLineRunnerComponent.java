@@ -1,5 +1,8 @@
 package com.newspaper.backend;
 
+import com.newspaper.backend.authorization.role.DefaultRole;
+import com.newspaper.backend.authorization.role.UserRole;
+import com.newspaper.backend.authorization.role.UserRoleRepository;
 import com.newspaper.backend.description.DescriptionEntity;
 import com.newspaper.backend.publication.PublicationEntity;
 import com.newspaper.backend.publication.PublicationRepository;
@@ -28,6 +31,8 @@ public class CommandLineRunnerComponent implements CommandLineRunner {
     @Autowired
     private final PublicationRepository publicationRepository;
 
+    private final UserRoleRepository userRoleRepository;
+
     @Override
     @Transactional
     public void run(String... args) {
@@ -53,6 +58,16 @@ public class CommandLineRunnerComponent implements CommandLineRunner {
 
         userRepository.saveAll(List.of(userJohn, userMaria, userStan, userVasya));
         publicationRepository.saveAll(publications);
+
+        saveRoles();
+    }
+
+    private void saveRoles() {
+        UserRole editor = new UserRole(DefaultRole.EDITOR);
+        UserRole advertiser = new UserRole(DefaultRole.ADVERTISER);
+        UserRole designer = new UserRole(DefaultRole.DESIGNER);
+
+        userRoleRepository.saveAll(List.of(editor, advertiser, designer));
     }
 
     private List<PublicationEntity> getPublications() {
