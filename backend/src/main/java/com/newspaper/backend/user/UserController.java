@@ -18,6 +18,7 @@ public class UserController {
     private final UserService userService;
 
     @GetMapping("/me")
+    @PreAuthorize("isAuthenticated()")
     public String getMe(Authentication auth) {
         return auth.getName();
     }
@@ -48,14 +49,14 @@ public class UserController {
     public ResponseEntity<Object> login(@RequestBody LoginRequest user) {
         var response = ResponseEntity.notFound().build();
 
-        // TODO: check for equality, probably there is a bug
         if (user.getEmail() != null && user.getPassword() != null && userService.isCorrectLogin(user))
             response = ResponseEntity.ok(true);
 
         return response;
     }
 
-    @PutMapping
+    // TODO add check for authorization & request body info
+    // @PutMapping
     public ResponseEntity<UserEntity> putUser(@RequestParam(name = "id") Long id, @RequestBody UserEntity user) {
         Boolean updated = userService.updateUserInformation(id, user);
 
@@ -67,8 +68,7 @@ public class UserController {
     @DeleteMapping
     @PreAuthorize("isAuthenticated() and @Auth.isSameUser(principal, #email)")
     public ResponseEntity<Status> deleteUser(@RequestParam(name = "email", required = false)
-                                             @Param("email")
-                                             String email) {
+                                             @Param("email") String email) {
         ResponseEntity<Status> response = ResponseEntity.notFound().build();
 
         if (email != null) {

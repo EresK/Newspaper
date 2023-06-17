@@ -1,10 +1,13 @@
 package com.newspaper.backend.publication;
 
+import com.newspaper.backend.user.Status;
 import com.newspaper.backend.user.UserEntity;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
@@ -19,12 +22,20 @@ public class PublicationController {
 
     @PostMapping
     @PreAuthorize("isAuthenticated()")
-    public void postPublication(Authentication auth,
-                                @RequestBody PublicationEntity publication) {
+    public ResponseEntity<Status> postPublication(Authentication auth,
+                                                  @RequestBody PublicationEntity publication) {
         var principal = (UserEntity) auth.getPrincipal();
 
-        if (principal != null)
-            publicationService.createPublication(principal, publication);
+        var response = new ResponseEntity<>(Status.DENIED, HttpStatus.NOT_FOUND);
+
+        if (principal != null) {
+            boolean res = publicationService.createPublication(principal, publication);
+
+            if (res)
+                response = new ResponseEntity<>(Status.SUCCESS, HttpStatus.CREATED);
+        }
+
+        return response;
     }
 
     @PostMapping("/add-advert")
