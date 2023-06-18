@@ -2,6 +2,8 @@ package com.newspaper.backend.publication;
 
 import com.newspaper.backend.advert.AdvertRepository;
 import com.newspaper.backend.authorization.AuthorizationComponent;
+import com.newspaper.backend.content.PublicationContent;
+import com.newspaper.backend.user.Status;
 import com.newspaper.backend.user.UserEntity;
 import com.newspaper.backend.user.UserRepository;
 import lombok.AllArgsConstructor;
@@ -21,17 +23,17 @@ public class PublicationService {
     private final AdvertRepository advertRepository;
 
     @Transactional
-    public boolean createPublication(@NonNull UserEntity principal, PublicationEntity publication) {
+    public Status createPublication(@NonNull UserEntity principal, PublicationEntity publication) {
         var user = userRepository.findById(principal.getId());
 
         // TODO: add correct check for password
-        if (user.isPresent() && user.get().getPassword().equalsIgnoreCase(principal.getPassword())) {
-            publication.setOwner(user.get());
-            publicationRepository.save(publication);
-            return true;
-        }
-
-        return false;
+        if (user.isEmpty())
+            return Status.NO_AUTH;
+        if (!user.get().getPassword().equalsIgnoreCase(principal.getPassword()))
+            return Status.DENIED;
+        publication.setOwner(user.get());
+        publicationRepository.save(publication);
+        return Status.SUCCESS;
     }
 
     public Iterable<PublicationEntity> getAllPublications(Pageable pageable) {
@@ -61,10 +63,8 @@ public class PublicationService {
                 AuthorizationComponent.isSameUser(principal, id))
             return user.get().getPublications();
 
-        if (user.isPresent())
-            return user.get().getPublications().stream().filter(p -> !p.getIsHide()).toList();
+        return user.<Iterable<PublicationEntity>>map(userEntity -> userEntity.getPublications().stream().filter(p -> !p.getIsHide()).toList()).orElse(null);
 
-        return null;
     }
 
     // TODO: get & update content methods
@@ -82,16 +82,38 @@ public class PublicationService {
     }
 
     @Transactional
-    public void updatePublication(@NonNull UserEntity principal, Long id, PublicationEntity publicationNew) {
+    public Status updateContent(@NonNull UserEntity principal, Long id, PublicationContent content) {
+        var user = userRepository.findById(principal.getId());
+        var publication = publicationRepository.findById(id);
+        if (user.isEmpty())
+            return Status.NO_AUTH;
+        if (publication.isEmpty())
+            return Status.ERROR;
+        if (!AuthorizationComponent.isOwnerOf(user.get(), publication.get()))
+            return Status.DENIED;
+        publication.get().setContent(content);
+        publicationRepository.save(publication.get());
+        return Status.SUCCESS;
+
+
+    }
+
+    @Transactional
+    public Status updatePublication(@NonNull UserEntity principal, Long id, PublicationEntity publicationNew) {
         var user = userRepository.findById(principal.getId());
         var publication = publicationRepository.findById(id);
 
-        if (user.isPresent() &&
-                publication.isPresent() &&
-                AuthorizationComponent.isOwnerOf(user.get(), publication.get())) {
-            publication.get().setDescription(publicationNew.getDescription());
-            publicationRepository.save(publication.get());
-        }
+        if (user.isEmpty())
+            return Status.NO_AUTH;
+        if (publication.isEmpty())
+            return Status.ERROR;
+        if (!AuthorizationComponent.isOwnerOf(user.get(), publication.get()))
+            return Status.DENIED;
+        publication.get().setDescription(publicationNew.getDescription());
+        publicationRepository.save(publication.get());
+
+        return Status.SUCCESS;
+
     }
 
     @Transactional
