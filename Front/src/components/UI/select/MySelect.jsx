@@ -1,9 +1,9 @@
 import React from 'react';
-
+import "../../../styles/Search.css";
 const MySelect = ({options, defaultValue, value, onChange}) => {
 
     return (
-        <select
+        <select className="filter"
             value={value}
             onChange={event => onChange(event.target.value)}
         >

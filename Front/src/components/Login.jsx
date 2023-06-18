@@ -43,7 +43,16 @@ const Login = () => {
             }
         );
         console.log(response);
-        localStorage.setItem("auth", authorization)
+        if (response.status === 200) {
+            localStorage.setItem("auth", authorization)
+            // localStorage.setItem("id", )
+            setIsAuth(true);
+        }
+        // else if (response.status === 404) {
+        //     console.log("Error a")
+        // }
+
+
     }
 
     return (
