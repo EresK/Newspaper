@@ -1,10 +1,9 @@
-import TextEditor from "../components/TextEditor";
 import {useLocation} from "react-router-dom";
 import React from "react";
 import "../styles/TextEditorPage.css"
-import "../styles/TextEditor.css"
+import "../styles/DraftJsEditor.css"
 import Members from "../components/Members/Members";
-
+import TextEditor from "../components/TextEditor";
 
 export const TextEditorPage = () => {
     const location = useLocation();
@@ -22,7 +21,8 @@ export const TextEditorPage = () => {
             <div>
                 <Members id_publication={data.id}/>
             </div>
-            <TextEditor id_publication={data.id}/>
+            {/*<TextEditor id_publication={data.id}/>*/}
+            <TextEditor/>
             {/*<Link to={"/"}>*/}
             {/*    <button className="buttonStyle">Main page</button>*/}
             {/*</Link>*/}

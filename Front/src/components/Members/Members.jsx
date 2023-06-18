@@ -6,6 +6,7 @@ import SendIcon from '@mui/icons-material/Send';
 import LoadingButton from '@mui/lab/LoadingButton';
 import axios from "axios";
 import MemberItem from "./MemberItem";
+import "../../styles/Members.css"
 
 const Members = (props) => {
     const [username, setUsername] = useState('');
@@ -64,9 +65,9 @@ const Members = (props) => {
     }
 
     return (
-        <div>
-            <div>
-                <label>
+        <div className='member-div'>
+            <div className='member-input'>
+                <label className='member-select'>
                     <Select value={role} required={true}
                             onChange={e => setRole(e.target.value)}>
                         {roleOptions.map(option => (
@@ -74,8 +75,10 @@ const Members = (props) => {
                         ))}
                     </Select>
                 </label>
-                <label>
+
+                <label className='member-text'>
                     <TextField variant='outlined' placeholder='Email'
+                               sx={{mt: 0}}
                                InputProps={{
                                    endAdornment: (
                                        <Tooltip title='Invite'>
@@ -91,7 +94,7 @@ const Members = (props) => {
                 </label>
             </div>
 
-            <div>
+            <div className='member-list'>
                 <List dense='dense'>
                     <ListItemButton onClick={handleOpen}>
                         <ListItemText>Members</ListItemText>
