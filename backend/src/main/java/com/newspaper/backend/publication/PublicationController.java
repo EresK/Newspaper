@@ -1,5 +1,6 @@
 package com.newspaper.backend.publication;
 
+import com.newspaper.backend.content.PublicationContent;
 import com.newspaper.backend.user.Status;
 import com.newspaper.backend.user.UserEntity;
 import lombok.AllArgsConstructor;
@@ -26,13 +27,26 @@ public class PublicationController {
                                                   @RequestBody PublicationEntity publication) {
         var principal = (UserEntity) auth.getPrincipal();
 
-        var response = new ResponseEntity<>(Status.DENIED, HttpStatus.NOT_FOUND);
+        var response = new ResponseEntity<>(Status.NO_AUTH, HttpStatus.NOT_FOUND);
 
         if (principal != null) {
-            boolean res = publicationService.createPublication(principal, publication);
+            Status res = publicationService.createPublication(principal, publication);
+            response = new ResponseEntity<>(res, HttpStatus.CREATED);
+        }
 
-            if (res)
-                response = new ResponseEntity<>(Status.SUCCESS, HttpStatus.CREATED);
+        return response;
+    }
+
+    @PutMapping(value = "/update", params = {"id"})
+    public ResponseEntity<Status> updateContent(Authentication auth, @RequestParam(name = "id") Long id,
+                                                @RequestBody PublicationContent content) {
+        var principal = (UserEntity) auth.getPrincipal();
+
+        var response = new ResponseEntity<>(Status.NO_AUTH, HttpStatus.UNAUTHORIZED);
+
+        if (principal != null) {
+            Status res = publicationService.updateContent(principal, id, content);
+            response = new ResponseEntity<>(res, HttpStatus.OK);
         }
 
         return response;
@@ -51,7 +65,7 @@ public class PublicationController {
 
     @GetMapping("/all")
     public Iterable<PublicationEntity> getAllPublications(@PageableDefault(sort = {"id"}, direction = Sort.Direction.DESC)
-                                                          Pageable pageable) {
+                                                                  Pageable pageable) {
         return publicationService.getAllPublications(pageable);
     }
 
@@ -71,13 +85,16 @@ public class PublicationController {
 
     @PutMapping
     @PreAuthorize("isAuthenticated()")
-    public void putPublication(Authentication auth,
-                               @RequestParam(name = "id") Long id,
-                               @RequestBody PublicationEntity publication) {
+    public ResponseEntity<Status> putPublication(Authentication auth,
+                                                 @RequestParam(name = "id") Long id,
+                                                 @RequestBody PublicationEntity publication) {
         var principal = (UserEntity) auth.getPrincipal();
-
-        if (principal != null)
-            publicationService.updatePublication(principal, id, publication);
+        var response = new ResponseEntity<>(Status.NO_AUTH, HttpStatus.NOT_FOUND);
+        if (principal != null) {
+            Status res = publicationService.updatePublication(principal, id, publication);
+            response = new ResponseEntity<>(res, HttpStatus.OK);
+        }
+        return response;
     }
 
     @DeleteMapping
