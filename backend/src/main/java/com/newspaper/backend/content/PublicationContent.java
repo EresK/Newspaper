@@ -19,6 +19,7 @@ public class PublicationContent {
     private Long id;
 
     private String contentJson;
+    private String styleJson;
 
     @JsonIgnore
     @OneToOne(mappedBy = "content",
@@ -26,7 +27,8 @@ public class PublicationContent {
                     CascadeType.PERSIST, CascadeType.REFRESH})
     private PublicationEntity publication;
 
-    public PublicationContent(String contentJson) {
+    public PublicationContent(String contentJson, String styles) {
         this.contentJson = contentJson;
+        this.styleJson = styles;
     }
 }
