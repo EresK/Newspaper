@@ -1,10 +1,9 @@
 import TextEditor from "../components/TextEditor";
-import {Link} from "react-router-dom";
+import {useLocation} from "react-router-dom";
 import React from "react";
-import { useLocation } from "react-router-dom";
 import "../styles/TextEditorPage.css"
 import "../styles/TextEditor.css"
-import InviteMember from "../components/InviteMember";
+import Members from "../components/Members/Members";
 
 
 export const TextEditorPage = () => {
@@ -21,9 +20,9 @@ export const TextEditorPage = () => {
                 <h3>Содержание: </h3><span>{data.description.description}</span>
             </div>
             <div>
-                <InviteMember id_publication={data.id}/>
+                <Members id_publication={data.id}/>
             </div>
-            <TextEditor id_publication={data.id} />
+            <TextEditor id_publication={data.id}/>
             {/*<Link to={"/"}>*/}
             {/*    <button className="buttonStyle">Main page</button>*/}
             {/*</Link>*/}
