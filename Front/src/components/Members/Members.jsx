@@ -1,9 +1,11 @@
 import React, {useEffect, useState} from 'react';
-import {Button, Collapse, List, ListItemButton, ListItemText, MenuItem, TextField} from "@mui/material";
+import {Collapse, List, ListItemButton, ListItemText, MenuItem, TextField, Tooltip} from "@mui/material";
 import Select from '@mui/material/Select';
+import {ExpandLess, ExpandMore} from "@mui/icons-material";
+import SendIcon from '@mui/icons-material/Send';
+import LoadingButton from '@mui/lab/LoadingButton';
 import axios from "axios";
 import MemberItem from "./MemberItem";
-import {ExpandLess, ExpandMore} from "@mui/icons-material";
 
 const Members = (props) => {
     const [username, setUsername] = useState('');
@@ -16,10 +18,11 @@ const Members = (props) => {
     const [role, setRole] = useState(roleOptions[0].value);
     const [members, setMembers] = useState([]);
     const [open, setOpen] = React.useState(false);
+    const [loading, setLoading] = React.useState(false);
 
     useEffect(() => {
         refreshMembers();
-    }, [members]);
+    }, []);
 
     const refreshMembers = async () => {
         await axios.get('http://localhost:8080/permissions', {
@@ -38,6 +41,8 @@ const Members = (props) => {
     }
 
     const handleSubmit = async () => {
+        setLoading(true);
+
         await axios.post('http://localhost:8080/permissions', {}, {
             params: {
                 user_email: username,
@@ -48,6 +53,7 @@ const Members = (props) => {
                 Authorization: localStorage.getItem("auth")
             }
         }).then(response => {
+            setLoading(false);
             // console.log(response);
             refreshMembers()
         });
@@ -61,10 +67,6 @@ const Members = (props) => {
         <div>
             <div>
                 <label>
-                    <TextField variant='outlined' placeholder='Email'
-                               onChange={e => setUsername(e.target.value)}/>
-                </label>
-                <label>
                     <Select value={role} required={true}
                             onChange={e => setRole(e.target.value)}>
                         {roleOptions.map(option => (
@@ -72,7 +74,21 @@ const Members = (props) => {
                         ))}
                     </Select>
                 </label>
-                <Button variant='outlined' onClick={handleSubmit}>Invite</Button>
+                <label>
+                    <TextField variant='outlined' placeholder='Email'
+                               InputProps={{
+                                   endAdornment: (
+                                       <Tooltip title='Invite'>
+                                           <LoadingButton position="end"
+                                                          loading={loading}
+                                                          onClick={handleSubmit}>
+                                               <SendIcon/>
+                                           </LoadingButton>
+                                       </Tooltip>
+                                   )
+                               }}
+                               onChange={e => setUsername(e.target.value)}/>
+                </label>
             </div>
 
             <div>
