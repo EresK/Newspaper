@@ -63,7 +63,7 @@ public class PermissionController {
     @DeleteMapping
     @PreAuthorize("isAuthenticated()")
     public void revokePermission(Authentication auth,
-                                 @RequestParam(name = "user_id") Long anotherUserId,
+                                 @RequestParam(name = "user_email", required = false) String anotherUserEmail,
                                  @RequestParam(name = "publication_id") Long publicationId,
                                  @RequestParam(name = "role") String role) {
         var principal = (UserEntity) auth.getPrincipal();
@@ -71,7 +71,7 @@ public class PermissionController {
         if (principal != null) {
             Optional<DefaultRole> optionalRole = DefaultRole.toRole(role);
             optionalRole.ifPresent(defaultRole ->
-                    permissionService.revokePermission(principal, anotherUserId, publicationId, defaultRole));
+                    permissionService.revokePermission(principal, anotherUserEmail, publicationId, defaultRole));
         }
     }
 }

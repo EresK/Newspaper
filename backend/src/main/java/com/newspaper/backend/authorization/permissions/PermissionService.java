@@ -63,13 +63,13 @@ public class PermissionService {
     }
 
     @Transactional
-    public void revokePermission(@NonNull UserEntity principal, Long anotherUserId, Long publicationId, DefaultRole role) {
-        var anotherUser = userRepository.findById(anotherUserId);
+    public void revokePermission(@NonNull UserEntity principal, String anotherUserEmail, Long publicationId, DefaultRole role) {
+        var anotherUser = userRepository.findByEmail(anotherUserEmail);
         var publication = publicationRepository.findById(publicationId);
 
         if (anotherUser.isPresent() && publication.isPresent() &&
                 AuthorizationComponent.isOwnerOf(principal, publication.get())) {
-            var permissionList = permissionRepository.findAllByIdUserAndIdPublication(anotherUserId, publicationId);
+            var permissionList = permissionRepository.findAllByIdUserAndIdPublication(anotherUser.get().getId(), publicationId);
 
             var matches = permissionList
                     .stream()
