@@ -2,6 +2,7 @@ package com.newspaper.backend.publication;
 
 import com.newspaper.backend.advert.AdvertRepository;
 import com.newspaper.backend.authorization.AuthorizationComponent;
+import com.newspaper.backend.content.ContentRequest;
 import com.newspaper.backend.content.PublicationContent;
 import com.newspaper.backend.user.Status;
 import com.newspaper.backend.user.UserEntity;
@@ -66,7 +67,12 @@ public class PublicationService {
         return user.<Iterable<PublicationEntity>>map(userEntity -> userEntity.getPublications().stream().filter(p -> !p.getIsHide()).toList()).orElse(null);
 
     }
-
+    public ContentRequest getContentById(Long id){
+        var publication = publicationRepository.findById(id);
+        if(publication.isEmpty())
+            return null;
+        return new ContentRequest(publication.get().getContent().getContentJson(),publication.get().getContent().getStyleJson(),publication.get().getContent().getId());
+    }
     // TODO: get & update content methods
     @Transactional
     public void setAdvert(@NonNull UserEntity principal, Long advertId, Long publicationId) {
