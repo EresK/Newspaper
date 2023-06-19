@@ -1,7 +1,5 @@
 import React, {useContext, useEffect, useRef, useState} from 'react';
 import "../styles/Login.css"
-import MyInput from "./UI/input/MyInput";
-import MyButton from "./UI/button/MyButton";
 import axios from "axios";
 import {AuthContext} from "../context";
 import {Buffer} from 'buffer';
@@ -35,8 +33,9 @@ const Login = () => {
             }
         ).then(response => {
             if (response.status === 200 && response.data === true) {
-                localStorage.setItem("auth", authorization)
-                console.log(response)
+                localStorage.setItem("auth", authorization);
+                setIsAuth(true);
+                console.log(response);
             }
         });
     }

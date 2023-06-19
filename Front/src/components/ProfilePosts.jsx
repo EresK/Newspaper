@@ -1,13 +1,12 @@
 import React from 'react';
-import "../styles/ListItem.css"
+import {Link} from "react-router-dom";
+import "../styles/Profile.css"
 
-import {Link} from "react-router-dom"
-
-const CardForPost = (props) => {
+const ProfilePosts = (props) => {
     return (
-        <Link to={"/post/" + props.post.id} state={{data: props.post}} className="post">
-            <div className="post__content">
-                <div className="content">
+        <Link to={"/post/" + props.post.id} state={{data: props.post}} className="post-prof">
+            <div className="post__content-prof">
+                <div className="content-prof">
                     <img src={props.post.description.coverImageLink} alt={props.post.description.title}/>
                     {props.post.body}
                 </div>
@@ -18,5 +17,4 @@ const CardForPost = (props) => {
     );
 };
 
-
-export default CardForPost;
+export default ProfilePosts;
