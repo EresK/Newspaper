@@ -39,7 +39,17 @@ public class PublicationController {
 
         return response;
     }
+    @GetMapping(value="/content",params={"id"})
+    @PreAuthorize("isAuthenticated()")
+    //id of a publication
+    public @ResponseBody ContentRequest getContentById(Authentication auth, @RequestParam(name = "id") Long id){
+        var principal = (UserEntity) auth.getPrincipal();
 
+        if (principal == null) {
+            return null;
+        }
+        return publicationService.getContentById(id);
+    }
     @PutMapping(value="/update",params={"id"})
     @PreAuthorize("isAuthenticated()")
     public ResponseEntity<Status> updateContent(Authentication auth, @RequestParam(name = "id") Long id,
