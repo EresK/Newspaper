@@ -17,8 +17,9 @@ public class PublicationContent {
     @Id
     @GeneratedValue
     private Long id;
-
+    @Column(length = 100000)
     private String contentJson;
+    @Column(length = 100000)
     private String styleJson;
 
     @JsonIgnore
@@ -27,8 +28,8 @@ public class PublicationContent {
                     CascadeType.PERSIST, CascadeType.REFRESH})
     private PublicationEntity publication;
 
-    public PublicationContent(String contentJson, String styles) {
-        this.contentJson = contentJson;
-        this.styleJson = styles;
+    public PublicationContent(ContentRequest contentRequest) {
+        this.contentJson = contentRequest.getContentJson();
+        this.styleJson = contentRequest.getStyleJson();
     }
 }
