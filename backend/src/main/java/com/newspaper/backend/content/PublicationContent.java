@@ -21,6 +21,8 @@ public class PublicationContent {
     private String contentJson;
     @Column(length = 100000)
     private String styleJson;
+    @Version
+    Long version;
 
     @JsonIgnore
     @OneToOne(mappedBy = "content",
@@ -31,5 +33,6 @@ public class PublicationContent {
     public PublicationContent(ContentRequest contentRequest) {
         this.contentJson = contentRequest.getContentJson();
         this.styleJson = contentRequest.getStyleJson();
+        this.version=contentRequest.getVersion();
     }
 }
