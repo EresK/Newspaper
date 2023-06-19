@@ -2,8 +2,6 @@ import React, {useEffect, useState} from "react";
 import grapesjs from "grapesjs";
 import gjsBlockBasic from "grapesjs-blocks-basic";
 import "../styles/TextEditor.scss"
-import "grapesjs/dist/css/grapes.min.css";
-import "bootstrap";
 
 const TextEditor = () => {
     const [editor, setEditor] = useState(null);
@@ -102,9 +100,9 @@ const TextEditor = () => {
     }
 
     return (
-        <div className="App">
+        <div className="AppEditor">
             <div id='navbar' className='sidenav d-flex flex-column overflow-scroll'>
-                <nav className='navbar-main navbar-light'>
+                <nav className='navbar-main-2 navbar-light'>
                     <div className='container-fluid'>
                         <span className='navbar-brand mb-0 h3 logo'>NSU Editor</span>
                     </div>
@@ -198,7 +196,7 @@ const TextEditor = () => {
                 </button>
             </div>
             <div className='main-content'>
-                <nav className='navbar-main navbar-light'>
+                <nav className='navbar-main-2 navbar-light'>
                     <div className='container-fluid'>
                         <div className='panel__basic-actions'></div>
                     </div>
