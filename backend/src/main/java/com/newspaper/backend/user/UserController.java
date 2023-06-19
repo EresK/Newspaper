@@ -19,8 +19,8 @@ public class UserController {
 
     @GetMapping("/me")
     @PreAuthorize("isAuthenticated()")
-    public String getMe(Authentication auth) {
-        return auth.getName();
+    public Optional<UserEntity> getMe(Authentication auth) {
+        return userRepository.findByEmail(auth.getName());
     }
 
     @GetMapping("/all")
