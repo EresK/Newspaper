@@ -93,6 +93,7 @@ public class PublicationService {
             return Status.DENIED;
         publication.get().setContent(content);
         publicationRepository.save(publication.get());
+
         return Status.SUCCESS;
 
 

@@ -1,5 +1,6 @@
 package com.newspaper.backend.publication;
 
+import com.newspaper.backend.content.ContentRequest;
 import com.newspaper.backend.content.PublicationContent;
 import com.newspaper.backend.user.Status;
 import com.newspaper.backend.user.UserEntity;
@@ -11,7 +12,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+import org.thymeleaf.extras.springsecurity5.auth.Authorization;
 
 import java.util.Optional;
 
@@ -37,15 +40,16 @@ public class PublicationController {
         return response;
     }
 
-    @PutMapping(value = "/update", params = {"id"})
+    @PutMapping(value="/update",params={"id"})
+    @PreAuthorize("isAuthenticated()")
     public ResponseEntity<Status> updateContent(Authentication auth, @RequestParam(name = "id") Long id,
-                                                @RequestBody PublicationContent content) {
+                                                @RequestBody ContentRequest content) {
         var principal = (UserEntity) auth.getPrincipal();
 
         var response = new ResponseEntity<>(Status.NO_AUTH, HttpStatus.UNAUTHORIZED);
 
         if (principal != null) {
-            Status res = publicationService.updateContent(principal, id, content);
+            Status res = publicationService.updateContent(principal, id, new PublicationContent(content));
             response = new ResponseEntity<>(res, HttpStatus.OK);
         }
 
