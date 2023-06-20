@@ -18,11 +18,23 @@ public class AuthorizationComponent {
     }
 
     public static boolean isOwnerOf(UserEntity user, Object resource) {
-        if (resource instanceof PublicationEntity) {
-            return Objects.equals(user.getId(), ((PublicationEntity) resource).getOwner().getId());
+        if (resource instanceof PublicationEntity publication) {
+            return Objects.equals(user.getId(), publication.getOwner().getId());
         }
         else if (resource instanceof AdvertEntity) {
             return Objects.equals(user.getId(), ((AdvertEntity) resource).getAdvertiser().getId());
+        }
+        else
+            return false;
+    }
+
+    public static boolean isMemberOf(UserEntity user, Object resource) {
+        if (resource instanceof PublicationEntity publication) {
+            return Objects.equals(user.getId(), publication.getOwner().getId()) ||
+                    publication.getPermissions()
+                            .stream()
+                            .anyMatch(p ->
+                                    Objects.equals(user.getId(), p.getUser().getId()));
         }
         else
             return false;

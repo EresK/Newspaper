@@ -56,7 +56,9 @@ public class PermissionService {
                                                             Long publicationId) {
         var publication = publicationRepository.findById(publicationId);
 
-        if (publication.isPresent() && AuthorizationComponent.isOwnerOf(principal, publication.get()))
+        if (publication.isPresent() &&
+                (AuthorizationComponent.isOwnerOf(principal, publication.get()) ||
+                        AuthorizationComponent.isMemberOf(principal, publication.get())))
             return permissionRepository.findAllByIdPublication(publicationId);
 
         return null;

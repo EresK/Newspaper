@@ -32,6 +32,8 @@ public class SecurityConfiguration implements WebMvcConfigurer {
                 .antMatchers("/publications/**").permitAll()
                 .antMatchers("/users/**").permitAll()
                 .and()
+                .logout().permitAll()
+                .and()
                 .httpBasic().and().authenticationProvider(daoAuthenticationProvider());
         return http.build();
     }
