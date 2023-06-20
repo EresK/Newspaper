@@ -16,15 +16,17 @@ const Navbar = () => {
             </div>
             <div className="right">
                 {isAuth ? (
-                    <Link className="navbtn" to="/profile">Profile</Link>
+                    <>
+                        <Link className="navbtn" to="/post/create">Create Publication</Link>
+                        <div className="separator"></div>
+                        <Link className="navbtn" to="/profile">Profile</Link>
+                    </>
                 ) : (
                     <>
                         <Link className="navbtn" to="/login">Sign in</Link>
                         <div className="separator"></div>
                         <Link className="navbtn" to="/register">Sign up</Link>
                     </>
-
-
                 )}
                 {/*<Link className="navbtn" to="/profile">Profile</Link>*/}
                 {/*<Link className="navbtn" to="/login">Sign in</Link>*/}
