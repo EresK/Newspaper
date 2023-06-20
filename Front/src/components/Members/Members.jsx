@@ -21,9 +21,41 @@ const Members = (props) => {
     const [open, setOpen] = React.useState(false);
     const [loading, setLoading] = React.useState(false);
 
+    const [owner, setOwner] = useState(false);
+    const [member, setMember] = useState(false);
+
     useEffect(() => {
+        checkOwnerAndMember();
         refreshMembers();
     }, []);
+
+    const checkOwnerAndMember = async () => {
+        await axios.get('http://localhost:8080/auth/owner', {
+            params: {
+                publication_id: props.id_publication,
+            },
+            headers: {
+                Authorization: localStorage.getItem("auth")
+            }
+        }).then(response => {
+            if (response.status === 200 && response.data) {
+                setOwner(response.data)
+            }
+        });
+
+        await axios.get('http://localhost:8080/auth/member', {
+            params: {
+                publication_id: props.id_publication,
+            },
+            headers: {
+                Authorization: localStorage.getItem("auth")
+            }
+        }).then(response => {
+            if (response.status === 200 && response.data) {
+                setMember(response.data)
+            }
+        });
+    }
 
     const refreshMembers = async () => {
         await axios.get('http://localhost:8080/permissions', {
@@ -66,51 +98,58 @@ const Members = (props) => {
 
     return (
         <div className='member-div'>
-            <div className='member-input'>
-                <label className='member-select'>
-                    <Select value={role} required={true}
-                            onChange={e => setRole(e.target.value)}>
-                        {roleOptions.map(option => (
-                            <MenuItem value={option.label}>{option.label}</MenuItem>
-                        ))}
-                    </Select>
-                </label>
-
-                <label className='member-text'>
-                    <TextField variant='outlined' placeholder='Email'
-                               sx={{mt: 0}}
-                               InputProps={{
-                                   endAdornment: (
-                                       <Tooltip title='Invite'>
-                                           <LoadingButton position="end"
-                                                          loading={loading}
-                                                          onClick={handleSubmit}>
-                                               <SendIcon/>
-                                           </LoadingButton>
-                                       </Tooltip>
-                                   )
-                               }}
-                               onChange={e => setUsername(e.target.value)}/>
-                </label>
-            </div>
-
-            <div className='member-list'>
-                <List dense='dense'>
-                    <ListItemButton onClick={handleOpen}>
-                        <ListItemText>Members</ListItemText>
-                        {open ? <ExpandLess/> : <ExpandMore/>}
-                    </ListItemButton>
-                    <Collapse in={open} timeout='auto' unmountOnExit>
-                        <List>
-                            {members.map(item => (
-                                <MemberItem key={item.id} item={item}
-                                            id_publication={props.id_publication} refresh={refreshMembers}/>
+            {owner ? <div className='member-input'>
+                    <label className='member-select'>
+                        <Select value={role} required={true}
+                                onChange={e => setRole(e.target.value)}>
+                            {roleOptions.map(option => (
+                                <MenuItem value={option.label}>{option.label}</MenuItem>
                             ))}
-                        </List>
-                    </Collapse>
-                </List>
-                {/*<Button variant='outlined' onClick={refreshMembers}>Refresh</Button>*/}
-            </div>
+                        </Select>
+                    </label>
+
+                    <label className='member-text'>
+                        <TextField variant='outlined' placeholder='Email'
+                                   sx={{mt: 0}}
+                                   InputProps={{
+                                       endAdornment: (
+                                           <Tooltip title='Invite'>
+                                               <LoadingButton position="end"
+                                                              loading={loading}
+                                                              onClick={handleSubmit}>
+                                                   <SendIcon/>
+                                               </LoadingButton>
+                                           </Tooltip>
+                                       )
+                                   }}
+                                   onChange={e => setUsername(e.target.value)}/>
+                    </label>
+                </div> :
+                <div></div>
+            }
+
+            {member ?
+                <div className='member-list'>
+                    <List dense='dense'>
+                        <ListItemButton onClick={handleOpen}>
+                            <ListItemText>Members</ListItemText>
+                            {open ? <ExpandLess/> : <ExpandMore/>}
+                        </ListItemButton>
+                        <Collapse in={open} timeout='auto' unmountOnExit>
+                            <List>
+                                {members.map(item => (
+                                    <MemberItem key={item.id} item={item}
+                                                id_publication={props.id_publication}
+                                                owner={owner}
+                                                refresh={refreshMembers}/>
+                                ))}
+                            </List>
+                        </Collapse>
+                    </List>
+                    {/*<Button variant='outlined' onClick={refreshMembers}>Refresh</Button>*/}
+                </div> :
+                <div></div>
+            }
         </div>
     );
 };

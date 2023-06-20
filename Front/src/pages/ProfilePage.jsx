@@ -42,7 +42,7 @@ const ProfilePage = () => {
                 Authorization: localStorage.getItem("auth")
             }
         })
-        setUserInfo(response.data)
+        setUserInfo(response.data['email'])
         console.log(userInfo)
     }
 

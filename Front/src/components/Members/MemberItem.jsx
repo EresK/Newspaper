@@ -30,9 +30,10 @@ const MemberItem = (props) => {
     return (
         <div>
             <ListItem key={props.key} secondaryAction={
-                <IconButton edge='end' aria-label='delete' onClick={handleDeleteMember}>
-                    <DeleteIcon/>
-                </IconButton>
+                props.owner ?
+                    <IconButton edge='end' aria-label='delete' onClick={handleDeleteMember}>
+                        <DeleteIcon/>
+                    </IconButton> : <div></div>
             }>
                 <ListItemAvatar>
                     <Avatar>
