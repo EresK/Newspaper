@@ -2,8 +2,8 @@ package com.newspaper.backend.content;
 
 import com.newspaper.backend.publication.PublicationService;
 import lombok.AllArgsConstructor;
+import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
-import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.stereotype.Controller;
 
@@ -12,9 +12,9 @@ import org.springframework.stereotype.Controller;
 public class EditorLogic {
     PublicationService publicationService;
 
-    @MessageMapping("/upd")
-    @SendTo("/editor/public")
-    public Long updateContent(@Payload Long id) {
+    @MessageMapping("/upd/{id}")
+    @SendTo("/editor/public/{id}")
+    public Long updateContent(@DestinationVariable Long id) {
         return id;
     }
 

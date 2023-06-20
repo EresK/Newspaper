@@ -66,7 +66,12 @@ public class PublicationService {
         var publication = publicationRepository.findById(id);
         if (publication.isEmpty())
             return null;
-        return new ContentRequest(publication.get().getContent().getContentJson(), publication.get().getContent().getStyleJson(), publication.get().getContent().getId());
+        if (publication.get().getContent() == null)
+            return new ContentRequest(null, null, null);
+
+        return new ContentRequest(publication.get().getContent().getId(),
+                publication.get().getContent().getContentJson(),
+                publication.get().getContent().getStyleJson());
     }
 
     // TODO: get & update content methods
