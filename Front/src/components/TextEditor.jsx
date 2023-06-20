@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 import React, {useState} from 'react';
 import {EditorState, convertToRaw, convertFromRaw} from "draft-js";
 import {Editor} from "react-draft-wysiwyg";
@@ -5,6 +6,66 @@ import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css"
 import "../styles/TextEditor.css"
 import '../App'
 
+=======
+import React, {useEffect, useState} from "react";
+import grapesjs from "grapesjs";
+import gjsBlockBasic from "grapesjs-blocks-basic";
+import "../styles/TextEditor.scss"
+import axios from "axios";
+import {over} from 'stompjs';
+import SockJS from 'sockjs-client';
+
+const TextEditor = () => {
+    const onError = (err) => {
+        console.log(err);
+    }
+
+    var stompClient =null;
+    let components=null;
+    let styles=null
+    const connect =()=>{
+        let Sock = new SockJS('http://localhost:8080/sok');
+        stompClient = over(Sock);
+        //Authorization : localStorage.getItem('auth')
+        stompClient.connect({},onConnected, onError);
+    }
+
+    const refresh = async (message) =>{
+
+        const result = await axios.get("http://localhost:8080/publications/content", {params:{id:message.body}, headers: { Authorization : localStorage.getItem('auth')}})
+        editor.setComponents(JSON.parse(result.data.contentJson));
+        editor.setStyle(JSON.parse(result.data.styleJson));
+
+    }
+
+    const onConnected = () => {
+        stompClient.subscribe('/editor/public', refresh);
+    }
+
+    const [editor, setEditor] = useState(null);
+    connect()
+
+    const getResult = () => {
+        const components = JSON.stringify(editor.getComponents());
+        const styles = JSON.stringify(editor.getStyle());
+        const id=5
+        axios.put("http://localhost:8080/publications/update", JSON.stringify({contentJson: components, styleJson: styles}),
+{
+params:{id:id},
+headers: {
+'X-Content-Type-Options':'nosniff',
+'Content-Type': 'application/json',
+Authorization : localStorage.getItem('auth')
+}
+}
+)
+        stompClient.send("/app/upd",
+        {
+                Authorization : localStorage.getItem('auth')
+        }, id
+    );
+    }
+>>>>>>> Stashed changes
 
 // Функция для загрузки изображений с рабочего стола (пока не работает)
 // function uploadImageCallBack(file) {
@@ -30,6 +91,7 @@ import '../App'
 //     );
 // }
 
+<<<<<<< Updated upstream
 
 const TextEditor = (props) => {
     const [editorState, setEditorState] = useState(
@@ -57,6 +119,11 @@ const TextEditor = (props) => {
     const changeEditorSetting = () => {
         setToolBarStyle("toolbarStyle")
         setReadOnly(0)
+=======
+    const setNewEditor = () => {
+        editor.setComponents(JSON.parse(components));
+        editor.setStyle(JSON.parse(styles));
+>>>>>>> Stashed changes
     }
 
     return(
