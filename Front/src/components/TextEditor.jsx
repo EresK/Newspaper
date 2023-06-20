@@ -3,7 +3,7 @@ import grapesjs from "grapesjs";
 import gjsBlockBasic from "grapesjs-blocks-basic";
 import "../styles/TextEditor.scss"
 
-const TextEditor = () => {
+const TextEditor = (props) => {
     const [editor, setEditor] = useState(null);
 
     useEffect(() => {
@@ -12,6 +12,7 @@ const TextEditor = () => {
             blockManager: {
                 appendTo: '#blocks',
             },
+            storageManager: false,
             styleManager: {
                 appendTo: '#styles-container',
                 sectors: [
@@ -82,22 +83,23 @@ const TextEditor = () => {
                 gjsBlockBasic: {},
             },
         });
+        const components = localStorage.getItem(`components_${props.id_publication}`);
+        const styles = localStorage.getItem(`styles_${props.id_publication}`);
+        if (components == null || styles == null) {
+            editor.setComponents(null);
+            editor.setStyle(null);
+        } else {
+            editor.setComponents(JSON.parse(components));
+            editor.setStyle(JSON.parse(styles));
+        }
         setEditor(editor);
     }, []);
 
-    let components = null;
-    let styles = null;
     const getResult = () => {
-        components = JSON.stringify(editor.getComponents());
-        styles = JSON.stringify(editor.getStyle());
-        console.log(components);
-        console.log(styles);
+        localStorage.setItem(`components_${props.id_publication}`, JSON.stringify(editor.getComponents()));
+        localStorage.setItem(`styles_${props.id_publication}`, JSON.stringify(editor.getStyle()))
     }
 
-    const setNewEditor = () => {
-        editor.setComponents(JSON.parse(components));
-        editor.setStyle(JSON.parse(styles));
-    }
 
     return (
         <div className="AppEditor">
@@ -189,10 +191,6 @@ const TextEditor = () => {
                 </div>
                 <button onClick={getResult}>
                     Save content
-                </button>
-
-                <button onClick={setNewEditor}>
-                    Set
                 </button>
             </div>
             <div className='main-content'>

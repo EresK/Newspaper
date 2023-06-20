@@ -1,8 +1,8 @@
 import TextEditor from "./TextEditor";
-function AppEditor() {
+function AppEditor(props) {
     return (
         <div className="AppEditor">
-            <TextEditor />
+            <TextEditor id_publication={props.id}/>
         </div>
     );
 }

@@ -23,7 +23,7 @@ export const TextEditorPage = () => {
                 <Members id_publication={data.id}/>
             </div>
 
-            <AppEditor/>
+            <AppEditor id={data.id}/>
         </div>
     );
 }
