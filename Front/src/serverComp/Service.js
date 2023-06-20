@@ -14,7 +14,7 @@ export default class Service {
     }
 
     static async getPostsByUser() {
-        const response = await axios.get('http://localhost:8080/publications', {
+        const response = await axios.get('http://localhost:8080/publications/me', {
             headers: {
                 Authorization: localStorage.getItem("auth")
             }

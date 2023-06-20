@@ -33,7 +33,7 @@ const ProfilePage = () => {
         // const amount = 7
         // setCount(countPages(amount, size))
         // console.log(response.data.length)
-        console.log(response)
+        // console.log(response)
     }
 
     async function fetchUserInfo() {
