@@ -4,6 +4,13 @@ import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
+<<<<<<< Updated upstream
+=======
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.messaging.handler.annotation.SendTo;
+import org.springframework.security.access.prepost.PreAuthorize;
+>>>>>>> Stashed changes
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,10 +30,22 @@ public class PublicationController {
     public void postPublication(Authentication auth, @RequestBody PublicationEntity publication) {
         publicationService.createPublication(auth, publication);
     }
+<<<<<<< Updated upstream
 
     @GetMapping()
     public Iterable<PublicationEntity> getUserPublications(Authentication auth) {
         return publicationService.getUserPublications(auth);
+=======
+    @PostMapping("/add-advert")
+    @PreAuthorize("isAuthenticated()")
+    public void postPublicationForAdvert(Authentication auth,
+                                         @RequestParam(name = "id") Long id,
+                                         @RequestBody Long advertId) {
+        var principal = (UserEntity) auth.getPrincipal();
+
+        if (principal != null)
+            publicationService.setAdvert(principal, advertId, id);
+>>>>>>> Stashed changes
     }
 
     @GetMapping("/all")
