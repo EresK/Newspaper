@@ -12,9 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
-import org.thymeleaf.extras.springsecurity5.auth.Authorization;
 
 import java.util.Optional;
 
@@ -39,10 +37,11 @@ public class PublicationController {
 
         return response;
     }
-    @GetMapping(value="/content",params={"id"})
+
+    @GetMapping(value = "/content", params = {"id"})
     @PreAuthorize("isAuthenticated()")
     //id of a publication
-    public @ResponseBody ContentRequest getContentById(Authentication auth, @RequestParam(name = "id") Long id){
+    public @ResponseBody ContentRequest getContentById(Authentication auth, @RequestParam(name = "id") Long id) {
         var principal = (UserEntity) auth.getPrincipal();
 
         if (principal == null) {
@@ -50,7 +49,8 @@ public class PublicationController {
         }
         return publicationService.getContentById(id);
     }
-    @PutMapping(value="/update",params={"id"})
+
+    @PutMapping(value = "/update", params = {"id"})
     @PreAuthorize("isAuthenticated()")
     public ResponseEntity<Status> updateContent(Authentication auth, @RequestParam(name = "id") Long id,
                                                 @RequestBody ContentRequest content) {
@@ -79,7 +79,7 @@ public class PublicationController {
 
     @GetMapping("/all")
     public Iterable<PublicationEntity> getAllPublications(@PageableDefault(sort = {"id"}, direction = Sort.Direction.DESC)
-                                                                  Pageable pageable) {
+                                                          Pageable pageable) {
         return publicationService.getAllPublications(pageable);
     }
 
@@ -90,11 +90,11 @@ public class PublicationController {
         return publicationService.getSpecifiedPublication(principal, id);
     }
 
-    @GetMapping(params = {"!id"})
-    public Iterable<PublicationEntity> getAllUserPublications(Authentication auth,
-                                                              @RequestParam(name = "user_id") Long id) {
+    @GetMapping(value = "/me", params = {"!id"})
+    public Iterable<PublicationEntity> getAllUserPublications(Authentication auth) {
         var principal = (UserEntity) auth.getPrincipal();
-        return publicationService.getAllUserPublications(principal, id);
+
+        return (principal != null) ? publicationService.getAllUserPublications(principal) : null;
     }
 
     @PutMapping
