@@ -57,6 +57,14 @@ html {
   float: right;
 }
 
+.main-content-2 {
+  margin-top: 5px;
+  display: inline-block;
+  position: relative;
+  width: 100%;
+  float: right;
+}
+
 
 .main-content .navbar-main-2 {
   padding: 0;
@@ -196,4 +204,22 @@ html {
 
 .tab-content {
   display: contents;
+}
+
+.buttonSave-2 {
+  background: limegreen;
+  border: 2px solid rgba(0, 0, 0);
+  border-radius: 20px !important;
+  height: 40px;
+  width: 120px;
+  margin: 10px 10px 10px 60px;
+}
+
+.buttonSave {
+  background: limegreen;
+  border: 2px solid rgba(0, 0, 0);
+  border-radius: 20px !important;
+  height: 40px;
+  width: 120px;
+  margin: 10px;
 }
