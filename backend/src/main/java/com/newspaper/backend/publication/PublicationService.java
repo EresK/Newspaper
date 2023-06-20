@@ -73,9 +73,48 @@ public class PublicationService {
                     newPublication.isPresent() &&
                     Objects.equals(newPublication.get().getPublicationOwner().getId(), user.get().getId())) {
 
+<<<<<<< Updated upstream
                 newPublication.get().setDescription(publication.getDescription());
                 publicationRepository.save(newPublication.get());
             }
+=======
+        if (publication.isPresent() &&
+                principal != null &&
+                AuthorizationComponent.isOwnerOf(principal, publication.get()))
+            return publication;
+
+        return Optional.empty();
+    }
+
+    public Iterable<PublicationEntity> getAllUserPublications(@Nullable UserEntity principal, Long id) {
+        var user = userRepository.findById(id);
+
+        if (user.isPresent() &&
+                principal != null &&
+                AuthorizationComponent.isSameUser(principal, id))
+            return user.get().getPublications();
+
+        return user.<Iterable<PublicationEntity>>map(userEntity -> userEntity.getPublications().stream().filter(p -> !p.getIsHide()).toList()).orElse(null);
+
+    }
+    public ContentRequest getContentById(Long id){
+        var publication = publicationRepository.findById(id);
+        if(publication.isEmpty())
+            return null;
+        return new ContentRequest(publication.get().getContent().getId(),publication.get().getContent().getContentJson(),publication.get().getContent().getStyleJson());
+    }
+    // TODO: get & update content methods
+    @Transactional
+    public void setAdvert(@NonNull UserEntity principal, Long advertId, Long publicationId) {
+        var advert = advertRepository.findById(advertId);
+        var publication = publicationRepository.findById(publicationId);
+
+        if (advert.isPresent() &&
+                publication.isPresent() &&
+                AuthorizationComponent.isOwnerOf(principal, publication.get())) {
+            advert.get().setPublication(publication.get());
+            advertRepository.save(advert.get());
+>>>>>>> Stashed changes
         }
     }
 
