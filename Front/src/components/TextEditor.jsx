@@ -2,9 +2,65 @@ import React, {useEffect, useState} from "react";
 import grapesjs from "grapesjs";
 import gjsBlockBasic from "grapesjs-blocks-basic";
 import "../styles/TextEditor.scss"
+import axios from "axios";
+import {over} from 'stompjs';
+import SockJS from 'sockjs-client';
 
 const TextEditor = (props) => {
+    const onError = (err) => {
+        console.log(err);
+    }
+
+    var stompClient = null;
+    let components = null;
+    let styles = null
+    const connect = () => {
+        let Sock = new SockJS('http://localhost:8080/sok');
+        stompClient = over(Sock);
+        stompClient.connect({}, onConnected, onError);
+    }
+
+    const refresh = async (message) => {
+        const result = await axios.get("http://localhost:8080/publications/content", {
+            params: {id: props.id_publication},
+            headers: {Authorization: localStorage.getItem('auth')}
+        })
+        editor.setComponents(JSON.parse(result.data.contentJson));
+        editor.setStyle(JSON.parse(result.data.styleJson));
+    }
+
+    const onConnected = () => {
+        stompClient.subscribe(`/editor/public/${props.id_publication}`, refresh);
+    }
+
+    connect();
+    refresh({});
+
     const [editor, setEditor] = useState(null);
+
+    const getResult = () => {
+        const components = JSON.stringify(editor.getComponents());
+        const styles = JSON.stringify(editor.getStyle());
+        const id = props.id_publication
+        axios.put("http://localhost:8080/publications/update", JSON.stringify({
+                contentJson: components,
+                styleJson: styles
+            }),
+            {
+                params: {id: id},
+                headers: {
+                    'X-Content-Type-Options': 'nosniff',
+                    'Content-Type': 'application/json',
+                    Authorization: localStorage.getItem('auth')
+                }
+            }
+        )
+        stompClient.send(`/app/upd/${props.id_publication}`,
+            {
+                Authorization: localStorage.getItem('auth')
+            }
+        );
+    }
 
     useEffect(() => {
         const editor = grapesjs.init({
@@ -78,22 +134,9 @@ const TextEditor = (props) => {
                 gjsBlockBasic: {},
             },
         });
-        const components = localStorage.getItem(`components_${props.id_publication}`);
-        const styles = localStorage.getItem(`styles_${props.id_publication}`);
-        if (components == null || styles == null) {
-            editor.setComponents(null);
-            editor.setStyle(null);
-        } else {
-            editor.setComponents(JSON.parse(components));
-            editor.setStyle(JSON.parse(styles));
-        }
+        refresh({});
         setEditor(editor);
     }, []);
-
-    const getResult = () => {
-        localStorage.setItem(`components_${props.id_publication}`, JSON.stringify(editor.getComponents()));
-        localStorage.setItem(`styles_${props.id_publication}`, JSON.stringify(editor.getStyle()))
-    }
 
     const status = 1;
     if (status === 1) {

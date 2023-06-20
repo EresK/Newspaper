@@ -17,9 +17,9 @@ public class PublicationContent {
     @Id
     @GeneratedValue
     private Long id;
-    @Column(length = 100000)
+    @Column(length = 1_000_000_000)
     private String contentJson;
-    @Column(length = 100000)
+    @Column(length = 1_000_000_000)
     private String styleJson;
     @Version
     Long version;
