@@ -13,6 +13,7 @@ const TextEditor = (props) => {
                 appendTo: '#blocks',
             },
             storageManager: false,
+            removable: false,
             styleManager: {
                 appendTo: '#styles-container',
                 sectors: [
@@ -63,29 +64,10 @@ const TextEditor = (props) => {
                         buttons: [
                             {
                                 id: 'visibility',
-                                active: true, // active by default
+                                active: false, // active by default
                                 className: 'btn-toggle-borders',
                                 label: '<i class="fa fa-clone"></i>',
                                 command: 'sw-visibility', // Built-in command
-                            },
-                        ],
-                    },
-                    {
-                        id: 'panel-devices',
-                        el: '.panel__devices',
-                        buttons: [
-                            {
-                                id: 'device-desktop',
-                                label: '<i class="fa fa-television"></i>',
-                                command: 'set-device-desktop',
-                                active: true,
-                                togglable: false,
-                            },
-                            {
-                                id: 'device-mobile',
-                                label: '<i class="fa fa-mobile"></i>',
-                                command: 'set-device-mobile',
-                                togglable: false,
                             },
                         ],
                     },
@@ -113,7 +95,7 @@ const TextEditor = (props) => {
         localStorage.setItem(`styles_${props.id_publication}`, JSON.stringify(editor.getStyle()))
     }
 
-    const status = 2;
+    const status = 1;
     if (status === 1) {
         return (
             <div className="AppEditor">
