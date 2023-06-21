@@ -56,23 +56,24 @@ public class PublicationService {
         return Optional.empty();
     }
 
-    public Iterable<PublicationEntity> getAllUserPublications(@Nullable UserEntity principal, Long id) {
-        var user = userRepository.findById(id);
+    public Iterable<PublicationEntity> getAllUserPublications(@NonNull UserEntity principal) {
+        var user = userRepository.findByEmail(principal.getUsername());
 
-        if (user.isPresent() &&
-                principal != null &&
-                AuthorizationComponent.isSameUser(principal, id))
-            return user.get().getPublications();
-
-        return user.<Iterable<PublicationEntity>>map(userEntity -> userEntity.getPublications().stream().filter(p -> !p.getIsHide()).toList()).orElse(null);
-
+        return user.<Iterable<PublicationEntity>>map(UserEntity::getPublications).orElse(null);
     }
-    public ContentRequest getContentById(Long id){
+
+    public ContentRequest getContentById(Long id) {
         var publication = publicationRepository.findById(id);
-        if(publication.isEmpty())
+        if (publication.isEmpty())
             return null;
-        return new ContentRequest(publication.get().getContent().getContentJson(),publication.get().getContent().getStyleJson(),publication.get().getContent().getId());
+        if (publication.get().getContent() == null)
+            return new ContentRequest(null, null, null);
+
+        return new ContentRequest(publication.get().getContent().getId(),
+                publication.get().getContent().getContentJson(),
+                publication.get().getContent().getStyleJson());
     }
+
     // TODO: get & update content methods
     @Transactional
     public void setAdvert(@NonNull UserEntity principal, Long advertId, Long publicationId) {
