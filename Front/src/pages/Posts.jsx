@@ -20,12 +20,16 @@ const Posts = () => {
     }, [page])
 
     async function fetchPosts() {
+        const resp = await Service.getFromServerAmount()
+        const amount = resp.data.length
         const response = await Service.getFromServer(page, size);
         setSomeItem(response.data)
-        const amount = 7
+
         setCount(countPages(amount, size))
         console.log(response)
+        console.log(amount)
     }
+
 
     for (let i = 0; i < count; i++) {
         pages.push(i)

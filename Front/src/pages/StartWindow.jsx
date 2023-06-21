@@ -47,11 +47,11 @@ const StartWindow = () => {
             {/*<div>*/}
             {/*    <button onClick={fetchPosts}>jgjg</button>*/}
             {/*</div>*/}
-            <div className="paginate">
-                {pages.map(p =>
-                    <span className={page === p ? 'pagBtn currentBtn' : 'pagBtn'} key={p} onClick={() => setPage(p)}>{p+1}</span>
-                )}
-            </div>
+            {/*<div className="paginate">*/}
+            {/*    {pages.map(p =>*/}
+            {/*        <span className={page === p ? 'pagBtn currentBtn' : 'pagBtn'} key={p} onClick={() => setPage(p)}>{p+1}</span>*/}
+            {/*    )}*/}
+            {/*</div>*/}
 
         </div>
     );

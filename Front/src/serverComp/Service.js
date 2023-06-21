@@ -13,6 +13,15 @@ export default class Service {
         return response;
     }
 
+    static async getFromServerAmount() {
+        const response = await axios.get('http://localhost:8080/publications/all', {
+            headers: {
+                Authorization: localStorage.getItem("auth")
+            }
+        })
+        return response;
+    }
+
     static async getPostsByUser() {
         const response = await axios.get('http://localhost:8080/publications/me', {
             headers: {

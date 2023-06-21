@@ -3,6 +3,7 @@ import "../styles/Login.css"
 import axios from "axios";
 import {AuthContext} from "../context";
 import {Buffer} from 'buffer';
+import {toast, Toaster} from "react-hot-toast";
 
 const Login = () => {
     const userRef = useRef();
@@ -15,6 +16,7 @@ const Login = () => {
 
     useEffect(() => {
         userRef.current.focus();
+        toast.dismiss();
     }, [])
 
     useEffect(() => {
@@ -35,8 +37,12 @@ const Login = () => {
             if (response.status === 200 && response.data === true) {
                 localStorage.setItem("auth", authorization);
                 setIsAuth(true);
-                console.log(response);
+                // console.log(response);
+            } else {
+                toast.error("Bad credentials", {duration: 3000, id: "error-toast"});
             }
+        }).catch(error => {
+            toast.error("Bad credentials", {duration: 3000, id: "error-toast"});
         });
     }
 
@@ -64,6 +70,7 @@ const Login = () => {
                     <button className="login-button">Log in</button>
                 </div>
             </form>
+            <Toaster/>
         </div>
     );
 };

@@ -8,7 +8,9 @@ import ProfilePostsList from "../components/ProfilePostsList";
 const ProfilePage = () => {
     const {isAuth, setIsAuth} = useContext(AuthContext);
     const [someItem, setSomeItem] = useState([])
-    const [userInfo, setUserInfo] = useState('')
+    const [userInfoEmail, setUserInfoEmail] = useState('')
+    const [userInfoName, setUserInfoName] = useState('')
+    const [userInfoLastName, setUserInfoLastName] = useState('')
     const [filter, setFilter] = useState({sort: '', query: ''})
     const [count, setCount] = useState(0)
     // const [size, setSize] = useState(4)
@@ -33,7 +35,7 @@ const ProfilePage = () => {
         // const amount = 7
         // setCount(countPages(amount, size))
         // console.log(response.data.length)
-        // console.log(response)
+        console.log(response)
     }
 
     async function fetchUserInfo() {
@@ -42,8 +44,12 @@ const ProfilePage = () => {
                 Authorization: localStorage.getItem("auth")
             }
         })
-        setUserInfo(response.data['email'])
-        console.log(userInfo)
+        setUserInfoEmail(response.data.email)
+        setUserInfoName(response.data.firstName)
+        setUserInfoLastName(response.data.lastName)
+        console.log(userInfoEmail)
+        console.log(userInfoName)
+        console.log(userInfoLastName)
     }
 
     // for (let i = 0; i < count; i++) {
@@ -52,7 +58,8 @@ const ProfilePage = () => {
     return (
         <div>
             <h1 className="header-prof">Your Profile</h1>
-            <div className="user-info-text">Username: {userInfo}</div>
+            <div className="user-info-text">Name: {userInfoName} {userInfoLastName}</div>
+            <div className="user-info-text">Username: {userInfoEmail}</div>
             <button className="logout-button" onClick={logout}>Log out</button>
             <h1 className="header-prof">Your posts</h1>
             <ProfilePostsList posts={someItem}/>
