@@ -39,6 +39,7 @@ public class UserService implements UserDetailsService {
         return user.isPresent() && bCryptPasswordEncoder.matches(userLogin.getPassword(), user.get().getPassword());
     }
 
+    @Transactional
     public Status signUpUser(UserEntity user) {
         if (userRepository.findByEmail(user.getEmail()).isPresent()) {
             return Status.ERROR;
