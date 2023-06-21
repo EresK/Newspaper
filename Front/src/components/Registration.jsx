@@ -1,8 +1,7 @@
 import React, {useEffect, useRef, useState} from 'react';
 import "../styles/Registration.css"
-import MyInput from "./UI/input/MyInput";
-import MyButton from "./UI/button/MyButton";
 import axios from "axios";
+import {toast, Toaster} from "react-hot-toast";
 
 // const USER_REGEX = /^[A-z][A-z0-9-_]{3,23}$/;
 // const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
@@ -28,8 +27,11 @@ const Registration = () => {
     const [errMsg, setErrMsg] = useState('');
     const [success, setSuccess] = useState(false);
 
+    const [buttonState, setButtonState] = useState(false);
+
     useEffect(() => {
         userRef.current.focus();
+        toast.dismiss();
     }, [])
 
     // useEffect(() => {
@@ -47,18 +49,27 @@ const Registration = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setButtonState(true)
+
         const response = await axios.post("http://localhost:8080/registration",
             JSON.stringify({email: user, firstName: userFName, lastName: userSName, password: pwd}),
-             {
-                 headers: {'Content-Type': 'application/json'},
-                 // withCredentials: true
-             }
-        ).then(console.log("Success"));
+            {
+                headers: {'Content-Type': 'application/json'},
+                // withCredentials: true
+            }
+        ).then(response => {
+            if (response.status === 200 && response.data === 'SUCCESS') {
+                toast.success("You signed up!", {duration: 2000});
+            } else {
+                toast.error("Bad credentials", {duration: 3000});
+            }
+        });
 
+        setTimeout(() => setButtonState(false), 3000);
 
-        console.log(response.data);
-        console.log(response);
-        console.log(JSON.stringify({email: user, firstName: userFName, lastName: userSName, password: pwd}))
+        // console.log(response.data);
+        // console.log(response);
+        // console.log(JSON.stringify({email: user, firstName: userFName, lastName: userSName, password: pwd}))
         // console.log(JSON.stringify(response));
     }
 
@@ -137,10 +148,11 @@ const Registration = () => {
                     </label>
                 </div>
 
-                <div className = "reg-button">
-                    <button>Sign Up</button>
+                <div className="reg-button">
+                    <button disabled={buttonState}>Sign Up</button>
                 </div>
             </form>
+            <Toaster/>
         </div>
     );
 };

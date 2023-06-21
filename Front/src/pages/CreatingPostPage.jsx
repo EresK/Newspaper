@@ -1,9 +1,10 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import MyInput from "../components/UI/input/MyInput";
 import "../styles/CreatingPostPage.css"
 import MyButton from "../components/UI/button/MyButton";
 import {useNavigate} from "react-router-dom";
 import axios from "axios";
+import {toast, Toaster} from "react-hot-toast";
 
 const CreatingPostPage = () => {
     const router = useNavigate()
@@ -13,8 +14,15 @@ const CreatingPostPage = () => {
     const [description, setDescription] = useState('');
     const [issueNumber, setIssueNumber] = useState('');
     const [imageLink, setImageLink] = useState('');
+    const [buttonState, setButtonState] = useState(false);
+
+    useEffect(() => {
+        toast.dismiss();
+    }, []);
 
     const createPublication = async () => {
+        setButtonState(true);
+
         await axios.post("http://localhost:8080/publications",
             JSON.stringify({
                 description: {
@@ -34,8 +42,17 @@ const CreatingPostPage = () => {
                 }
             }
         ).then(response => {
-            console.log(response)
+            console.log(response);
+            if (response.data === 'SUCCESS') {
+                toast.success("Publication created!", {id: "info-toast"});
+            } else {
+                toast.error("Can not create publication", {duration: 3000, id: "info-toast"});
+            }
+        }).catch(error => {
+            toast.error("Can not create publication", {duration: 3000, id: "info-toast"});
         });
+
+        setTimeout(() => setButtonState(false), 3000);
     }
 
     return (
@@ -70,9 +87,10 @@ const CreatingPostPage = () => {
                     </label>
                     {/*<p>Add image</p>*/}
                     {/*<img src="../resources/placeholder.jpeg" width={300} height={300}/>*/}
-                    <MyButton onClick={createPublication} style={{marginTop: 30}}>Save</MyButton>
+                    <MyButton onClick={createPublication} disabled={buttonState} style={{marginTop: 30}}>Save</MyButton>
                 </div>
             </div>
+            <Toaster/>
         </div>
     );
 };
