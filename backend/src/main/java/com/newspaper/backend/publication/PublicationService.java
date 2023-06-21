@@ -14,6 +14,7 @@ import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.Date;
 import java.util.Optional;
 
 @AllArgsConstructor
@@ -32,6 +33,8 @@ public class PublicationService {
             return Status.NO_AUTH;
         if (!user.get().getPassword().equalsIgnoreCase(principal.getPassword()))
             return Status.DENIED;
+        if (publication.getDescription() != null)
+            publication.getDescription().setIssueDate(new Date());
         publication.setOwner(user.get());
         publicationRepository.save(publication);
         return Status.SUCCESS;
