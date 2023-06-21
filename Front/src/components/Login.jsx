@@ -1,7 +1,5 @@
 import React, {useContext, useEffect, useRef, useState} from 'react';
 import "../styles/Login.css"
-import MyInput from "./UI/input/MyInput";
-import MyButton from "./UI/button/MyButton";
 import axios from "axios";
 import {AuthContext} from "../context";
 import {Buffer} from 'buffer';
@@ -25,34 +23,21 @@ const Login = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const formData = new FormData();
-        formData.append('username', user);
-        formData.append('password', pwd);
-    //     console.log(user, pwd);
-    //    // console.log(formData.entries());
-    //     for (const pair of formData.entries()) {
-    //         console.log(pair[0], pair[1]);
-    //     }
 
         const encodedBase64Token = Buffer.from(`${user}:${pwd}`).toString('base64');
         const authorization = `Basic ${encodedBase64Token}`;
 
-        const response = await axios.post("http://localhost:8080/login", JSON.stringify({email: user, password: pwd}),
+        await axios.post("http://localhost:8080/users/login", JSON.stringify({email: user, password: pwd}),
             {
                 headers: {"Content-Type": "application/json"}
             }
-        );
-        console.log(response);
-        if (response.status === 200) {
-            localStorage.setItem("auth", authorization)
-            // localStorage.setItem("id", )
-            setIsAuth(true);
-        }
-        // else if (response.status === 404) {
-        //     console.log("Error a")
-        // }
-
-
+        ).then(response => {
+            if (response.status === 200 && response.data === true) {
+                localStorage.setItem("auth", authorization);
+                setIsAuth(true);
+                console.log(response);
+            }
+        });
     }
 
     return (

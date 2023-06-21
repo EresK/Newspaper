@@ -1,25 +1,25 @@
-.navbar {
+.navbar-main {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    height: 20px;
+    height: 60px;
     background-color: #262626;
     padding: 1rem;
     box-shadow: 0 2px 3px rgba(0, 0, 0, 0.2);
 }
 
-.navbar .left {
+.navbar-main .left {
     display: flex;
     align-items: center;
 }
 
-.navbar .right {
+.navbar-main .right {
     display: flex;
     align-items: center;
 }
 
 
-.navbar .navbtn {
+.navbar-main .navbtn {
     font-size: 1em;
     color: #ffffff;
     text-decoration: none;
@@ -40,27 +40,27 @@
 
 }
 
-.navbar .navbtn:hover {
+.navbar-main .navbtn:hover {
     background-color: #555;
 }
 
 @media screen and (max-width: 768px) {
-    .navbar {
+    .navbar-main {
         justify-content: space-around;
         height: 60px;
         padding: 0.5rem;
     }
 
-    .navbar .left {
+    .navbar-main .left {
         display: none;
     }
 
-    .navbar .right {
+    .navbar-main .right {
         flex-grow: 1;
         justify-content: space-around;
     }
 
-    .navbar .navbtn {
+    .navbar-main .navbtn {
         padding: 0.5rem 1rem;
         margin: 0 0.5rem;
     }

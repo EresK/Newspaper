@@ -1,157 +1,222 @@
-import React, {useState} from 'react';
-import {EditorState, convertToRaw, convertFromRaw} from "draft-js";
-import {Editor} from "react-draft-wysiwyg";
-import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css"
-import "../styles/TextEditor.css"
-import '../App'
-
-
-// Функция для загрузки изображений с рабочего стола (пока не работает)
-// function uploadImageCallBack(file) {
-//     return new Promise(
-//         (resolve, reject) => {
-//             const xhr = new XMLHttpRequest();
-//             xhr.open('POST', 'https://api.imgur.com/3/image');
-//             xhr.setRequestHeader('Authorization', 'Client-ID ##clientid###');
-//             const data = new FormData();
-//             data.append('image', file);
-//             xhr.send(data);
-//             xhr.addEventListener('load', () => {
-//                 const response = JSON.parse(xhr.responseText);
-//                 console.log(response)
-//                 resolve(response);
-//             });
-//             xhr.addEventListener('error', () => {
-//                 const error = JSON.parse(xhr.responseText);
-//                 console.log(error)
-//                 reject(error);
-//             });
-//         }
-//     );
-// }
-
+import React, {useEffect, useState} from "react";
+import grapesjs from "grapesjs";
+import gjsBlockBasic from "grapesjs-blocks-basic";
+import "../styles/TextEditor.scss"
 
 const TextEditor = (props) => {
-    const [editorState, setEditorState] = useState(
-        () => {
-            const content = window.localStorage.getItem(`content${props.id_publication}`);
+    const [editor, setEditor] = useState(null);
 
-            if (content) {
-                return EditorState.createWithContent(convertFromRaw(JSON.parse(content)));
-            } else {
-                return EditorState.createEmpty();
-            }
+    useEffect(() => {
+        const editor = grapesjs.init({
+            container: "#editor",
+            blockManager: {
+                appendTo: '#blocks',
+            },
+            storageManager: false,
+            removable: false,
+            styleManager: {
+                appendTo: '#styles-container',
+                sectors: [
+                    {
+                        name: 'First sector',
+                        properties: [
+                            'width', 'min-width',
+                            'height', 'min-height',
+                        ],
+                    },
+                    {
+                        name: 'Second sector',
+                        properties: [
+                            'color', 'font-size', 'text-align',
+                        ],
+                    },
+                    {
+                        name: 'Dimension',
+                        open: false,
+                        buildProps: ['width', 'min-height', 'padding'],
+                        properties: [
+                            {
+                                type: 'integer',
+                                name: 'The width',
+                                property: 'width',
+                                units: ['px', '%'],
+                                defaults: 'auto',
+                                min: 0,
+                            },
+                        ],
+                    },
+                ],
+            },
+            layerManager: {
+                appendTo: '#layers-container',
+            },
+            traitManager: {
+                appendTo: '#trait-container',
+            },
+            selectorManager: {
+                appendTo: '#styles-container',
+            },
+            panels: {
+                defaults: [
+                    {
+                        id: 'basic-actions',
+                        el: '.panel__basic-actions',
+                        buttons: [
+                            {
+                                id: 'visibility',
+                                active: false, // active by default
+                                className: 'btn-toggle-borders',
+                                label: '<i class="fa fa-clone"></i>',
+                                command: 'sw-visibility', // Built-in command
+                            },
+                        ],
+                    },
+                ],
+            },
+            plugins: [gjsBlockBasic],
+            pluginsOpts: {
+                gjsBlockBasic: {},
+            },
+        });
+        const components = localStorage.getItem(`components_${props.id_publication}`);
+        const styles = localStorage.getItem(`styles_${props.id_publication}`);
+        if (components == null || styles == null) {
+            editor.setComponents(null);
+            editor.setStyle(null);
+        } else {
+            editor.setComponents(JSON.parse(components));
+            editor.setStyle(JSON.parse(styles));
         }
-    );
+        setEditor(editor);
+    }, []);
 
-    const [readOnly, setReadOnly] = useState(1)
-    const [toolBarStyle, setToolBarStyle] = useState("toolbarStyle_v2")
-
-
-    const saveContent = () => {
-        setToolBarStyle("toolbarStyle_v2")
-        setReadOnly(1)
-        window.localStorage.setItem(`content${props.id_publication}`, JSON.stringify(convertToRaw(editorState.getCurrentContent())));
+    const getResult = () => {
+        localStorage.setItem(`components_${props.id_publication}`, JSON.stringify(editor.getComponents()));
+        localStorage.setItem(`styles_${props.id_publication}`, JSON.stringify(editor.getStyle()))
     }
 
-    const changeEditorSetting = () => {
-        setToolBarStyle("toolbarStyle")
-        setReadOnly(0)
+    const status = 1;
+    if (status === 1) {
+        return (
+            <div className="AppEditor">
+                <div id='navbar' className='sidenav d-flex flex-column overflow-scroll'>
+                    <nav className='navbar-main-2 navbar-light'>
+                        <div className='container-fluid'>
+                            <span className='navbar-brand mb-0 h3 logo'>NSU Editor</span>
+                        </div>
+                    </nav>
+                    <div className='my-2 d-flex flex-column'></div>
+                    <div className=''>
+                        <ul className='nav nav-tabs' id='myTab' role='tablist'>
+                            <li className='nav-item' role='presentation'>
+                                <button
+                                    className='nav-link active'
+                                    id='block-tab'
+                                    data-bs-toggle='tab'
+                                    data-bs-target='#block'
+                                    type='button'
+                                    role='tab'
+                                    aria-controls='block'
+                                    aria-selected='true'
+                                >
+                                    <i className='fa fa-cubes'></i>
+                                </button>
+                            </li>
+                            <li className='nav-item' role='presentation'>
+                                <button
+                                    className='nav-link'
+                                    id='layer-tab'
+                                    data-bs-toggle='tab'
+                                    data-bs-target='#layer'
+                                    type='button'
+                                    role='tab'
+                                    aria-controls='layer'
+                                    aria-selected='false'
+                                >
+                                    <i className='fa fa-tasks'></i>
+                                </button>
+                            </li>
+                            <li className='nav-item' role='presentation'>
+                                <button
+                                    className='nav-link'
+                                    id='style-tab'
+                                    data-bs-toggle='tab'
+                                    data-bs-target='#style'
+                                    type='button'
+                                    role='tab'
+                                    aria-controls='style'
+                                    aria-selected='false'
+                                >
+                                    <i className='fa fa-paint-brush'></i>
+                                </button>
+                            </li>
+                            <li className='nav-item' role='presentation'>
+                                <button
+                                    className='nav-link'
+                                    id='trait-tab'
+                                    data-bs-toggle='tab'
+                                    data-bs-target='#trait'
+                                    type='button'
+                                    role='tab'
+                                    aria-controls='trait'
+                                    aria-selected='false'
+                                >
+                                    <i className='fa fa-cog'></i>
+                                </button>
+                            </li>
+                        </ul>
+                        <div className='tab-content'>
+                            <div
+                                className='tab-pane fade show active'
+                                id='block'
+                                role='tabpanel'
+                                aria-labelledby='block-tab'
+                            >
+                                <div id='blocks'></div>
+                            </div>
+                            <div className='tab-pane fade' id='layer' role='tabpanel' aria-labelledby='layer-tab'>
+                                <div id='layers-container'></div>
+                            </div>
+                            <div className='tab-pane fade' id='style' role='tabpanel' aria-labelledby='style-tab'>
+                                <div id='styles-container'></div>
+                            </div>
+                            <div className='tab-pane fade' id='trait' role='tabpanel' aria-labelledby='trait-tab'>
+                                <div id='trait-container'></div>
+                            </div>
+                        </div>
+                    </div>
+                    <button className="buttonSave-2" onClick={getResult}>
+                        Save content
+                    </button>
+                </div>
+                <div className='main-content'>
+                    <nav className='navbar-main-2 navbar-light'>
+                        <div className='container-fluid'>
+                            <div className='panel__basic-actions'></div>
+                        </div>
+                    </nav>
+                    <div id='editor'></div>
+                </div>
+            </div>
+        )
+    } else if (status === 2) {
+        return (
+            <div className='main-content-2'>
+                <nav className='navbar-main-2 navbar-light'>
+                    <div className='container-fluid'>
+                        <div className='panel__basic-actions'></div>
+                    </div>
+                </nav>
+                <div id='editor'></div>
+                <button className="buttonSave" onClick={getResult}>
+                    Save content
+                </button>
+            </div>
+        )
+    } else {
+        return (
+            <div id='editor'></div>
+        )
     }
-
-    return(
-        <div>
-            <Editor
-                editorClassName="editorStyle"
-                toolbarClassName={toolBarStyle}
-                wrapperClassName="wrapper-class"
-                editorState={editorState}
-                onEditorStateChange={setEditorState}
-                readOnly={readOnly}
-                toolbar={{
-                    options: ['inline', 'blockType', 'fontSize', 'fontFamily', 'list', 'textAlign', 'colorPicker', 'emoji', 'image', 'remove', 'history'],
-                    inline: {
-                        inDropdown: false,
-                        className: undefined,
-                        component: undefined,
-                        dropdownClassName: undefined,
-                        options: ['bold', 'italic', 'underline', 'strikethrough'],
-                    },
-                    blockType: {
-                        inDropdown: true,
-                        options: ['Normal', 'H1', 'H2', 'H3', 'H4', 'H5', 'H6', 'Blockquote', 'Code'],
-                        className: undefined,
-                        component: undefined,
-                        dropdownClassName: undefined,
-                    },
-                    fontSize: {
-                        options: [8, 9, 10, 11, 12, 14, 16, 18, 24, 30, 36, 48, 60, 72, 96],
-                        className: undefined,
-                        component: undefined,
-                        dropdownClassName: undefined,
-                    },
-                    fontFamily: {
-                        options: ['Arial', 'Georgia', 'Impact', 'Tahoma', 'Times New Roman', 'Verdana'],
-                        className: undefined,
-                        component: undefined,
-                        dropdownClassName: undefined,
-                    },
-                    textAlign: {
-                        inDropdown: false,
-                        className: undefined,
-                        component: undefined,
-                        dropdownClassName: undefined,
-                        options: ['left', 'center', 'right', 'justify'],
-                    },
-                    list: {
-                        inDropdown: false,
-                        className: undefined,
-                        component: undefined,
-                        dropdownClassName: undefined,
-                        options: ['unordered', 'ordered', 'indent', 'outdent'],
-                    },
-                    colorPicker: {
-                        className: undefined,
-                        component: undefined,
-                        popupClassName: undefined,
-                        colors: ['rgb(97,189,109)', 'rgb(26,188,156)', 'rgb(84,172,210)', 'rgb(44,130,201)',
-                            'rgb(147,101,184)', 'rgb(71,85,119)', 'rgb(204,204,204)', 'rgb(65,168,95)', 'rgb(0,168,133)',
-                            'rgb(61,142,185)', 'rgb(41,105,176)', 'rgb(85,57,130)', 'rgb(40,50,78)', 'rgb(0,0,0)',
-                            'rgb(247,218,100)', 'rgb(251,160,38)', 'rgb(235,107,86)', 'rgb(226,80,65)', 'rgb(163,143,132)',
-                            'rgb(239,239,239)', 'rgb(255,255,255)', 'rgb(250,197,28)', 'rgb(243,121,52)', 'rgb(209,72,65)',
-                            'rgb(184,49,47)', 'rgb(124,112,107)', 'rgb(209,213,216)'],
-                    },
-                    image: {
-                        className: undefined,
-                        component: undefined,
-                        popupClassName: undefined,
-                        urlEnabled: true,
-                        uploadEnabled: true,
-                        alignmentEnabled: true,
-                        uploadCallback: undefined,
-                        display: 'flex',
-                        previewImage: true,
-                        inputAccept: 'image/gif,image/jpeg,image/jpg,image/png,image/svg',
-                        alt: { present: false, mandatory: false },
-                        defaultSize: {
-                            height: 'auto',
-                            width: 'auto',
-                        },
-                    },
-                    remove: { className: undefined, component: undefined },
-                    history: {
-                        inDropdown: false,
-                        className: undefined,
-                        component: undefined,
-                        dropdownClassName: undefined,
-                        options: ['undo', 'redo'],
-                    },
-                }}
-            />
-            <button className="buttonStyle" onClick={() => saveContent()}>Save</button>
-            <button className="buttonStyle" onClick={() => changeEditorSetting()}>Edit</button>
-        </div>
-    );
-};
-
+}
 export default TextEditor;

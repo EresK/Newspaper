@@ -12,7 +12,7 @@
     background-color: navajowhite;
 }
 
-.toolbarStyle_v2{
+.toolbarStyle_v2 {
     display: none;
 }
 
@@ -28,6 +28,6 @@
     cursor: pointer;
 }
 
-.fullEditor{
+.fullEditor {
     padding: 10px 10px;
 }

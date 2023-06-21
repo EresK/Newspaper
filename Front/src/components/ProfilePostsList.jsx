@@ -1,5 +1,4 @@
 import React from 'react';
-import CardForPost from "./CardForPost";
 import ProfilePosts from "./ProfilePosts";
 
 const ProfilePostsList = ({posts, title}) => {

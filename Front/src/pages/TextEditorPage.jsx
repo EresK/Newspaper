@@ -1,10 +1,10 @@
-import TextEditor from "../components/TextEditor";
-import {Link} from "react-router-dom";
+import {useLocation} from "react-router-dom";
 import React from "react";
-import { useLocation } from "react-router-dom";
 import "../styles/TextEditorPage.css"
-import "../styles/TextEditor.css"
-
+import "grapesjs/dist/css/grapes.min.css";
+import "bootstrap";
+import Members from "../components/Members/Members";
+import AppEditor from "../components/AppEditor";
 
 export const TextEditorPage = () => {
     const location = useLocation();
@@ -19,10 +19,11 @@ export const TextEditorPage = () => {
                 <h3>Дата публикации: </h3><span>{data.description.issueDate}</span>
                 <h3>Содержание: </h3><span>{data.description.description}</span>
             </div>
-            <TextEditor id_publication={data.id} />
-            {/*<Link to={"/"}>*/}
-            {/*    <button className="buttonStyle">Main page</button>*/}
-            {/*</Link>*/}
+            <div>
+                <Members id_publication={data.id}/>
+            </div>
+
+            <AppEditor id={data.id}/>
         </div>
     );
 }

@@ -8,11 +8,12 @@
     width: 50%;
     display: inline-block;
 }
+
 .search:focus {
-     outline: none;
-     border-color: #262626;
+    outline: none;
+    border-color: #262626;
     box-shadow: 0 2px 3px rgba(0, 0, 0, 0.2);
- }
+}
 
 
 .filter {
@@ -25,11 +26,12 @@
     display: inline-block;
     cursor: pointer;
 }
+
 .filter:focus {
-     outline: none;
-     border-color: #262626;
+    outline: none;
+    border-color: #262626;
     box-shadow: 0 2px 3px rgba(0, 0, 0, 0.2);
- }
+}
 
 
 .filter option {
