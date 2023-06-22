@@ -13,7 +13,7 @@ const Members = (props) => {
     const roleOptions = [
         {value: 'Choose role', label: 'Choose role'},
         {value: 'editor', label: 'Editor'},
-        {value: 'advertiser', label: 'Advertiser'},
+        // {value: 'advertiser', label: 'Advertiser'},
         {value: 'designer', label: 'Designer'}
     ];
     const [role, setRole] = useState(roleOptions[0].value);

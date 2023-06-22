@@ -5,6 +5,7 @@ import "../styles/TextEditor.scss"
 import axios from "axios";
 import {over} from 'stompjs';
 import SockJS from 'sockjs-client';
+import {toast, Toaster} from "react-hot-toast";
 
 const TextEditor = (props) => {
     const onError = (err) => {
@@ -12,8 +13,6 @@ const TextEditor = (props) => {
     }
 
     var stompClient = null;
-    let components = null;
-    let styles = null
     const connect = () => {
         let Sock = new SockJS('http://localhost:8080/sok');
         stompClient = over(Sock);
@@ -38,11 +37,11 @@ const TextEditor = (props) => {
 
     const [editor, setEditor] = useState(null);
 
-    const getResult = () => {
+    const getResult = async () => {
         const components = JSON.stringify(editor.getComponents());
         const styles = JSON.stringify(editor.getStyle());
         const id = props.id_publication
-        axios.put("http://localhost:8080/publications/update", JSON.stringify({
+        await axios.put("http://localhost:8080/publications/update", JSON.stringify({
                 contentJson: components,
                 styleJson: styles
             }),
@@ -54,12 +53,22 @@ const TextEditor = (props) => {
                     Authorization: localStorage.getItem('auth')
                 }
             }
-        )
+        ).then(response => {
+            if (response.data === "SUCCESS") {
+                toast.success("Saved!", {duration: 2000, id: "info-toast"});
+            } else {
+                toast.error("Can not save content", {duration: 3000, id: "info-toast"});
+            }
+        }).catch(() => {
+            toast.error("Can not save content", {duration: 3000, id: "info-toast"});
+        });
+
         stompClient.send(`/app/upd/${props.id_publication}`,
             {
                 Authorization: localStorage.getItem('auth')
             }
         );
+        await refresh({});
     }
 
     useEffect(() => {
@@ -134,7 +143,6 @@ const TextEditor = (props) => {
                 gjsBlockBasic: {},
             },
         });
-        refresh({});
         setEditor(editor);
     }, []);
 
@@ -240,6 +248,7 @@ const TextEditor = (props) => {
                     </nav>
                     <div id='editor'></div>
                 </div>
+                <Toaster/>
             </div>
         )
     } else if (status === 2) {
@@ -254,6 +263,7 @@ const TextEditor = (props) => {
                 <button className="buttonSave" onClick={getResult}>
                     Save content
                 </button>
+                <Toaster/>
             </div>
         )
     } else {

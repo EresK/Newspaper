@@ -59,10 +59,12 @@ const Registration = () => {
             }
         ).then(response => {
             if (response.status === 200 && response.data === 'SUCCESS') {
-                toast.success("You signed up!", {duration: 2000});
+                toast.success("You signed up!", {duration: 2000, id: "info-toast"});
             } else {
-                toast.error("Bad credentials", {duration: 3000});
+                toast.error("User already signed up", {duration: 3000, id: "info-toast", icon: "⚠️"});
             }
+        }).catch(() => {
+            toast.error("Bad credentials", {duration: 3000, id: "info-toast"});
         });
 
         setTimeout(() => setButtonState(false), 3000);
