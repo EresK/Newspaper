@@ -3,6 +3,7 @@ package com.newspaper.backend;
 import com.newspaper.backend.authorization.role.DefaultRole;
 import com.newspaper.backend.authorization.role.UserRole;
 import com.newspaper.backend.authorization.role.UserRoleRepository;
+import com.newspaper.backend.content.PublicationContent;
 import com.newspaper.backend.description.DescriptionEntity;
 import com.newspaper.backend.publication.PublicationEntity;
 import com.newspaper.backend.publication.PublicationRepository;
@@ -15,6 +16,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import javax.transaction.Transactional;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -108,30 +112,30 @@ public class CommandLineRunnerComponent implements CommandLineRunner {
                 new Date(),
                 "https://avatars.mds.yandex.net/i?id=9c501ac4e0161635df8234de2f2113d0-5234070-images-thumbs&n=13");
 
-        DescriptionEntity description5 = new DescriptionEntity("IPhone news",
+        DescriptionEntity description5 = new DescriptionEntity("Music",
                 "Mark Pan",
-                "All about iphone.",
+                "Music in depth",
                 18L,
                 new Date(),
-                "https://i.pinimg.com/736x/39/01/af/3901afb10b2f4cf2c71e21a286b5b39d--october-.jpg");
+                "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSMJuTGReQa0KVn4KR6u6QQugjuWLVotsRjWg&usqp=CAU");
 
-        DescriptionEntity description6 = new DescriptionEntity("Flowers",
+        DescriptionEntity description6 = new DescriptionEntity("Chess Master",
                 "Oleg Smith",
-                "All about flowers.",
+                "All about Chess.",
                 19L,
                 new Date(),
-                "https://image.isu.pub/180720170813-6f44a322f274de1db46ef2c0060186d5/jpg/page_1.jpg");
+                "https://chessily.com/wp-content/uploads/2022/04/chess-board-setup-the-chess-starting-position.png");
 
-        DescriptionEntity description7 = new DescriptionEntity("Music magazine",
+        DescriptionEntity description7 = new DescriptionEntity("Chess",
                 "Sasha Quenne",
-                "All about music.",
+                "All about chess.",
                 20L,
                 new Date(),
                 "https://files.magzter.com/resize/magazine/1423654150/1547041087/view/3.jpg");
 
-        DescriptionEntity description8 = new DescriptionEntity("History",
+        DescriptionEntity description8 = new DescriptionEntity("Music Day",
                 "Sophia Dormi",
-                "All about history.",
+                "Music in depth.",
                 21L,
                 new Date(),
                 "");
@@ -144,6 +148,29 @@ public class CommandLineRunnerComponent implements CommandLineRunner {
         publication6.setDescription(description6);
         publication7.setDescription(description7);
         publication8.setDescription(description8);
+
+        try {
+            String musicContent = new String(Files.readAllBytes(Paths.get("backend/src/main/resources/music-content")));
+            String musicStyle = new String(Files.readAllBytes(Paths.get("backend/src/main/resources/music-style")));
+            String chessContent = new String(Files.readAllBytes(Paths.get("backend/src/main/resources/chess-content")));
+            String chessStyle = new String(Files.readAllBytes(Paths.get("backend/src/main/resources/chess-style")));
+
+            var musicPublicationContent = new PublicationContent();
+            musicPublicationContent.setContentJson(musicContent);
+            musicPublicationContent.setStyleJson(musicStyle);
+            musicPublicationContent.setVersion(1L);
+
+            var chessPublicationContent = new PublicationContent();
+            chessPublicationContent.setContentJson(chessContent);
+            chessPublicationContent.setStyleJson(chessStyle);
+            chessPublicationContent.setVersion(1L);
+
+            publication5.setContent(musicPublicationContent);
+            publication6.setContent(chessPublicationContent);
+        }
+        catch (IOException e) {
+            System.err.println(e.getMessage());
+        }
 
         return new ArrayList<>(List.of(publication1, publication2,
                 publication3, publication4,

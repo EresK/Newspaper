@@ -86,7 +86,7 @@ public class PublicationController {
     @GetMapping(params = {"!user_id"})
     public Optional<PublicationEntity> getSpecifiedPublication(Authentication auth,
                                                                @RequestParam(name = "id") Long id) {
-        var principal = (UserEntity) auth.getPrincipal();
+        var principal = (auth != null) ? (UserEntity) auth.getPrincipal() : null;
         return publicationService.getSpecifiedPublication(principal, id);
     }
 
