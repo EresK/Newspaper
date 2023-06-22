@@ -42,7 +42,7 @@ const StartWindow = () => {
         <div>
 
 
-            <h1 className="header">The most popular posts</h1>
+            <h1 className="header">Recent added publications</h1>
             <PostsList posts={sortedAndSearchedPosts}/>
             {/*<div>*/}
             {/*    <button onClick={fetchPosts}>jgjg</button>*/}
