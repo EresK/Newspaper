@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from "react";
 import grapesjs from "grapesjs";
 import gjsBlockBasic from "grapesjs-blocks-basic";
+import gjsImageEdit from "grapesjs-tui-image-editor";
 import "../styles/TextEditor.scss"
 import axios from "axios";
 import {over} from 'stompjs';
@@ -144,9 +145,10 @@ const TextEditor = (props) => {
                     },
                 ],
             },
-            plugins: [gjsBlockBasic],
+            plugins: [gjsBlockBasic, gjsImageEdit],
             pluginsOpts: {
                 gjsBlockBasic: {},
+                gjsImageEdit: {},
             },
         });
         toast.dismiss();
