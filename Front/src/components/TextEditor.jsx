@@ -105,7 +105,7 @@ const TextEditor = (props) => {
                     {
                         name: 'Dimension',
                         open: false,
-                        buildProps: ['width', 'min-height', 'padding'],
+                        buildProps: ['width', 'min-height', 'padding', 'margin'],
                         properties: [
                             {
                                 type: 'integer',
