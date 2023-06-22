@@ -22,6 +22,7 @@
     "html-react-parser": "^3.0.4",
     "mdb-react-ui-kit": "^5.1.0",
     "moment": "^2.29.4",
+    "net": "^1.0.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-draft-wysiwyg": "^1.15.0",
@@ -31,6 +32,7 @@
     "react-router-dom": "^6.4.5",
     "react-scripts": "5.0.1",
     "sass": "^1.57.0",
+    "sockjs-client": "^1.6.1",
     "stompjs": "^2.3.3",
     "web-vitals": "^2.1.4"
   },

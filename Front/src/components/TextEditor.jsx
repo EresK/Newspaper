@@ -73,6 +73,12 @@ const TextEditor = (props) => {
 
     useEffect(() => {
         const editor = grapesjs.init({
+            canvasCss: `
+              .gjs-dashed *[data-gjs-highlightable] {
+                outline: 1.5px dashed black!important;
+                outline-offset: -2px!important;
+              },
+            `,
             container: "#editor",
             blockManager: {
                 appendTo: '#blocks',
