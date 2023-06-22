@@ -99,7 +99,8 @@ public class PublicationService {
             return Status.NO_AUTH;
         if (publication.isEmpty())
             return Status.ERROR;
-        if (!AuthorizationComponent.isOwnerOf(user.get(), publication.get()))
+        if (!AuthorizationComponent.isOwnerOf(user.get(), publication.get()) &&
+                !AuthorizationComponent.isMemberOf(user.get(), publication.get()))
             return Status.DENIED;
         publication.get().setContent(content);
         publicationRepository.save(publication.get());
