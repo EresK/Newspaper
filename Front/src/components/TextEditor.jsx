@@ -143,6 +143,7 @@ const TextEditor = (props) => {
                 gjsBlockBasic: {},
             },
         });
+        toast.dismiss();
         setEditor(editor);
     }, []);
 
