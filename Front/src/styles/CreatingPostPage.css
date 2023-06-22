@@ -1,9 +1,21 @@
 .outer {
-    margin: 10% auto auto;
+    margin: 10% auto 50%;
     top: 50%;
-    width: 40%;
+    width: 50%;
 }
 
 .outer h1 {
     text-align: center
+}
+
+input {
+    margin: auto;
+}
+
+p {
+    margin: auto;
+}
+
+.content {
+    margin: auto;
 }

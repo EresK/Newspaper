@@ -1,13 +1,12 @@
 .mBtn{
     padding: 5px 15px;
-    margin-left: 0.5rem;
     color: teal;
-    font-size: 14px;
+    font-size: 18px;
     background: transparent;
     border: 1px solid teal;
     cursor: pointer;
     border-radius: 8px;
-
+    margin-top: 15px;
 }
 .mBtn:hover{
     box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.1);
