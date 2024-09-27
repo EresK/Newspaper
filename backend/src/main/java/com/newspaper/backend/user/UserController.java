@@ -1,5 +1,6 @@
 package com.newspaper.backend.user;
 
+import com.newspaper.backend.publication.PublicationEntity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
