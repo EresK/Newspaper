@@ -1,0 +1,46 @@
+.search {
+    padding: 8px;
+    border: 2px solid #ccc;
+    border-radius: 4px;
+    margin-left: 1.5rem;
+    margin-top: 0.5rem;
+    /*order: 1;*/
+    width: 50%;
+    display: inline-block;
+}
+
+.search:focus {
+    outline: none;
+    border-color: #262626;
+    box-shadow: 0 2px 3px rgba(0, 0, 0, 0.2);
+}
+
+
+.filter {
+    padding: 8px;
+    border: 2px solid #ccc;
+    border-radius: 4px;
+    width: 10%;
+    /*order: 2;*/
+    margin-left: 0.5rem;
+    display: inline-block;
+    cursor: pointer;
+}
+
+.filter:focus {
+    outline: none;
+    border-color: #262626;
+    box-shadow: 0 2px 3px rgba(0, 0, 0, 0.2);
+}
+
+
+.filter option {
+    padding: 8px;
+}
+
+/*.wrapper{*/
+/*    display: flex;*/
+/*    !*!*justify-content: center; !* Выравнивание по горизонтали *!*!*!*/
+/*    !*align-items: center; !* Выравнивание по вертикали *!*!*/
+/*    !*flex-wrap: wrap;*!*/
+/*}*/

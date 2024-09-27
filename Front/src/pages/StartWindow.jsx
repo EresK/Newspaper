@@ -1,19 +1,10 @@
 import React, {useEffect, useState} from 'react';
 import PostsList from "../components/PostsList";
-import Search from "../components/Search";
-import MySelect from "../components/UI/select/MySelect";
 import "../styles/StartWindow.css"
-import Navbar from "../components/Navbar";
-import ListForm from "../components/ListForm";
-import axios from "axios";
 import {usePosts} from "../hooks/usePosts";
 import Service from "../serverComp/Service";
 import {countPages} from "../helpers/pageWork";
-import MyButton from "../components/UI/button/MyButton";
-
-import {useActionData} from "react-router";
 import {useNavigate} from "react-router-dom";
-import navbar from "../components/Navbar";
 
 const StartWindow = () => {
     const [someItem, setSomeItem] = useState([])
@@ -31,41 +22,36 @@ const StartWindow = () => {
 
     const router = useNavigate();
 
-    useEffect(()=>{
+    useEffect(() => {
 
     })
+
     async function fetchPosts() {
         const response = await Service.getFromServer(page, size);
         setSomeItem(response.data)
         const amount = 7
         setCount(countPages(amount, size))
-        console.log(response.data.length)
+        // console.log(response.data.length)
     }
 
     for (let i = 0; i < count; i++) {
-        pages.push(i+1)
+        pages.push(i)
     }
 
     return (
         <div>
-            <div className="search" style={{marginLeft: 15}}>
-                <Search
-                    filter={filter}
-                    setFilter={setFilter}
-                />
-            </div>
 
-            <h1 style={{marginLeft: 15}}>The most popular posts</h1>
+
+            <h1 className="header">The most popular posts</h1>
             <PostsList posts={sortedAndSearchedPosts}/>
-            <div>
-                <button onClick={fetchPosts}>jgjg</button>
-            </div>
-            <div className="paginate">
-                {pages.map(p =>
-                    <MyButton key={p} onClick={() => setPage(p-1)}>{p}</MyButton>
-                )}
-
-            </div>
+            {/*<div>*/}
+            {/*    <button onClick={fetchPosts}>jgjg</button>*/}
+            {/*</div>*/}
+            {/*<div className="paginate">*/}
+            {/*    {pages.map(p =>*/}
+            {/*        <span className={page === p ? 'pagBtn currentBtn' : 'pagBtn'} key={p} onClick={() => setPage(p)}>{p+1}</span>*/}
+            {/*    )}*/}
+            {/*</div>*/}
 
         </div>
     );

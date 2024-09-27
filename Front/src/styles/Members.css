@@ -1,0 +1,17 @@
+.member-div {
+    display: inline-flex;
+    flex-direction: column;
+}
+
+.member-select {
+    float: left;
+}
+
+.member-text {
+    float: left;
+}
+
+.member-list {
+    display: inline-table;
+    width: auto;
+}

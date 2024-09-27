@@ -1,28 +1,20 @@
-import React, {useState} from 'react';
-import Post from "./components/Post";
-import Login from "./components/Login";
-import Registration from "./components/Registration";
-import {BrowserRouter, Link, Route, Router, Routes} from 'react-router-dom';
+import React, {useEffect, useState} from 'react';
 import './styles/App.css'
-import PostsList from "./components/PostsList";
-import ListForm from "./components/ListForm";
-import TextEditor from "./components/TextEditor";
-import "./styles/TextEditor.css"
-import Articles from "./components/Articles";
-import "./styles/App.css"
-import StartWindow from "./pages/StartWindow";
-import Search from "./components/Search";
-import LoginPage from "./pages/LoginPage";
-import RegistrationPage from "./pages/RegistrationPage";
 import Navbar from "./components/Navbar";
 import AppRouter from "./components/AppRouter";
 import {AuthContext} from "./context";
 
 // import "./components/*"
 
-
 function App() {
     const [isAuth, setIsAuth] = useState(false);
+
+    useEffect(() => {
+        if (localStorage.getItem('auth')) {
+            setIsAuth(true)
+        }
+    }, [])
+
 
     return (
         <AuthContext.Provider value={{isAuth, setIsAuth}}>
@@ -38,21 +30,21 @@ function App() {
     //         items: [
     //             {
     //                 id: 1,
-    //                 title: "Post 1",
+    //                 title: "CardForPost 1",
     //                 img: "1_a.jpg",
     //                 authors: "Tom",
     //                 description: "New description",
     //             },
     //             {
     //                 id: 2,
-    //                 title: "Post 2",
+    //                 title: "CardForPost 2",
     //                 img: "2_a.jpg",
     //                 authors: "Peter",
     //                 description: "New description",
     //             },
     //             {
     //                 id: 3,
-    //                 title: "Post 3",
+    //                 title: "CardForPost 3",
     //                 img: "3_a.jpg",
     //                 authors: "Anna",
     //                 description: "New description",
@@ -69,7 +61,7 @@ function App() {
     //             {/*<Registration/>*/}
     //             {/*<ListForm add={addItem}/>*/}
     //             {/*<PostsList posts={someItem} title={"Most popular publications"}/>*/}
-    //             {/*<Post post = {{id: 1, title: 'test title', body: 'Content'}} />*/}
+    //             {/*<CardForPost post = {{id: 1, title: 'test title', body: 'Content'}} />*/}
     //             <div>
     //                 <div>
     //                     <h1>Описание статьи</h1>

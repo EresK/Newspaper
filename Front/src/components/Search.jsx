@@ -1,14 +1,13 @@
-import React, {useState} from 'react';
-import MyInput from "./UI/input/MyInput";
+import React from 'react';
 import MySelect from "./UI/select/MySelect";
 
 const Search = ({filter, setFilter}) => {
     return (
-        <div>
-            <MyInput
-                value={filter.query}
-                onChange={e => setFilter({...filter, query: e.target.value})}
-                placeholder="Search..."
+        <div className="wrapper">
+            <input type="text" className="search"
+                   value={filter.query}
+                   onChange={e => setFilter({...filter, query: e.target.value})}
+                   placeholder="Search..."
             />
             <MySelect
                 value={filter.sort}
@@ -16,7 +15,8 @@ const Search = ({filter, setFilter}) => {
                 defaultValue="Sort"
                 options={[
                     {value: 'title', name: 'By name'},
-                    {value: 'body', name: 'By description'},
+                    {value: 'description', name: 'By description'},
+                    {value: '', name: 'Reset'}
                 ]}
             />
         </div>

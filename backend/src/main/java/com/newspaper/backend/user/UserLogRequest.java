@@ -1,4 +1,4 @@
-package com.newspaper.backend.registration;
+package com.newspaper.backend.user;
 
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
@@ -7,9 +7,7 @@ import lombok.Value;
 @Value
 @EqualsAndHashCode
 @ToString
-public class RegistrationRequest {
+public class UserLogRequest {
     String email;
-    String firstName;
-    String lastName;
     String password;
 }

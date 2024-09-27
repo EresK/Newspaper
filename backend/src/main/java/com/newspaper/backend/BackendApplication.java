@@ -50,7 +50,7 @@ public class BackendApplication implements CommandLineRunner {
 
 		DescriptionEntity description1 = new DescriptionEntity("The Math",
 				"John Smith",
-				"All about math.",
+				"lorem ipsum dozlor sit amet, consectetur adip rggrege egege gegergeg egegeg egegegegeg egr",
 				10L,
 				new Date(),
 				"https://avatars.mds.yandex.net/i?id=775afec050cb50978da0e62e390c0c04-5246290-images-thumbs&n=13");
@@ -92,7 +92,7 @@ public class BackendApplication implements CommandLineRunner {
 
 		DescriptionEntity description7 = new DescriptionEntity("Music magazine",
 				"Sasha Quenne",
-				"All about music.",
+				"All about music. тротктко ик иорк ироке иок ик иекор икоре икро иекро  иоке кор иро икро иуро иро икор иур роуипркируируириру",
 				20L,
 				new Date(),
 				"https://files.magzter.com/resize/magazine/1423654150/1547041087/view/3.jpg");

@@ -30,6 +30,10 @@ public class UserController {
     public Optional<UserEntity> getUser(@PathVariable Long id) {
         return userRepository.findById(id);
     }
+    @GetMapping("/login")
+    public Boolean login(@RequestBody UserLogRequest user){
+        return userService.loginCheck(user.getEmail(),user.getPassword());
+    }
 
     @PutMapping("/{id}")
     public ResponseEntity<UserEntity> putUser(@PathVariable Long id, @RequestBody UserEntity user) {

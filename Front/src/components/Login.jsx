@@ -1,18 +1,19 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useContext, useEffect, useRef, useState} from 'react';
 import "../styles/Login.css"
-import MyInput from "./UI/input/MyInput";
-import MyButton from "./UI/button/MyButton";
+import axios from "axios";
+import {AuthContext} from "../context";
+import {Buffer} from 'buffer';
 
 const Login = () => {
     const userRef = useRef();
     const errRef = useRef();
-
+    const {isAuth, setIsAuth} = useContext(AuthContext);
     const [user, setUser] = useState('');
     const [pwd, setPwd] = useState('');
     const [errMsg, setErrMsg] = useState('');
     const [success, setSuccess] = useState(false);
 
-     useEffect(() => {
+    useEffect(() => {
         userRef.current.focus();
     }, [])
 
@@ -21,25 +22,46 @@ const Login = () => {
     }, [user, pwd])
 
     const handleSubmit = async (e) => {
-         e.preventDefault();
+        e.preventDefault();
+
+        const encodedBase64Token = Buffer.from(`${user}:${pwd}`).toString('base64');
+        const authorization = `Basic ${encodedBase64Token}`;
+
+        await axios.post("http://localhost:8080/users/login", JSON.stringify({email: user, password: pwd}),
+            {
+                headers: {"Content-Type": "application/json"}
+            }
+        ).then(response => {
+            if (response.status === 200 && response.data === true) {
+                localStorage.setItem("auth", authorization);
+                setIsAuth(true);
+                console.log(response);
+            }
+        });
     }
 
     return (
         <div className="login-wrapper">
-            <h1 style={{color: "teal"}}>Please Log In</h1>
+            <h1>Please Log In</h1>
             <form onSubmit={handleSubmit}>
-                <p style={{color: "black", marginTop: 15}}>Login</p>
-                <label htmlFor="username">
-                    <MyInput type="text" placeholder="Login" id="username" ref={userRef} onChange={(e)=>setUser(e.target.value)} required value={user}/>
-                </label>
+                <div className="my-input">
+                    <p>Login</p>
+                    <label htmlFor="username">
+                        <input type="text" placeholder="Login" id="username" ref={userRef}
+                               onChange={(e) => setUser(e.target.value)} value={user} required/>
+                    </label>
+                </div>
 
-                <p style={{color: "black", marginTop: 10}}>Password</p>
-                <label htmlFor="password">
-                    <MyInput type="password" placeholder="Password" id="password" onChange={(e)=>setPwd(e.target.value)} required value={pwd}/>
-                </label>
+                <div className="my-input">
+                    <p>Password</p>
+                    <label htmlFor="password">
+                        <input type="password" placeholder="Password" id="password"
+                               onChange={(e) => setPwd(e.target.value)} value={pwd} required/>
+                    </label>
+                </div>
 
                 <div className="login-button">
-                    <MyButton style={{marginTop: 15}}>Log in</MyButton>
+                    <button className="login-button">Log in</button>
                 </div>
             </form>
         </div>

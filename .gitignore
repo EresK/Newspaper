@@ -1,2 +1,3 @@
 /database/postgres/data
-/.DS_Store
+/database/postgres/initdb.d
+.idea
